@@ -66,12 +66,14 @@
 
     <div class="container">
 
-
       <div class="auth-layout">
-
 
         <section class="card auth-card">
 
+
+          <!-- ==================================================
+               LOGO + TITLE
+          =================================================== -->
 
           <div class="text-center">
 
@@ -87,11 +89,9 @@
               B
             </div>
 
-
             <h1>
               Seller Sign In
             </h1>
-
 
             <p>
               Sign in to manage your Brit.Tuna marketplace
@@ -123,9 +123,10 @@
             novalidate
           >
 
-
             <div class="form-grid">
 
+
+              <!-- EMAIL -->
 
               <div class="form-field full">
 
@@ -150,6 +151,8 @@
               </div>
 
 
+              <!-- PASSWORD -->
+
               <div class="form-field full">
 
                 <label for="login-password">
@@ -173,6 +176,8 @@
               </div>
 
 
+              <!-- LOGIN BUTTON -->
+
               <div class="form-field full">
 
                 <button
@@ -187,7 +192,6 @@
 
 
             </div>
-
 
           </form>
 
@@ -253,9 +257,7 @@
           >
 
             <p class="muted">
-
               Want to sell on Brit.Tuna?
-
             </p>
 
             <a
@@ -269,7 +271,7 @@
 
 
           <!-- ==================================================
-               CUSTOMER ACCOUNT INFORMATION
+               INFORMATION
           =================================================== -->
 
           <div
@@ -283,19 +285,18 @@
 
             <br>
 
-            Use the same Brit.Tuna customer account.
+            You can use the same Google account or email
+            that you use for Brit.Tuna.
 
-            If your seller application is approved,
-            your account will receive seller access.
+            After seller approval, this portal will open
+            your Seller Dashboard.
 
           </div>
 
 
         </section>
 
-
       </div>
-
 
     </div>
 
@@ -311,8 +312,7 @@
 
   <!-- ======================================================
        JAVASCRIPT
-
-       ORDER IS IMPORTANT
+       LOAD ORDER IS IMPORTANT
   ======================================================= -->
 
 
@@ -401,6 +401,10 @@
         );
 
 
+      var isRedirecting =
+        false;
+
+
       /* ====================================================
          SHOW MESSAGE
       ===================================================== */
@@ -470,7 +474,7 @@
 
 
       /* ====================================================
-         VALIDATE LOGIN FORM
+         VALIDATE FORM
       ===================================================== */
 
       function validateForm() {
@@ -530,7 +534,7 @@
 
 
       /* ====================================================
-         GET PROFILE AFTER LOGIN
+         GET PROFILE
       ===================================================== */
 
       async function getProfile(
@@ -557,13 +561,13 @@
         if (result.error) {
 
           console.error(
-            'Seller login profile error:',
+            'Seller profile error:',
             result.error
           );
 
 
           throw new Error(
-            'Unable to load your account profile.'
+            'Unable to load your Brit.Tuna account profile.'
           );
 
         }
@@ -575,21 +579,97 @@
 
 
       /* ====================================================
-         REDIRECT USER BASED ON ROLE
+         SAFE RETURN PAGE
+      ===================================================== */
+
+      function getSafeReturnPage() {
+
+        var returnPage =
+          null;
+
+
+        try {
+
+          returnPage =
+            sessionStorage.getItem(
+              'britTunaSellerReturnTo'
+            );
+
+
+          sessionStorage.removeItem(
+            'britTunaSellerReturnTo'
+          );
+
+        }
+
+        catch (error) {
+
+          console.warn(
+            'Seller return page could not be read.'
+          );
+
+        }
+
+
+        var allowedPages = [
+
+          'seller-dashboard.html',
+
+          'products.html',
+
+          'add-product.html',
+
+          'orders.html'
+
+        ];
+
+
+        if (
+          returnPage &&
+          allowedPages.includes(
+            returnPage
+          )
+        ) {
+
+          return returnPage;
+
+        }
+
+
+        return null;
+
+      }
+
+
+      /* ====================================================
+         REDIRECT BASED ON ROLE
       ===================================================== */
 
       async function redirectLoggedInUser(
         user
       ) {
 
-        if (!user) {
+        if (
+          !user ||
+          isRedirecting
+        ) {
 
           return;
 
         }
 
 
+        isRedirecting =
+          true;
+
+
         try {
+
+          showMessage(
+            'Signed in. Checking seller access...',
+            'success'
+          );
+
 
           var profile =
             await getProfile(
@@ -598,6 +678,10 @@
 
 
           if (!profile) {
+
+            isRedirecting =
+              false;
+
 
             showMessage(
               'Your account profile could not be found.',
@@ -610,9 +694,9 @@
           }
 
 
-          /*
+          /* ================================================
              APPROVED SELLER
-          */
+          ================================================= */
 
           if (
             profile.role ===
@@ -620,67 +704,24 @@
           ) {
 
             var returnPage =
-              null;
+              getSafeReturnPage();
 
 
-            try {
+            if (returnPage) {
 
-              returnPage =
-                sessionStorage.getItem(
-                  'britTunaSellerReturnTo'
-                );
-
-
-              sessionStorage.removeItem(
-                'britTunaSellerReturnTo'
-              );
-
-            }
-
-            catch (error) {
-
-              console.warn(
-                'Could not read seller return page.'
-              );
-
-            }
-
-
-            /*
-              Only allow known seller pages.
-              Do not blindly redirect to arbitrary URLs.
-            */
-
-            var allowedPages = [
-
-              'seller-dashboard.html',
-
-              'products.html',
-
-              'add-product.html',
-
-              'orders.html'
-
-            ];
-
-
-            if (
-              returnPage &&
-              allowedPages.includes(
+              window.location.replace(
                 returnPage
-              )
-            ) {
+              );
 
-              window.location.href =
-                returnPage;
 
               return;
 
             }
 
 
-            window.location.href =
-              'seller-dashboard.html';
+            window.location.replace(
+              'seller-dashboard.html'
+            );
 
 
             return;
@@ -688,19 +729,21 @@
           }
 
 
-          /*
-             ADMIN ACCOUNT
-
-             Seller portal is not the Admin Portal.
-          */
+          /* ================================================
+             ADMIN
+          ================================================= */
 
           if (
             profile.role ===
             'admin'
           ) {
 
+            isRedirecting =
+              false;
+
+
             showMessage(
-              'This account is an administrator account. Please use the Brit.Tuna Admin Portal.',
+              'This is an administrator account. Please use the Brit.Tuna Admin Portal.',
               'warning'
             );
 
@@ -710,25 +753,33 @@
           }
 
 
-          /*
-             CUSTOMER / NOT YET SELLER
-          */
+          /* ================================================
+             CUSTOMER / NEW SELLER
 
-          window.location.href =
-            'seller-register.html';
+             They must complete seller application.
+          ================================================= */
+
+          window.location.replace(
+            'seller-register.html'
+          );
 
         }
 
         catch (error) {
 
           console.error(
+            'Seller redirect error:',
             error
           );
 
 
+          isRedirecting =
+            false;
+
+
           showMessage(
             error.message ||
-            'Unable to continue.',
+            'Unable to check seller access.',
             'error'
           );
 
@@ -738,7 +789,7 @@
 
 
       /* ====================================================
-         EMAIL + PASSWORD LOGIN
+         EMAIL LOGIN
       ===================================================== */
 
       async function loginWithEmail(
@@ -826,12 +877,6 @@
           }
 
 
-          showMessage(
-            'Signed in successfully. Checking seller access...',
-            'success'
-          );
-
-
           await redirectLoggedInUser(
             result.data.user
           );
@@ -847,6 +892,7 @@
 
 
           showMessage(
+            error.message ||
             'Unable to sign in. Please try again.',
             'error'
           );
@@ -888,6 +934,9 @@
         }
 
 
+        clearErrors();
+
+
         googleButton.disabled =
           true;
 
@@ -901,19 +950,30 @@
           /*
             IMPORTANT:
 
-            This returns to the Seller Portal index page.
+            Always return Google OAuth to THIS website's
+            root URL.
 
-            The deployed Seller Portal URL must also be added
-            to Supabase:
+            Example:
 
-            Authentication
-            → URL Configuration
+            Seller website:
+            https://brit-tuna-seller.vercel.app/
+
+            Therefore redirect URL becomes:
+            https://brit-tuna-seller.vercel.app/
+
+            This URL MUST exist in Supabase:
+            Authentication → URL Configuration
             → Redirect URLs
           */
 
-          var redirectUrl =
-            window.location.origin +
-            window.location.pathname;
+          var sellerPortalUrl =
+            window.location.origin + '/';
+
+
+          console.log(
+            'Seller Google OAuth redirect:',
+            sellerPortalUrl
+          );
 
 
           var result =
@@ -929,7 +989,17 @@
                 options: {
 
                   redirectTo:
-                    redirectUrl
+                    sellerPortalUrl,
+
+                  queryParams: {
+
+                    access_type:
+                      'offline',
+
+                    prompt:
+                      'select_account'
+
+                  }
 
                 }
 
@@ -938,21 +1008,15 @@
 
           if (result.error) {
 
-            showMessage(
-              result.error.message ||
-              'Google sign in failed.',
-              'error'
-            );
-
-
-            googleButton.disabled =
-              false;
-
-
-            googleButton.textContent =
-              'Continue with Google';
+            throw result.error;
 
           }
+
+
+          /*
+            Normally Supabase now redirects the browser
+            to Google, so no manual redirect is required.
+          */
 
         }
 
@@ -965,6 +1029,7 @@
 
 
           showMessage(
+            error.message ||
             'Unable to start Google sign in.',
             'error'
           );
@@ -985,9 +1050,9 @@
       /* ====================================================
          CHECK EXISTING SESSION
 
-         Example:
-         User already signed into main Brit.Tuna website
-         or has returned from Google OAuth.
+         This runs:
+         - when seller opens this page
+         - after returning from Google OAuth
       ===================================================== */
 
       async function checkExistingSession() {
@@ -1011,15 +1076,24 @@
 
           var result =
             await window.supabaseClient
+
               .auth
+
               .getSession();
 
 
           if (result.error) {
 
             console.error(
-              'Existing session error:',
+              'Session error:',
               result.error
+            );
+
+
+            showMessage(
+              result.error.message ||
+              'Unable to check login session.',
+              'error'
             );
 
 
@@ -1039,12 +1113,6 @@
             session.user
           ) {
 
-            showMessage(
-              'Account detected. Checking seller access...',
-              'success'
-            );
-
-
             await redirectLoggedInUser(
               session.user
             );
@@ -1060,7 +1128,65 @@
             error
           );
 
+
+          showMessage(
+            'Unable to check your login session.',
+            'error'
+          );
+
         }
+
+      }
+
+
+      /* ====================================================
+         AUTH STATE LISTENER
+
+         Helps catch OAuth sign-in after Supabase finishes
+         creating the session.
+      ===================================================== */
+
+      function setupAuthListener() {
+
+        if (
+          !window.supabaseClient
+        ) {
+
+          return;
+
+        }
+
+
+        window.supabaseClient
+          .auth
+          .onAuthStateChange(
+            function (
+              event,
+              session
+            ) {
+
+              if (
+                event ===
+                  'SIGNED_IN' &&
+                session &&
+                session.user
+              ) {
+
+                setTimeout(
+                  function () {
+
+                    redirectLoggedInUser(
+                      session.user
+                    );
+
+                  },
+                  0
+                );
+
+              }
+
+            }
+          );
 
       }
 
@@ -1084,6 +1210,8 @@
       /* ====================================================
          START
       ===================================================== */
+
+      setupAuthListener();
 
       checkExistingSession();
 
