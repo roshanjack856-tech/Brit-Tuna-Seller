@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>Brit.Tuna Seller Portal</title>
+</head>
+
+<body>
+
+  <h1>Brit.Tuna Seller Portal</h1>
+
+  <p>Supabase connection test</p>
+
+
+  <!-- 1. Supabase Library -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+  <!-- 2. Seller Config -->
+  <script src="config.js"></script>
+
+  <!-- 3. Supabase Connection -->
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    if (window.supabaseClient) {
+
+      console.log(
+        'Seller Portal Test: Ready.'
+      );
+
+    } else {
+
+      console.error(
+        'Seller Portal Test: Supabase client not ready.'
+      );
+
+    }
+
+  </script>
+
+</body>
+
+</html>
