@@ -34,9 +34,9 @@ window.BT_SELLER_CONFIG = {
 
   supabase: {
 
-    url: 'YOUR_SUPABASE_PROJECT_URL',
+    url: 'https://wrzxlmviwpeiggzgycpl.supabase.co',
 
-    publishableKey: 'YOUR_SUPABASE_PUBLISHABLE_KEY'
+    publishableKey: 'sb_publishable_js68PKxlcJMbq_BqBRHrpQ_cgCig1es'
 
   }
 
