@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Apply to become a seller on the Brit.Tuna marketplace."
+  >
+
+  <title>Seller Application | Brit.Tuna</title>
+
+
+  <!-- Google Fonts -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- CSS -->
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="responsive.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- ======================================================
+       HEADER
+  ======================================================= -->
+
+  <div id="site-header"></div>
+
+
+  <!-- ======================================================
+       MAIN
+  ======================================================= -->
+
+  <main class="seller-main">
+
+    <div class="container">
+
+
+      <!-- ==================================================
+           PAGE HEADER
+      =================================================== -->
+
+      <div class="page-header">
+
+        <h1>
+          Become a Brit.Tuna Seller
+        </h1>
+
+        <p>
+          Apply to sell your products on the Brit.Tuna marketplace.
+          Your application must be approved before seller access is enabled.
+        </p>
+
+      </div>
+
+
+      <!-- ==================================================
+           LOADING
+      =================================================== -->
+
+      <div
+        id="page-loading"
+        class="card loading"
+      >
+        Checking your account...
+      </div>
+
+
+      <!-- ==================================================
+           PAGE MESSAGE
+      =================================================== -->
+
+      <div
+        id="page-message"
+        class="notice"
+        hidden
+        role="status"
+        aria-live="polite"
+      ></div>
+
+
+      <!-- ==================================================
+           ALREADY SELLER
+      =================================================== -->
+
+      <section
+        id="seller-approved-section"
+        class="card"
+        hidden
+      >
+
+        <div class="seller-status-box">
+
+          <span class="badge badge-approved">
+            Seller Approved
+          </span>
+
+          <h2 class="mt-1">
+            Your seller account is active
+          </h2>
+
+          <p class="muted">
+            You already have seller access. You can manage
+            products and orders from your seller dashboard.
+          </p>
+
+          <a
+            href="seller-dashboard.html"
+            class="btn btn-primary"
+          >
+            Open Seller Dashboard
+          </a>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==================================================
+           PENDING APPLICATION
+      =================================================== -->
+
+      <section
+        id="application-pending-section"
+        class="card"
+        hidden
+      >
+
+        <div class="seller-status-box">
+
+          <span class="badge badge-pending">
+            Pending Review
+          </span>
+
+          <h2 class="mt-1">
+            Your application is under review
+          </h2>
+
+          <p>
+            Brit.Tuna has received your seller application.
+            Seller access will be enabled only after approval.
+          </p>
+
+          <div
+            id="pending-application-details"
+            class="notice"
+          ></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==================================================
+           REJECTED APPLICATION
+      =================================================== -->
+
+      <section
+        id="application-rejected-section"
+        class="card"
+        hidden
+      >
+
+        <div class="seller-status-box">
+
+          <span class="badge badge-rejected">
+            Application Rejected
+          </span>
+
+          <h2 class="mt-1">
+            Your seller application was not approved
+          </h2>
+
+          <p class="muted">
+            Review the information below.
+          </p>
+
+          <div
+            id="rejection-note"
+            class="notice notice-error"
+          ></div>
+
+          <p class="muted">
+            Re-application will be enabled later after the
+            marketplace administration workflow is completed.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==================================================
+           APPLICATION FORM
+      =================================================== -->
+
+      <section
+        id="application-form-section"
+        class="card"
+        hidden
+      >
+
+        <h2>
+          Seller Application
+        </h2>
+
+        <p class="muted">
+          Enter your business details carefully.
+          Submitted applications will have pending status
+          until reviewed by a Brit.Tuna administrator.
+        </p>
+
+
+        <div
+          class="notice notice-warning"
+        >
+
+          <strong>
+            Important:
+          </strong>
+
+          Submitting this form does not automatically make
+          your account a seller.
+
+        </div>
+
+
+        <form
+          id="seller-application-form"
+          novalidate
+        >
+
+
+          <div class="form-grid">
+
+
+            <!-- BUSINESS NAME -->
+
+            <div class="form-field full">
+
+              <label for="business-name">
+                Business / Store Name *
+              </label>
+
+              <input
+                type="text"
+                id="business-name"
+                name="business_name"
+                maxlength="150"
+                autocomplete="organization"
+                placeholder="Example: Jack Foods"
+                required
+              >
+
+              <div
+                class="error"
+                id="business-name-error"
+              ></div>
+
+            </div>
+
+
+            <!-- CONTACT NAME -->
+
+            <div class="form-field">
+
+              <label for="contact-name">
+                Contact Person *
+              </label>
+
+              <input
+                type="text"
+                id="contact-name"
+                name="contact_name"
+                maxlength="120"
+                autocomplete="name"
+                placeholder="Your full name"
+                required
+              >
+
+              <div
+                class="error"
+                id="contact-name-error"
+              ></div>
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="form-field">
+
+              <label for="seller-phone">
+                Phone Number *
+              </label>
+
+              <input
+                type="tel"
+                id="seller-phone"
+                name="phone"
+                maxlength="20"
+                autocomplete="tel"
+                placeholder="9876543210"
+                required
+              >
+
+              <div
+                class="error"
+                id="phone-error"
+              ></div>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-field full">
+
+              <label for="seller-email">
+                Account Email
+              </label>
+
+              <input
+                type="email"
+                id="seller-email"
+                name="email"
+                autocomplete="email"
+                disabled
+              >
+
+              <span class="form-help">
+                This email comes from your signed-in Brit.Tuna account.
+              </span>
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div class="form-field full">
+
+              <label for="business-address">
+                Business Address *
+              </label>
+
+              <textarea
+                id="business-address"
+                name="business_address"
+                maxlength="500"
+                autocomplete="street-address"
+                placeholder="Enter your business address"
+                required
+              ></textarea>
+
+              <div
+                class="error"
+                id="address-error"
+              ></div>
+
+            </div>
+
+
+            <!-- CITY -->
+
+            <div class="form-field">
+
+              <label for="business-city">
+                City *
+              </label>
+
+              <input
+                type="text"
+                id="business-city"
+                name="city"
+                maxlength="100"
+                autocomplete="address-level2"
+                placeholder="City"
+                required
+              >
+
+              <div
+                class="error"
+                id="city-error"
+              ></div>
+
+            </div>
+
+
+            <!-- STATE -->
+
+            <div class="form-field">
+
+              <label for="business-state">
+                State *
+              </label>
+
+              <input
+                type="text"
+                id="business-state"
+                name="state"
+                maxlength="100"
+                autocomplete="address-level1"
+                placeholder="State"
+                required
+              >
+
+              <div
+                class="error"
+                id="state-error"
+              ></div>
+
+            </div>
+
+
+            <!-- PINCODE -->
+
+            <div class="form-field">
+
+              <label for="business-pincode">
+                Pincode *
+              </label>
+
+              <input
+                type="text"
+                id="business-pincode"
+                name="pincode"
+                maxlength="10"
+                inputmode="numeric"
+                autocomplete="postal-code"
+                placeholder="600001"
+                required
+              >
+
+              <div
+                class="error"
+                id="pincode-error"
+              ></div>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-field full">
+
+              <label for="business-description">
+                Business Description
+              </label>
+
+              <textarea
+                id="business-description"
+                name="business_description"
+                maxlength="1000"
+                placeholder="Tell us about your business and the products you plan to sell."
+              ></textarea>
+
+              <span class="form-help">
+                Do not include passwords, bank passwords or secret information.
+              </span>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <div class="form-field full">
+
+              <button
+                type="submit"
+                id="application-submit-button"
+                class="btn btn-primary"
+              >
+                Submit Seller Application
+              </button>
+
+            </div>
+
+
+          </div>
+
+        </form>
+
+      </section>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- ======================================================
+       FOOTER
+  ======================================================= -->
+
+  <div id="site-footer"></div>
+
+
+  <!-- ======================================================
+       JAVASCRIPT
+  ======================================================= -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+  <script src="config.js"></script>
+
+  <script src="supabase.js"></script>
+
+  <script src="script.js"></script>
+
+
+  <!-- ======================================================
+       SELLER APPLICATION LOGIC
+  ======================================================= -->
+
+  <script>
+
+    (function () {
+
+      'use strict';
+
+
+      /* ====================================================
+         ELEMENTS
+      ===================================================== */
+
+      var loading =
+        document.getElementById(
+          'page-loading'
+        );
+
+
+      var messageBox =
+        document.getElementById(
+          'page-message'
+        );
+
+
+      var formSection =
+        document.getElementById(
+          'application-form-section'
+        );
+
+
+      var approvedSection =
+        document.getElementById(
+          'seller-approved-section'
+        );
+
+
+      var pendingSection =
+        document.getElementById(
+          'application-pending-section'
+        );
+
+
+      var rejectedSection =
+        document.getElementById(
+          'application-rejected-section'
+        );
+
+
+      var pendingDetails =
+        document.getElementById(
+          'pending-application-details'
+        );
+
+
+      var rejectionNote =
+        document.getElementById(
+          'rejection-note'
+        );
+
+
+      var form =
+        document.getElementById(
+          'seller-application-form'
+        );
+
+
+      var submitButton =
+        document.getElementById(
+          'application-submit-button'
+        );
+
+
+      var businessName =
+        document.getElementById(
+          'business-name'
+        );
+
+
+      var contactName =
+        document.getElementById(
+          'contact-name'
+        );
+
+
+      var phone =
+        document.getElementById(
+          'seller-phone'
+        );
+
+
+      var email =
+        document.getElementById(
+          'seller-email'
+        );
+
+
+      var address =
+        document.getElementById(
+          'business-address'
+        );
+
+
+      var city =
+        document.getElementById(
+          'business-city'
+        );
+
+
+      var state =
+        document.getElementById(
+          'business-state'
+        );
+
+
+      var pincode =
+        document.getElementById(
+          'business-pincode'
+        );
+
+
+      var description =
+        document.getElementById(
+          'business-description'
+        );
+
+
+      /* ====================================================
+         CURRENT USER
+      ===================================================== */
+
+      var currentUser =
+        null;
+
+
+      var currentProfile =
+        null;
+
+
+      /* ====================================================
+         SHOW MESSAGE
+      ===================================================== */
+
+      function showMessage(
+        message,
+        type
+      ) {
+
+        messageBox.textContent =
+          message;
+
+
+        messageBox.className =
+          'notice';
+
+
+        if (type === 'error') {
+
+          messageBox.classList.add(
+            'notice-error'
+          );
+
+        }
+
+
+        if (type === 'success') {
+
+          messageBox.classList.add(
+            'notice-success'
+          );
+
+        }
+
+
+        if (type === 'warning') {
+
+          messageBox.classList.add(
+            'notice-warning'
+          );
+
+        }
+
+
+        messageBox.hidden =
+          false;
+
+      }
+
+
+      /* ====================================================
+         HIDE ALL SECTIONS
+      ===================================================== */
+
+      function hideSections() {
+
+        formSection.hidden =
+          true;
+
+
+        approvedSection.hidden =
+          true;
+
+
+        pendingSection.hidden =
+          true;
+
+
+        rejectedSection.hidden =
+          true;
+
+      }
+
+
+      /* ====================================================
+         CLEAR ERRORS
+      ===================================================== */
+
+      function clearErrors() {
+
+        var errors =
+          form.querySelectorAll(
+            '.error'
+          );
+
+
+        errors.forEach(
+          function (element) {
+
+            element.textContent =
+              '';
+
+          }
+        );
+
+      }
+
+
+      /* ====================================================
+         VALIDATION
+      ===================================================== */
+
+      function validateForm() {
+
+        clearErrors();
+
+
+        var valid =
+          true;
+
+
+        if (
+          businessName.value
+            .trim()
+            .length < 2
+        ) {
+
+          document.getElementById(
+            'business-name-error'
+          ).textContent =
+            'Enter your business or store name.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        if (
+          contactName.value
+            .trim()
+            .length < 2
+        ) {
+
+          document.getElementById(
+            'contact-name-error'
+          ).textContent =
+            'Enter the contact person name.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        var phoneDigits =
+          String(
+            phone.value || ''
+          ).replace(
+            /\D/g,
+            ''
+          );
+
+
+        if (
+          phoneDigits.length < 10
+        ) {
+
+          document.getElementById(
+            'phone-error'
+          ).textContent =
+            'Enter a valid phone number.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        if (
+          address.value
+            .trim()
+            .length < 5
+        ) {
+
+          document.getElementById(
+            'address-error'
+          ).textContent =
+            'Enter your business address.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        if (
+          city.value
+            .trim()
+            .length < 2
+        ) {
+
+          document.getElementById(
+            'city-error'
+          ).textContent =
+            'Enter your city.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        if (
+          state.value
+            .trim()
+            .length < 2
+        ) {
+
+          document.getElementById(
+            'state-error'
+          ).textContent =
+            'Enter your state.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        var pinDigits =
+          String(
+            pincode.value || ''
+          ).replace(
+            /\D/g,
+            ''
+          );
+
+
+        if (
+          pinDigits.length !== 6
+        ) {
+
+          document.getElementById(
+            'pincode-error'
+          ).textContent =
+            'Enter a valid 6-digit Indian pincode.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        return valid;
+
+      }
+
+
+      /* ====================================================
+         GET EXISTING APPLICATION
+      ===================================================== */
+
+      async function getApplication(
+        userId
+      ) {
+
+        var result =
+          await window.supabaseClient
+
+            .from(
+              'seller_applications'
+            )
+
+            .select(
+              `
+                id,
+                user_id,
+                business_name,
+                contact_name,
+                phone,
+                email,
+                business_address,
+                city,
+                state,
+                pincode,
+                business_description,
+                status,
+                admin_note,
+                created_at,
+                updated_at
+              `
+            )
+
+            .eq(
+              'user_id',
+              userId
+            )
+
+            .maybeSingle();
+
+
+        if (result.error) {
+
+          throw result.error;
+
+        }
+
+
+        return result.data || null;
+
+      }
+
+
+      /* ====================================================
+         DISPLAY APPLICATION
+      ===================================================== */
+
+      function displayApplication(
+        application
+      ) {
+
+        hideSections();
+
+
+        if (!application) {
+
+          formSection.hidden =
+            false;
+
+
+          return;
+
+        }
+
+
+        if (
+          application.status ===
+          'pending'
+        ) {
+
+          pendingSection.hidden =
+            false;
+
+
+          pendingDetails.textContent =
+            'Business: ' +
+            application.business_name +
+            ' | Submitted: ' +
+            new Date(
+              application.created_at
+            ).toLocaleDateString(
+              'en-IN'
+            );
+
+
+          return;
+
+        }
+
+
+        if (
+          application.status ===
+          'approved'
+        ) {
+
+          approvedSection.hidden =
+            false;
+
+
+          return;
+
+        }
+
+
+        if (
+          application.status ===
+          'rejected'
+        ) {
+
+          rejectedSection.hidden =
+            false;
+
+
+          rejectionNote.textContent =
+            application.admin_note
+              ? 'Admin note: ' +
+                application.admin_note
+              : 'No additional admin note was provided.';
+
+
+          return;
+
+        }
+
+
+        showMessage(
+          'Unknown seller application status.',
+          'warning'
+        );
+
+      }
+
+
+      /* ====================================================
+         PRE-FILL PROFILE
+      ===================================================== */
+
+      function fillProfileData() {
+
+        if (currentUser) {
+
+          email.value =
+            currentUser.email || '';
+
+        }
+
+
+        if (
+          currentProfile &&
+          currentProfile.full_name
+        ) {
+
+          contactName.value =
+            currentProfile.full_name;
+
+        }
+
+
+        if (
+          currentProfile &&
+          currentProfile.phone
+        ) {
+
+          phone.value =
+            currentProfile.phone;
+
+        }
+
+      }
+
+
+      /* ====================================================
+         LOAD PAGE
+      ===================================================== */
+
+      async function loadPage() {
+
+        loading.hidden =
+          false;
+
+
+        hideSections();
+
+
+        try {
+
+          /*
+             Must be logged in.
+          */
+
+          var auth =
+            await window.BTSeller
+              .requireLogin();
+
+
+          if (!auth) {
+
+            return;
+
+          }
+
+
+          currentUser =
+            auth.user;
+
+
+          currentProfile =
+            auth.profile;
+
+
+          /*
+             Admin should use separate Admin Portal.
+          */
+
+          if (
+            currentProfile &&
+            currentProfile.role ===
+            'admin'
+          ) {
+
+            loading.hidden =
+              true;
+
+
+            showMessage(
+              'Administrator accounts should use the Brit.Tuna Admin Portal.',
+              'warning'
+            );
+
+
+            return;
+
+          }
+
+
+          /*
+             Already approved seller.
+          */
+
+          if (
+            currentProfile &&
+            currentProfile.role ===
+            'seller'
+          ) {
+
+            loading.hidden =
+              true;
+
+
+            approvedSection.hidden =
+              false;
+
+
+            return;
+
+          }
+
+
+          /*
+             Customer applying to become seller.
+          */
+
+          fillProfileData();
+
+
+          var application =
+            await getApplication(
+              currentUser.id
+            );
+
+
+          loading.hidden =
+            true;
+
+
+          displayApplication(
+            application
+          );
+
+        }
+
+        catch (error) {
+
+          console.error(
+            'Seller application load error:',
+            error
+          );
+
+
+          loading.hidden =
+            true;
+
+
+          showMessage(
+            error.message ||
+            'Unable to load seller application.',
+            'error'
+          );
+
+        }
+
+      }
+
+
+      /* ====================================================
+         SUBMIT APPLICATION
+      ===================================================== */
+
+      async function submitApplication(
+        event
+      ) {
+
+        event.preventDefault();
+
+
+        messageBox.hidden =
+          true;
+
+
+        if (!validateForm()) {
+
+          return;
+
+        }
+
+
+        if (
+          !currentUser
+        ) {
+
+          showMessage(
+            'Please sign in before submitting a seller application.',
+            'error'
+          );
+
+
+          return;
+
+        }
+
+
+        submitButton.disabled =
+          true;
+
+
+        submitButton.textContent =
+          'Submitting...';
+
+
+        try {
+
+          /*
+             IMPORTANT SECURITY:
+
+             user_id comes from the authenticated user.
+             It does not come from an editable form field.
+
+             status is explicitly pending.
+
+             admin_note is not submitted.
+
+             Supabase RLS must also enforce these rules.
+          */
+
+          var applicationData = {
+
+            user_id:
+              currentUser.id,
+
+            business_name:
+              businessName.value.trim(),
+
+            contact_name:
+              contactName.value.trim(),
+
+            phone:
+              phone.value.trim(),
+
+            email:
+              currentUser.email || null,
+
+            business_address:
+              address.value.trim(),
+
+            city:
+              city.value.trim(),
+
+            state:
+              state.value.trim(),
+
+            pincode:
+              pincode.value.trim(),
+
+            business_description:
+              description.value.trim() ||
+              null,
+
+            status:
+              'pending'
+
+          };
+
+
+          var result =
+            await window.supabaseClient
+
+              .from(
+                'seller_applications'
+              )
+
+              .insert(
+                applicationData
+              )
+
+              .select(
+                `
+                  id,
+                  user_id,
+                  business_name,
+                  contact_name,
+                  phone,
+                  email,
+                  business_address,
+                  city,
+                  state,
+                  pincode,
+                  business_description,
+                  status,
+                  admin_note,
+                  created_at,
+                  updated_at
+                `
+              )
+
+              .single();
+
+
+          if (result.error) {
+
+            /*
+               Unique user_id prevents multiple
+               seller applications.
+            */
+
+            if (
+              result.error.code ===
+              '23505'
+            ) {
+
+              showMessage(
+                'A seller application already exists for this account.',
+                'warning'
+              );
+
+
+              var existingApplication =
+                await getApplication(
+                  currentUser.id
+                );
+
+
+              displayApplication(
+                existingApplication
+              );
+
+
+              return;
+
+            }
+
+
+            throw result.error;
+
+          }
+
+
+          showMessage(
+            'Seller application submitted successfully.',
+            'success'
+          );
+
+
+          displayApplication(
+            result.data
+          );
+
+        }
+
+        catch (error) {
+
+          console.error(
+            'Seller application submit error:',
+            error
+          );
+
+
+          showMessage(
+            error.message ||
+            'Unable to submit your seller application.',
+            'error'
+          );
+
+        }
+
+        finally {
+
+          submitButton.disabled =
+            false;
+
+
+          submitButton.textContent =
+            'Submit Seller Application';
+
+        }
+
+      }
+
+
+      /* ====================================================
+         EVENT
+      ===================================================== */
+
+      form.addEventListener(
+        'submit',
+        submitApplication
+      );
+
+
+      /* ====================================================
+         START
+
+         Wait for script.js initialization.
+      ===================================================== */
+
+      if (
+        document.readyState ===
+        'loading'
+      ) {
+
+        document.addEventListener(
+          'DOMContentLoaded',
+          function () {
+
+            setTimeout(
+              loadPage,
+              0
+            );
+
+          }
+        );
+
+      }
+
+      else {
+
+        setTimeout(
+          loadPage,
+          0
+        );
+
+      }
+
+
+    })();
+
+  </script>
+
+
+</body>
+
+</html>
