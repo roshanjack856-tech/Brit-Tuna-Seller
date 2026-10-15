@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Brit.Tuna Seller Dashboard"
+  >
+
+  <title>Seller Dashboard | Brit.Tuna</title>
+
+
+  <!-- Google Fonts -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- CSS -->
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="responsive.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- ======================================================
+       HEADER
+  ======================================================= -->
+
+  <div id="site-header"></div>
+
+
+  <!-- ======================================================
+       MAIN
+  ======================================================= -->
+
+  <main class="seller-main">
+
+    <div class="container">
+
+
+      <!-- ==================================================
+           LOADING
+      =================================================== -->
+
+      <div
+        id="dashboard-loading"
+        class="card loading"
+      >
+        Loading seller dashboard...
+      </div>
+
+
+      <!-- ==================================================
+           ERROR MESSAGE
+      =================================================== -->
+
+      <div
+        id="dashboard-message"
+        class="notice notice-error"
+        hidden
+        role="alert"
+      ></div>
+
+
+      <!-- ==================================================
+           DASHBOARD CONTENT
+      =================================================== -->
+
+      <div
+        id="dashboard-content"
+        class="dashboard-layout"
+        hidden
+      >
+
+
+        <!-- ==================================================
+             SIDEBAR
+        =================================================== -->
+
+        <aside class="seller-sidebar">
+
+          <div class="sidebar-title">
+            Seller Center
+          </div>
+
+
+          <nav class="sidebar-nav">
+
+            <a
+              href="seller-dashboard.html"
+              class="active"
+            >
+              Dashboard
+            </a>
+
+            <a href="products.html">
+              My Products
+            </a>
+
+            <a href="add-product.html">
+              Add Product
+            </a>
+
+            <a href="orders.html">
+              Orders
+            </a>
+
+          </nav>
+
+        </aside>
+
+
+        <!-- ==================================================
+             DASHBOARD AREA
+        =================================================== -->
+
+        <section>
+
+
+          <!-- ==================================================
+               PAGE HEADER
+          =================================================== -->
+
+          <div class="toolbar">
+
+            <div class="page-header">
+
+              <h1>
+                Seller Dashboard
+              </h1>
+
+              <p id="welcome-message">
+                Welcome to your Brit.Tuna Seller Center.
+              </p>
+
+            </div>
+
+
+            <div class="toolbar-actions">
+
+              <a
+                href="add-product.html"
+                class="btn btn-primary"
+              >
+                + Add Product
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- ==================================================
+               SELLER STATUS
+          =================================================== -->
+
+          <div
+            class="notice notice-success"
+          >
+
+            <strong>
+              Seller account active
+            </strong>
+
+            <br>
+
+            Your account has seller access.
+            Products you submit may require marketplace approval
+            before appearing to customers.
+
+          </div>
+
+
+          <!-- ==================================================
+               STATISTICS
+          =================================================== -->
+
+          <div class="stats-grid">
+
+
+            <article class="stat-card">
+
+              <div class="stat-label">
+                Total Products
+              </div>
+
+              <div
+                class="stat-value"
+                id="total-products"
+              >
+                0
+              </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+              <div class="stat-label">
+                Active Products
+              </div>
+
+              <div
+                class="stat-value"
+                id="active-products"
+              >
+                0
+              </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+              <div class="stat-label">
+                Pending Products
+              </div>
+
+              <div
+                class="stat-value"
+                id="pending-products"
+              >
+                0
+              </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+              <div class="stat-label">
+                Orders
+              </div>
+
+              <div
+                class="stat-value"
+                id="total-orders"
+              >
+                0
+              </div>
+
+            </article>
+
+
+          </div>
+
+
+          <!-- ==================================================
+               RECENT PRODUCTS
+          =================================================== -->
+
+          <div class="table-card">
+
+
+            <div
+              style="
+                padding: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 16px;
+              "
+            >
+
+              <div>
+
+                <h2
+                  style="
+                    margin-bottom: 4px;
+                  "
+                >
+                  Recent Products
+                </h2>
+
+                <p
+                  class="muted"
+                  style="
+                    margin: 0;
+                  "
+                >
+                  Your latest marketplace products.
+                </p>
+
+              </div>
+
+
+              <a
+                href="products.html"
+                class="btn btn-outline"
+              >
+                View All
+              </a>
+
+            </div>
+
+
+            <!-- EMPTY -->
+
+            <div
+              id="products-empty"
+              class="empty-state"
+              hidden
+              style="
+                margin: 0 20px 20px;
+              "
+            >
+
+              <h2>
+                No products yet
+              </h2>
+
+              <p>
+                Add your first product to start building
+                your Brit.Tuna marketplace store.
+              </p>
+
+              <a
+                href="add-product.html"
+                class="btn btn-primary"
+              >
+                Add First Product
+              </a>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <div
+              id="products-table-wrapper"
+              class="table-scroll"
+              hidden
+            >
+
+              <table class="seller-table">
+
+                <thead>
+
+                  <tr>
+
+                    <th>
+                      Product
+                    </th>
+
+                    <th>
+                      Category
+                    </th>
+
+                    <th>
+                      Price
+                    </th>
+
+                    <th>
+                      Status
+                    </th>
+
+                    <th>
+                      Created
+                    </th>
+
+                  </tr>
+
+                </thead>
+
+
+                <tbody id="recent-products-body">
+                </tbody>
+
+              </table>
+
+            </div>
+
+
+          </div>
+
+
+        </section>
+
+
+      </div>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- ======================================================
+       FOOTER
+  ======================================================= -->
+
+  <div id="site-footer"></div>
+
+
+  <!-- ======================================================
+       JAVASCRIPT
+  ======================================================= -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+  <script src="config.js"></script>
+
+  <script src="supabase.js"></script>
+
+  <script src="script.js"></script>
+
+
+  <!-- ======================================================
+       DASHBOARD JAVASCRIPT
+  ======================================================= -->
+
+  <script>
+
+    (function () {
+
+      'use strict';
+
+
+      /* ====================================================
+         ELEMENTS
+      ===================================================== */
+
+      var loading =
+        document.getElementById(
+          'dashboard-loading'
+        );
+
+
+      var content =
+        document.getElementById(
+          'dashboard-content'
+        );
+
+
+      var message =
+        document.getElementById(
+          'dashboard-message'
+        );
+
+
+      var welcome =
+        document.getElementById(
+          'welcome-message'
+        );
+
+
+      var totalProductsElement =
+        document.getElementById(
+          'total-products'
+        );
+
+
+      var activeProductsElement =
+        document.getElementById(
+          'active-products'
+        );
+
+
+      var pendingProductsElement =
+        document.getElementById(
+          'pending-products'
+        );
+
+
+      var totalOrdersElement =
+        document.getElementById(
+          'total-orders'
+        );
+
+
+      var emptyProducts =
+        document.getElementById(
+          'products-empty'
+        );
+
+
+      var tableWrapper =
+        document.getElementById(
+          'products-table-wrapper'
+        );
+
+
+      var tableBody =
+        document.getElementById(
+          'recent-products-body'
+        );
+
+
+      /* ====================================================
+         ESCAPE HTML
+      ===================================================== */
+
+      function escapeHtml(value) {
+
+        if (
+          window.BTSellerUtil &&
+          window.BTSellerUtil.escapeHtml
+        ) {
+
+          return window.BTSellerUtil
+            .escapeHtml(value);
+
+        }
+
+
+        return String(
+          value == null
+            ? ''
+            : value
+        )
+
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+
+      }
+
+
+      /* ====================================================
+         FORMAT PRICE
+      ===================================================== */
+
+      function formatPrice(value) {
+
+        if (
+          window.BTSellerUtil &&
+          window.BTSellerUtil.formatINR
+        ) {
+
+          return window.BTSellerUtil
+            .formatINR(value);
+
+        }
+
+
+        return '₹' +
+          Number(
+            value || 0
+          ).toFixed(2);
+
+      }
+
+
+      /* ====================================================
+         STATUS BADGE
+      ===================================================== */
+
+      function statusBadge(status) {
+
+        var safeStatus =
+          String(
+            status || 'pending'
+          ).toLowerCase();
+
+
+        var className =
+          'badge badge-pending';
+
+
+        if (
+          safeStatus === 'active'
+        ) {
+
+          className =
+            'badge badge-active';
+
+        }
+
+
+        if (
+          safeStatus === 'rejected'
+        ) {
+
+          className =
+            'badge badge-rejected';
+
+        }
+
+
+        if (
+          safeStatus === 'inactive'
+        ) {
+
+          className =
+            'badge';
+
+        }
+
+
+        return (
+          '<span class="' +
+          className +
+          '">' +
+          escapeHtml(
+            safeStatus
+          ) +
+          '</span>'
+        );
+
+      }
+
+
+      /* ====================================================
+         SHOW ERROR
+      ===================================================== */
+
+      function showError(text) {
+
+        message.textContent =
+          text;
+
+
+        message.hidden =
+          false;
+
+      }
+
+
+      /* ====================================================
+         LOAD SELLER PRODUCTS
+      ===================================================== */
+
+      async function loadProducts(
+        sellerId
+      ) {
+
+        /*
+          RLS should also restrict sellers to their
+          own seller products.
+        */
+
+        var result =
+          await window.supabaseClient
+
+            .from('products')
+
+            .select(
+              `
+                id,
+                name,
+                category,
+                price,
+                status,
+                is_active,
+                product_type,
+                seller_id,
+                created_at
+              `
+            )
+
+            .eq(
+              'seller_id',
+              sellerId
+            )
+
+            .eq(
+              'product_type',
+              'seller'
+            )
+
+            .order(
+              'created_at',
+              {
+                ascending: false
+              }
+            );
+
+
+        if (result.error) {
+
+          throw result.error;
+
+        }
+
+
+        return result.data || [];
+
+      }
+
+
+      /* ====================================================
+         LOAD SELLER ORDER COUNT
+      ===================================================== */
+
+      async function loadOrderCount(
+        sellerId
+      ) {
+
+        /*
+          Seller order visibility depends on the
+          order_items RLS policy.
+
+          The seller should only be able to read
+          order_items where seller_id = auth.uid().
+
+          If seller order RLS has not been added yet,
+          this can return 0 until we complete
+          the Orders step.
+        */
+
+        var result =
+          await window.supabaseClient
+
+            .from('order_items')
+
+            .select(
+              'order_id'
+            )
+
+            .eq(
+              'seller_id',
+              sellerId
+            );
+
+
+        if (result.error) {
+
+          console.warn(
+            'Seller order count is not available yet:',
+            result.error
+          );
+
+
+          return 0;
+
+        }
+
+
+        var rows =
+          result.data || [];
+
+
+        var uniqueOrders =
+          new Set();
+
+
+        rows.forEach(
+          function (item) {
+
+            if (
+              item.order_id != null
+            ) {
+
+              uniqueOrders.add(
+                String(
+                  item.order_id
+                )
+              );
+
+            }
+
+          }
+        );
+
+
+        return uniqueOrders.size;
+
+      }
+
+
+      /* ====================================================
+         RENDER PRODUCT COUNTS
+      ===================================================== */
+
+      function renderCounts(
+        products,
+        orderCount
+      ) {
+
+        var total =
+          products.length;
+
+
+        var active =
+          products.filter(
+            function (product) {
+
+              return (
+                product.status ===
+                  'active' &&
+                product.is_active ===
+                  true
+              );
+
+            }
+          ).length;
+
+
+        var pending =
+          products.filter(
+            function (product) {
+
+              return (
+                product.status ===
+                'pending'
+              );
+
+            }
+          ).length;
+
+
+        totalProductsElement.textContent =
+          String(total);
+
+
+        activeProductsElement.textContent =
+          String(active);
+
+
+        pendingProductsElement.textContent =
+          String(pending);
+
+
+        totalOrdersElement.textContent =
+          String(orderCount);
+
+      }
+
+
+      /* ====================================================
+         RENDER RECENT PRODUCTS
+      ===================================================== */
+
+      function renderRecentProducts(
+        products
+      ) {
+
+        tableBody.innerHTML =
+          '';
+
+
+        if (
+          products.length === 0
+        ) {
+
+          emptyProducts.hidden =
+            false;
+
+
+          tableWrapper.hidden =
+            true;
+
+
+          return;
+
+        }
+
+
+        emptyProducts.hidden =
+          true;
+
+
+        tableWrapper.hidden =
+          false;
+
+
+        var recentProducts =
+          products.slice(
+            0,
+            5
+          );
+
+
+        recentProducts.forEach(
+          function (product) {
+
+            var row =
+              document.createElement(
+                'tr'
+              );
+
+
+            var createdDate =
+              product.created_at
+                ? new Date(
+                    product.created_at
+                  ).toLocaleDateString(
+                    'en-IN'
+                  )
+                : '-';
+
+
+            var price =
+              product.price != null
+                ? formatPrice(
+                    product.price
+                  )
+                : '-';
+
+
+            row.innerHTML = `
+
+              <td>
+
+                <strong>
+                  ${escapeHtml(
+                    product.name
+                  )}
+                </strong>
+
+              </td>
+
+
+              <td>
+
+                ${escapeHtml(
+                  product.category ||
+                  'Uncategorised'
+                )}
+
+              </td>
+
+
+              <td>
+
+                ${escapeHtml(
+                  price
+                )}
+
+              </td>
+
+
+              <td>
+
+                ${statusBadge(
+                  product.status
+                )}
+
+              </td>
+
+
+              <td>
+
+                ${escapeHtml(
+                  createdDate
+                )}
+
+              </td>
+
+            `;
+
+
+            tableBody.appendChild(
+              row
+            );
+
+          }
+        );
+
+      }
+
+
+      /* ====================================================
+         LOAD DASHBOARD
+      ===================================================== */
+
+      async function loadDashboard() {
+
+        loading.hidden =
+          false;
+
+
+        content.hidden =
+          true;
+
+
+        message.hidden =
+          true;
+
+
+        try {
+
+          /*
+            requireSeller() checks:
+            1. User logged in
+            2. profiles.role === seller
+          */
+
+          var auth =
+            await window.BTSeller
+              .requireSeller();
+
+
+          if (!auth) {
+
+            return;
+
+          }
+
+
+          var user =
+            auth.user;
+
+
+          var profile =
+            auth.profile;
+
+
+          /*
+             WELCOME MESSAGE
+          */
+
+          var sellerName =
+
+            (
+              profile &&
+              profile.full_name
+            )
+
+            ||
+
+            (
+              user.user_metadata &&
+              (
+                user.user_metadata
+                  .full_name ||
+
+                user.user_metadata
+                  .name
+              )
+            )
+
+            ||
+
+            user.email
+
+            ||
+
+            'Seller';
+
+
+          welcome.textContent =
+            'Welcome, ' +
+            sellerName +
+            '. Manage your marketplace business from here.';
+
+
+          /*
+             LOAD DATA
+          */
+
+          var results =
+            await Promise.all([
+
+              loadProducts(
+                user.id
+              ),
+
+              loadOrderCount(
+                user.id
+              )
+
+            ]);
+
+
+          var products =
+            results[0];
+
+
+          var orderCount =
+            results[1];
+
+
+          /*
+             RENDER
+          */
+
+          renderCounts(
+            products,
+            orderCount
+          );
+
+
+          renderRecentProducts(
+            products
+          );
+
+
+          loading.hidden =
+            true;
+
+
+          content.hidden =
+            false;
+
+        }
+
+        catch (error) {
+
+          console.error(
+            'Seller dashboard error:',
+            error
+          );
+
+
+          loading.hidden =
+            true;
+
+
+          showError(
+            error.message ||
+            'Unable to load seller dashboard.'
+          );
+
+        }
+
+      }
+
+
+      /* ====================================================
+         START
+      ===================================================== */
+
+      if (
+        document.readyState ===
+        'loading'
+      ) {
+
+        document.addEventListener(
+          'DOMContentLoaded',
+          function () {
+
+            setTimeout(
+              loadDashboard,
+              0
+            );
+
+          }
+        );
+
+      }
+
+      else {
+
+        setTimeout(
+          loadDashboard,
+          0
+        );
+
+      }
+
+
+    })();
+
+  </script>
+
+
+</body>
+
+</html>
