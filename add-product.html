@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Add a new product to the Brit.Tuna marketplace."
+  >
+
+  <title>Add Product | Brit.Tuna Seller</title>
+
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="responsive.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- ======================================================
+       HEADER
+  ======================================================= -->
+
+  <div id="site-header"></div>
+
+
+  <!-- ======================================================
+       MAIN
+  ======================================================= -->
+
+  <main class="seller-main">
+
+    <div class="container">
+
+
+      <div
+        id="page-loading"
+        class="card loading"
+      >
+        Checking seller access...
+      </div>
+
+
+      <div
+        id="page-message"
+        class="notice"
+        hidden
+        role="status"
+        aria-live="polite"
+      ></div>
+
+
+      <div
+        id="page-content"
+        class="dashboard-layout"
+        hidden
+      >
+
+
+        <!-- ==================================================
+             SIDEBAR
+        =================================================== -->
+
+        <aside class="seller-sidebar">
+
+          <div class="sidebar-title">
+            Seller Center
+          </div>
+
+          <nav class="sidebar-nav">
+
+            <a href="seller-dashboard.html">
+              Dashboard
+            </a>
+
+            <a href="products.html">
+              My Products
+            </a>
+
+            <a
+              href="add-product.html"
+              class="active"
+            >
+              Add Product
+            </a>
+
+            <a href="orders.html">
+              Orders
+            </a>
+
+          </nav>
+
+        </aside>
+
+
+        <!-- ==================================================
+             CONTENT
+        =================================================== -->
+
+        <section>
+
+
+          <div class="page-header">
+
+            <h1>
+              Add Product
+            </h1>
+
+            <p>
+              Add a new product to your Brit.Tuna marketplace store.
+            </p>
+
+          </div>
+
+
+          <div class="notice notice-warning">
+
+            <strong>
+              Approval required:
+            </strong>
+
+            New seller products are submitted with
+            <strong>pending</strong> status.
+
+            They will not appear to customers until approved.
+
+          </div>
+
+
+          <section class="card">
+
+            <form
+              id="add-product-form"
+              novalidate
+            >
+
+              <div class="form-grid">
+
+
+                <!-- ==========================================
+                     PRODUCT NAME
+                =========================================== -->
+
+                <div class="form-field full">
+
+                  <label for="product-name">
+                    Product Name *
+                  </label>
+
+                  <input
+                    type="text"
+                    id="product-name"
+                    maxlength="200"
+                    placeholder="Example: Premium Cotton T-Shirt"
+                    required
+                  >
+
+                  <div
+                    class="error"
+                    id="product-name-error"
+                  ></div>
+
+                </div>
+
+
+                <!-- ==========================================
+                     CATEGORY
+                =========================================== -->
+
+                <div class="form-field">
+
+                  <label for="product-category">
+                    Category *
+                  </label>
+
+                  <select
+                    id="product-category"
+                    required
+                  >
+
+                    <option value="">
+                      Loading categories...
+                    </option>
+
+                  </select>
+
+                  <div
+                    class="error"
+                    id="category-error"
+                  ></div>
+
+                </div>
+
+
+                <!-- ==========================================
+                     VARIANT
+                =========================================== -->
+
+                <div class="form-field">
+
+                  <label for="variant-name">
+                    Variant / Pack / Model *
+                  </label>
+
+                  <input
+                    type="text"
+                    id="variant-name"
+                    maxlength="100"
+                    placeholder="Example: 500g / Medium / Black"
+                    required
+                  >
+
+                  <span class="form-help">
+                    For food use 500g, 1kg etc. For other
+                    products use size, model or another option.
+                  </span>
+
+                  <div
+                    class="error"
+                    id="variant-error"
+                  ></div>
+
+                </div>
+
+
+                <!-- ==========================================
+                     PRICE
+                =========================================== -->
+
+                <div class="form-field">
+
+                  <label for="product-price">
+                    Selling Price (₹) *
+                  </label>
+
+                  <input
+                    type="number"
+                    id="product-price"
+                    min="0.01"
+                    step="0.01"
+                    inputmode="decimal"
+                    placeholder="499"
+                    required
+                  >
+
+                  <div
+                    class="error"
+                    id="price-error"
+                  ></div>
+
+                </div>
+
+
+                <!-- ==========================================
+                     STOCK
+                =========================================== -->
+
+                <div class="form-field">
+
+                  <label for="product-stock">
+                    Stock Quantity *
+                  </label>
+
+                  <input
+                    type="number"
+                    id="product-stock"
+                    min="0"
+                    step="1"
+                    inputmode="numeric"
+                    placeholder="10"
+                    required
+                  >
+
+                  <div
+                    class="error"
+                    id="stock-error"
+                  ></div>
+
+                </div>
+
+
+                <!-- ==========================================
+                     IMAGE URL
+                =========================================== -->
+
+                <div class="form-field full">
+
+                  <label for="product-image">
+                    Product Image URL
+                  </label>
+
+                  <input
+                    type="url"
+                    id="product-image"
+                    maxlength="1000"
+                    placeholder="https://example.com/product.jpg"
+                  >
+
+                  <span class="form-help">
+                    Image upload with Supabase Storage will be
+                    added later. For now you can enter a public
+                    image URL or leave this empty.
+                  </span>
+
+                  <div
+                    class="error"
+                    id="image-error"
+                  ></div>
+
+                </div>
+
+
+                <!-- ==========================================
+                     DESCRIPTION
+                =========================================== -->
+
+                <div class="form-field full">
+
+                  <label for="product-description">
+                    Product Description *
+                  </label>
+
+                  <textarea
+                    id="product-description"
+                    maxlength="3000"
+                    placeholder="Describe the product, quality, material, usage and important details."
+                    required
+                  ></textarea>
+
+                  <div
+                    class="error"
+                    id="description-error"
+                  ></div>
+
+                </div>
+
+
+                <!-- ==========================================
+                     SUBMIT
+                =========================================== -->
+
+                <div class="form-field full">
+
+                  <button
+                    type="submit"
+                    id="submit-button"
+                    class="btn btn-primary"
+                  >
+                    Submit Product
+                  </button>
+
+                </div>
+
+
+              </div>
+
+            </form>
+
+          </section>
+
+
+        </section>
+
+
+      </div>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- ======================================================
+       FOOTER
+  ======================================================= -->
+
+  <div id="site-footer"></div>
+
+
+  <!-- ======================================================
+       SCRIPTS
+  ======================================================= -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+  <script src="config.js"></script>
+
+  <script src="supabase.js"></script>
+
+  <script src="script.js"></script>
+
+
+  <!-- ======================================================
+       ADD PRODUCT LOGIC
+  ======================================================= -->
+
+  <script>
+
+    (function () {
+
+      'use strict';
+
+
+      /* ====================================================
+         ELEMENTS
+      ===================================================== */
+
+      var loading =
+        document.getElementById(
+          'page-loading'
+        );
+
+
+      var content =
+        document.getElementById(
+          'page-content'
+        );
+
+
+      var messageBox =
+        document.getElementById(
+          'page-message'
+        );
+
+
+      var form =
+        document.getElementById(
+          'add-product-form'
+        );
+
+
+      var submitButton =
+        document.getElementById(
+          'submit-button'
+        );
+
+
+      var nameInput =
+        document.getElementById(
+          'product-name'
+        );
+
+
+      var categoryInput =
+        document.getElementById(
+          'product-category'
+        );
+
+
+      var variantInput =
+        document.getElementById(
+          'variant-name'
+        );
+
+
+      var priceInput =
+        document.getElementById(
+          'product-price'
+        );
+
+
+      var stockInput =
+        document.getElementById(
+          'product-stock'
+        );
+
+
+      var imageInput =
+        document.getElementById(
+          'product-image'
+        );
+
+
+      var descriptionInput =
+        document.getElementById(
+          'product-description'
+        );
+
+
+      var currentUser =
+        null;
+
+
+      var categoriesById =
+        {};
+
+
+      /* ====================================================
+         MESSAGE
+      ===================================================== */
+
+      function showMessage(
+        text,
+        type
+      ) {
+
+        messageBox.textContent =
+          text;
+
+
+        messageBox.className =
+          'notice';
+
+
+        if (type === 'success') {
+
+          messageBox.classList.add(
+            'notice-success'
+          );
+
+        }
+
+
+        if (type === 'error') {
+
+          messageBox.classList.add(
+            'notice-error'
+          );
+
+        }
+
+
+        if (type === 'warning') {
+
+          messageBox.classList.add(
+            'notice-warning'
+          );
+
+        }
+
+
+        messageBox.hidden =
+          false;
+
+
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+
+      }
+
+
+      /* ====================================================
+         CLEAR ERRORS
+      ===================================================== */
+
+      function clearErrors() {
+
+        document
+          .querySelectorAll(
+            '.error'
+          )
+          .forEach(
+            function (element) {
+
+              element.textContent =
+                '';
+
+            }
+          );
+
+
+        messageBox.hidden =
+          true;
+
+      }
+
+
+      /* ====================================================
+         VALIDATE
+      ===================================================== */
+
+      function validateForm() {
+
+        clearErrors();
+
+
+        var valid =
+          true;
+
+
+        if (
+          nameInput.value
+            .trim()
+            .length < 2
+        ) {
+
+          document.getElementById(
+            'product-name-error'
+          ).textContent =
+            'Enter a product name.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        if (!categoryInput.value) {
+
+          document.getElementById(
+            'category-error'
+          ).textContent =
+            'Select a category.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        if (
+          variantInput.value
+            .trim()
+            .length < 1
+        ) {
+
+          document.getElementById(
+            'variant-error'
+          ).textContent =
+            'Enter a variant, pack size or model.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        var price =
+          Number(
+            priceInput.value
+          );
+
+
+        if (
+          !Number.isFinite(price) ||
+          price <= 0
+        ) {
+
+          document.getElementById(
+            'price-error'
+          ).textContent =
+            'Enter a valid selling price.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        var stock =
+          Number(
+            stockInput.value
+          );
+
+
+        if (
+          !Number.isInteger(stock) ||
+          stock < 0
+        ) {
+
+          document.getElementById(
+            'stock-error'
+          ).textContent =
+            'Enter a valid stock quantity.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        if (
+          descriptionInput.value
+            .trim()
+            .length < 5
+        ) {
+
+          document.getElementById(
+            'description-error'
+          ).textContent =
+            'Enter a product description.';
+
+
+          valid =
+            false;
+
+        }
+
+
+        var imageUrl =
+          imageInput.value.trim();
+
+
+        if (imageUrl) {
+
+          try {
+
+            var parsed =
+              new URL(
+                imageUrl
+              );
+
+
+            if (
+              parsed.protocol !==
+                'https:' &&
+              parsed.protocol !==
+                'http:'
+            ) {
+
+              throw new Error(
+                'Invalid protocol'
+              );
+
+            }
+
+          }
+
+          catch (error) {
+
+            document.getElementById(
+              'image-error'
+            ).textContent =
+              'Enter a valid image URL.';
+
+
+            valid =
+              false;
+
+          }
+
+        }
+
+
+        return valid;
+
+      }
+
+
+      /* ====================================================
+         LOAD CATEGORIES
+      ===================================================== */
+
+      async function loadCategories() {
+
+        var result =
+          await window.supabaseClient
+
+            .from('categories')
+
+            .select(
+              `
+                id,
+                name,
+                parent_id,
+                sort_order
+              `
+            )
+
+            .eq(
+              'is_active',
+              true
+            )
+
+            .order(
+              'sort_order',
+              {
+                ascending: true
+              }
+            )
+
+            .order(
+              'name',
+              {
+                ascending: true
+              }
+            );
+
+
+        if (result.error) {
+
+          throw result.error;
+
+        }
+
+
+        var categories =
+          result.data || [];
+
+
+        categoriesById =
+          {};
+
+
+        categories.forEach(
+          function (category) {
+
+            categoriesById[
+              String(category.id)
+            ] = category;
+
+          }
+        );
+
+
+        categoryInput.innerHTML =
+          '<option value="">Select category</option>';
+
+
+        categories.forEach(
+          function (category) {
+
+            var option =
+              document.createElement(
+                'option'
+              );
+
+
+            option.value =
+              String(
+                category.id
+              );
+
+
+            var prefix =
+              category.parent_id
+                ? '— '
+                : '';
+
+
+            option.textContent =
+              prefix +
+              category.name;
+
+
+            categoryInput.appendChild(
+              option
+            );
+
+          }
+        );
+
+
+        if (
+          categories.length === 0
+        ) {
+
+          categoryInput.innerHTML =
+            '<option value="">No categories available</option>';
+
+
+          categoryInput.disabled =
+            true;
+
+
+          submitButton.disabled =
+            true;
+
+
+          showMessage(
+            'No active marketplace categories are available. An administrator must create a category first.',
+            'warning'
+          );
+
+        }
+
+      }
+
+
+      /* ====================================================
+         DELETE PRODUCT IF VARIANT CREATION FAILS
+
+         This is cleanup only. Seller RLS must permit deleting
+         their own pending seller product for this to succeed.
+         If RLS does not allow it, the error is logged and the
+         pending product can be cleaned by admin.
+      ===================================================== */
+
+      async function cleanupProduct(
+        productId
+      ) {
+
+        try {
+
+          var result =
+            await window.supabaseClient
+
+              .from('products')
+
+              .delete()
+
+              .eq(
+                'id',
+                productId
+              )
+
+              .eq(
+                'seller_id',
+                currentUser.id
+              )
+
+              .eq(
+                'status',
+                'pending'
+              );
+
+
+          if (result.error) {
+
+            console.warn(
+              'Could not clean up product:',
+              result.error
+            );
+
+          }
+
+        }
+
+        catch (error) {
+
+          console.warn(
+            'Product cleanup failed:',
+            error
+          );
+
+        }
+
+      }
+
+
+      /* ====================================================
+         CREATE PRODUCT
+      ===================================================== */
+
+      async function createProduct() {
+
+        var categoryId =
+          Number(
+            categoryInput.value
+          );
+
+
+        var category =
+          categoriesById[
+            String(categoryId)
+          ];
+
+
+        if (!category) {
+
+          throw new Error(
+            'Selected category could not be found.'
+          );
+
+        }
+
+
+        var price =
+          Number(
+            priceInput.value
+          );
+
+
+        /*
+          category is still stored temporarily because
+          the existing customer website currently uses
+          products.category.
+
+          category_id is the new marketplace relation.
+
+          We will remove the old text category later,
+          after all customer pages are migrated.
+        */
+
+        var productData = {
+
+          name:
+            nameInput.value.trim(),
+
+          description:
+            descriptionInput.value.trim(),
+
+          category:
+            category.name,
+
+          category_id:
+            categoryId,
+
+          price:
+            price,
+
+          image_url:
+            imageInput.value.trim() ||
+            null,
+
+          affiliate_url:
+            null,
+
+          is_active:
+            true,
+
+          seller_id:
+            currentUser.id,
+
+          product_type:
+            'seller',
+
+          status:
+            'pending'
+
+        };
+
+
+        var result =
+          await window.supabaseClient
+
+            .from('products')
+
+            .insert(
+              productData
+            )
+
+            .select(
+              `
+                id,
+                name,
+                seller_id,
+                status
+              `
+            )
+
+            .single();
+
+
+        if (result.error) {
+
+          throw result.error;
+
+        }
+
+
+        return result.data;
+
+      }
+
+
+      /* ====================================================
+         CREATE INITIAL VARIANT
+      ===================================================== */
+
+      async function createVariant(
+        productId
+      ) {
+
+        var variantData = {
+
+          product_id:
+            productId,
+
+          pack_size:
+            variantInput.value.trim(),
+
+          price:
+            Number(
+              priceInput.value
+            ),
+
+          stock_quantity:
+            Number(
+              stockInput.value
+            ),
+
+          is_active:
+            true
+
+        };
+
+
+        var result =
+          await window.supabaseClient
+
+            .from(
+              'product_variants'
+            )
+
+            .insert(
+              variantData
+            )
+
+            .select(
+              `
+                id,
+                product_id,
+                pack_size,
+                price,
+                stock_quantity
+              `
+            )
+
+            .single();
+
+
+        if (result.error) {
+
+          throw result.error;
+
+        }
+
+
+        return result.data;
+
+      }
+
+
+      /* ====================================================
+         SUBMIT PRODUCT
+      ===================================================== */
+
+      async function submitProduct(
+        event
+      ) {
+
+        event.preventDefault();
+
+
+        if (!validateForm()) {
+
+          return;
+
+        }
+
+
+        if (!currentUser) {
+
+          showMessage(
+            'Seller session was not found. Please sign in again.',
+            'error'
+          );
+
+
+          return;
+
+        }
+
+
+        submitButton.disabled =
+          true;
+
+
+        submitButton.textContent =
+          'Submitting...';
+
+
+        var createdProduct =
+          null;
+
+
+        try {
+
+          /*
+             1. Create pending seller product.
+          */
+
+          createdProduct =
+            await createProduct();
+
+
+          /*
+             2. Create first variant.
+          */
+
+          try {
+
+            await createVariant(
+              createdProduct.id
+            );
+
+          }
+
+          catch (variantError) {
+
+            console.error(
+              'Variant creation failed:',
+              variantError
+            );
+
+
+            /*
+              Try to remove the incomplete pending product.
+            */
+
+            await cleanupProduct(
+              createdProduct.id
+            );
+
+
+            throw new Error(
+              'The product could not be completed because the variant was not saved. Please try again.'
+            );
+
+          }
+
+
+          /*
+             SUCCESS
+          */
+
+          form.reset();
+
+
+          showMessage(
+            'Product submitted successfully. It is now waiting for marketplace approval.',
+            'success'
+          );
+
+
+          /*
+             Send seller to products page after
+             a short confirmation period.
+          */
+
+          setTimeout(
+            function () {
+
+              window.location.href =
+                'products.html';
+
+            },
+            1500
+          );
+
+        }
+
+        catch (error) {
+
+          console.error(
+            'Add product error:',
+            error
+          );
+
+
+          showMessage(
+            error.message ||
+            'Unable to submit the product.',
+            'error'
+          );
+
+
+          submitButton.disabled =
+            false;
+
+
+          submitButton.textContent =
+            'Submit Product';
+
+        }
+
+      }
+
+
+      /* ====================================================
+         INITIALISE PAGE
+      ===================================================== */
+
+      async function initialisePage() {
+
+        loading.hidden =
+          false;
+
+
+        content.hidden =
+          true;
+
+
+        try {
+
+          /*
+             Approved sellers only.
+          */
+
+          var auth =
+            await window.BTSeller
+              .requireSeller();
+
+
+          if (!auth) {
+
+            return;
+
+          }
+
+
+          currentUser =
+            auth.user;
+
+
+          /*
+             Get marketplace categories.
+          */
+
+          await loadCategories();
+
+
+          loading.hidden =
+            true;
+
+
+          content.hidden =
+            false;
+
+        }
+
+        catch (error) {
+
+          console.error(
+            'Add product page error:',
+            error
+          );
+
+
+          loading.hidden =
+            true;
+
+
+          showMessage(
+            error.message ||
+            'Unable to load the add product page.',
+            'error'
+          );
+
+        }
+
+      }
+
+
+      /* ====================================================
+         EVENTS
+      ===================================================== */
+
+      form.addEventListener(
+        'submit',
+        submitProduct
+      );
+
+
+      /* ====================================================
+         START
+      ===================================================== */
+
+      if (
+        document.readyState ===
+        'loading'
+      ) {
+
+        document.addEventListener(
+          'DOMContentLoaded',
+          function () {
+
+            setTimeout(
+              initialisePage,
+              0
+            );
+
+          }
+        );
+
+      }
+
+      else {
+
+        setTimeout(
+          initialisePage,
+          0
+        );
+
+      }
+
+
+    })();
+
+  </script>
+
+
+</body>
+
+</html>
