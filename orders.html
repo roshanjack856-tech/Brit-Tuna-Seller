@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="View seller orders in the Brit.Tuna marketplace."
+  >
+
+  <title>Seller Orders | Brit.Tuna</title>
+
+
+  <!-- Google Fonts -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- CSS -->
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="responsive.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- ======================================================
+       HEADER
+  ======================================================= -->
+
+  <div id="site-header"></div>
+
+
+  <!-- ======================================================
+       MAIN
+  ======================================================= -->
+
+  <main class="seller-main">
+
+    <div class="container">
+
+
+      <!-- LOADING -->
+
+      <div
+        id="page-loading"
+        class="card loading"
+      >
+        Loading your orders...
+      </div>
+
+
+      <!-- MESSAGE -->
+
+      <div
+        id="page-message"
+        class="notice"
+        hidden
+        role="status"
+        aria-live="polite"
+      ></div>
+
+
+      <!-- ==================================================
+           PAGE CONTENT
+      =================================================== -->
+
+      <div
+        id="page-content"
+        class="dashboard-layout"
+        hidden
+      >
+
+
+        <!-- ==================================================
+             SIDEBAR
+        =================================================== -->
+
+        <aside class="seller-sidebar">
+
+          <div class="sidebar-title">
+            Seller Center
+          </div>
+
+
+          <nav class="sidebar-nav">
+
+            <a href="seller-dashboard.html">
+              Dashboard
+            </a>
+
+            <a href="products.html">
+              My Products
+            </a>
+
+            <a href="add-product.html">
+              Add Product
+            </a>
+
+            <a
+              href="orders.html"
+              class="active"
+            >
+              Orders
+            </a>
+
+          </nav>
+
+        </aside>
+
+
+        <!-- ==================================================
+             ORDERS CONTENT
+        =================================================== -->
+
+        <section>
+
+
+          <!-- PAGE HEADER -->
+
+          <div class="page-header">
+
+            <h1>
+              Orders
+            </h1>
+
+            <p>
+              View customer orders containing products
+              sold by your seller account.
+            </p>
+
+          </div>
+
+
+          <!-- SECURITY INFO -->
+
+          <div class="notice">
+
+            <strong>
+              Seller order view:
+            </strong>
+
+            You can only view order items belonging to
+            your seller account.
+
+          </div>
+
+
+          <!-- ==================================================
+               STATS
+          =================================================== -->
+
+          <div class="stats-grid">
+
+
+            <article class="stat-card">
+
+              <div class="stat-label">
+                Total Orders
+              </div>
+
+              <div
+                class="stat-value"
+                id="total-orders"
+              >
+                0
+              </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+              <div class="stat-label">
+                Total Items
+              </div>
+
+              <div
+                class="stat-value"
+                id="total-items"
+              >
+                0
+              </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+              <div class="stat-label">
+                Pending Orders
+              </div>
+
+              <div
+                class="stat-value"
+                id="pending-orders"
+              >
+                0
+              </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+              <div class="stat-label">
+                Seller Sales
+              </div>
+
+              <div
+                class="stat-value"
+                id="seller-sales"
+              >
+                ₹0
+              </div>
+
+            </article>
+
+
+          </div>
+
+
+          <!-- ==================================================
+               FILTERS
+          =================================================== -->
+
+          <div class="card">
+
+            <div class="form-grid">
+
+
+              <!-- SEARCH -->
+
+              <div class="form-field">
+
+                <label for="order-search">
+                  Search Orders
+                </label>
+
+                <input
+                  type="search"
+                  id="order-search"
+                  placeholder="Order ID or customer name"
+                >
+
+              </div>
+
+
+              <!-- STATUS -->
+
+              <div class="form-field">
+
+                <label for="order-status-filter">
+                  Order Status
+                </label>
+
+                <select id="order-status-filter">
+
+                  <option value="all">
+                    All Orders
+                  </option>
+
+                  <option value="pending">
+                    Pending
+                  </option>
+
+                  <option value="confirmed">
+                    Confirmed
+                  </option>
+
+                  <option value="processing">
+                    Processing
+                  </option>
+
+                  <option value="shipped">
+                    Shipped
+                  </option>
+
+                  <option value="delivered">
+                    Delivered
+                  </option>
+
+                  <option value="cancelled">
+                    Cancelled
+                  </option>
+
+                </select>
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+          <!-- ==================================================
+               EMPTY
+          =================================================== -->
+
+          <div
+            id="orders-empty"
+            class="card empty-state"
+            hidden
+          >
+
+            <h2>
+              No orders found
+            </h2>
+
+            <p id="orders-empty-message">
+              You do not have any seller orders yet.
+            </p>
+
+          </div>
+
+
+          <!-- ==================================================
+               ORDERS
+          =================================================== -->
+
+          <div
+            id="orders-container"
+          ></div>
+
+
+        </section>
+
+
+      </div>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- ======================================================
+       FOOTER
+  ======================================================= -->
+
+  <div id="site-footer"></div>
+
+
+  <!-- ======================================================
+       JAVASCRIPT
+  ======================================================= -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+  <script src="config.js"></script>
+
+  <script src="supabase.js"></script>
+
+  <script src="script.js"></script>
+
+
+  <!-- ======================================================
+       ORDERS LOGIC
+  ======================================================= -->
+
+  <script>
+
+    (function () {
+
+      'use strict';
+
+
+      /* ====================================================
+         STATE
+      ===================================================== */
+
+      var currentUser = null;
+
+      var rawItems = [];
+
+      var orders = [];
+
+
+      /* ====================================================
+         ELEMENTS
+      ===================================================== */
+
+      var loading =
+        document.getElementById(
+          'page-loading'
+        );
+
+
+      var content =
+        document.getElementById(
+          'page-content'
+        );
+
+
+      var messageBox =
+        document.getElementById(
+          'page-message'
+        );
+
+
+      var ordersContainer =
+        document.getElementById(
+          'orders-container'
+        );
+
+
+      var emptyState =
+        document.getElementById(
+          'orders-empty'
+        );
+
+
+      var emptyMessage =
+        document.getElementById(
+          'orders-empty-message'
+        );
+
+
+      var searchInput =
+        document.getElementById(
+          'order-search'
+        );
+
+
+      var statusFilter =
+        document.getElementById(
+          'order-status-filter'
+        );
+
+
+      var totalOrdersElement =
+        document.getElementById(
+          'total-orders'
+        );
+
+
+      var totalItemsElement =
+        document.getElementById(
+          'total-items'
+        );
+
+
+      var pendingOrdersElement =
+        document.getElementById(
+          'pending-orders'
+        );
+
+
+      var sellerSalesElement =
+        document.getElementById(
+          'seller-sales'
+        );
+
+
+      /* ====================================================
+         HELPERS
+      ===================================================== */
+
+      function escapeHtml(value) {
+
+        if (
+          window.BTSellerUtil &&
+          window.BTSellerUtil.escapeHtml
+        ) {
+
+          return window.BTSellerUtil
+            .escapeHtml(value);
+
+        }
+
+
+        return String(
+          value == null
+            ? ''
+            : value
+        )
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+
+      }
+
+
+      function formatPrice(value) {
+
+        if (
+          window.BTSellerUtil &&
+          window.BTSellerUtil.formatINR
+        ) {
+
+          return window.BTSellerUtil
+            .formatINR(value);
+
+        }
+
+
+        return '₹' +
+          Number(
+            value || 0
+          ).toFixed(2);
+
+      }
+
+
+      function formatDate(value) {
+
+        if (!value) {
+
+          return '-';
+
+        }
+
+
+        var date =
+          new Date(value);
+
+
+        if (
+          Number.isNaN(
+            date.getTime()
+          )
+        ) {
+
+          return '-';
+
+        }
+
+
+        return date.toLocaleString(
+          'en-IN',
+          {
+            dateStyle: 'medium',
+            timeStyle: 'short'
+          }
+        );
+
+      }
+
+
+      function showMessage(
+        text,
+        type
+      ) {
+
+        messageBox.textContent =
+          text;
+
+
+        messageBox.className =
+          'notice';
+
+
+        if (type === 'error') {
+
+          messageBox.classList.add(
+            'notice-error'
+          );
+
+        }
+
+
+        if (type === 'success') {
+
+          messageBox.classList.add(
+            'notice-success'
+          );
+
+        }
+
+
+        if (type === 'warning') {
+
+          messageBox.classList.add(
+            'notice-warning'
+          );
+
+        }
+
+
+        messageBox.hidden =
+          false;
+
+      }
+
+
+      /* ====================================================
+         STATUS BADGE
+      ===================================================== */
+
+      function statusBadge(
+        status
+      ) {
+
+        var value =
+          String(
+            status || 'pending'
+          ).toLowerCase();
+
+
+        var className =
+          'badge badge-pending';
+
+
+        if (
+          value === 'confirmed' ||
+          value === 'active'
+        ) {
+
+          className =
+            'badge badge-active';
+
+        }
+
+
+        if (
+          value === 'processing'
+        ) {
+
+          className =
+            'badge badge-processing';
+
+        }
+
+
+        if (
+          value === 'shipped'
+        ) {
+
+          className =
+            'badge badge-shipped';
+
+        }
+
+
+        if (
+          value === 'delivered'
+        ) {
+
+          className =
+            'badge badge-delivered';
+
+        }
+
+
+        if (
+          value === 'cancelled'
+        ) {
+
+          className =
+            'badge badge-cancelled';
+
+        }
+
+
+        return (
+          '<span class="' +
+          className +
+          '">' +
+          escapeHtml(value) +
+          '</span>'
+        );
+
+      }
+
+
+      /* ====================================================
+         PAYMENT BADGE
+      ===================================================== */
+
+      function paymentBadge(
+        status
+      ) {
+
+        var value =
+          String(
+            status || 'pending'
+          ).toLowerCase();
+
+
+        var className =
+          'badge badge-pending';
+
+
+        if (
+          value === 'paid'
+        ) {
+
+          className =
+            'badge badge-approved';
+
+        }
+
+
+        if (
+          value === 'failed'
+        ) {
+
+          className =
+            'badge badge-rejected';
+
+        }
+
+
+        if (
+          value === 'refunded'
+        ) {
+
+          className =
+            'badge';
+
+        }
+
+
+        return (
+          '<span class="' +
+          className +
+          '">' +
+          escapeHtml(value) +
+          '</span>'
+        );
+
+      }
+
+
+      /* ====================================================
+         LOAD SELLER ORDERS
+
+         SECURITY:
+         This calls our SECURITY DEFINER RPC.
+
+         The database function uses:
+         oi.seller_id = auth.uid()
+
+         Do not replace this with an unrestricted
+         direct orders table query.
+      ===================================================== */
+
+      async function loadSellerOrders() {
+
+        var result =
+          await window.supabaseClient
+
+            .rpc(
+              'get_my_seller_orders'
+            );
+
+
+        if (result.error) {
+
+          throw result.error;
+
+        }
+
+
+        rawItems =
+          result.data || [];
+
+      }
+
+
+      /* ====================================================
+         GROUP ITEMS INTO ORDERS
+      ===================================================== */
+
+      function groupOrders() {
+
+        var map =
+          {};
+
+
+        rawItems.forEach(
+          function (row) {
+
+            var key =
+              String(
+                row.order_id
+              );
+
+
+            if (!map[key]) {
+
+              map[key] = {
+
+                order_id:
+                  row.order_id,
+
+                customer_name:
+                  row.customer_name,
+
+                customer_phone:
+                  row.customer_phone,
+
+                shipping_address:
+                  row.shipping_address,
+
+                city:
+                  row.city,
+
+                state:
+                  row.state,
+
+                pincode:
+                  row.pincode,
+
+                order_status:
+                  row.order_status,
+
+                payment_status:
+                  row.payment_status,
+
+                payment_method:
+                  row.payment_method,
+
+                order_created_at:
+                  row.order_created_at,
+
+                items: []
+
+              };
+
+            }
+
+
+            map[key].items.push({
+
+              item_id:
+                row.item_id,
+
+              product_id:
+                row.product_id,
+
+              product_name:
+                row.product_name,
+
+              item_price:
+                Number(
+                  row.item_price || 0
+                ),
+
+              quantity:
+                Number(
+                  row.quantity || 0
+                )
+
+            });
+
+          }
+        );
+
+
+        orders =
+          Object.values(map);
+
+
+        orders.sort(
+          function (a, b) {
+
+            return (
+              new Date(
+                b.order_created_at
+              ).getTime()
+
+              -
+
+              new Date(
+                a.order_created_at
+              ).getTime()
+            );
+
+          }
+        );
+
+      }
+
+
+      /* ====================================================
+         ORDER TOTAL FOR THIS SELLER
+
+         This is NOT the customer's whole marketplace
+         order total.
+
+         It is only:
+         seller's item price × quantity.
+      ===================================================== */
+
+      function sellerOrderTotal(
+        order
+      ) {
+
+        return order.items.reduce(
+          function (
+            total,
+            item
+          ) {
+
+            return (
+              total +
+              (
+                Number(
+                  item.item_price
+                )
+                *
+                Number(
+                  item.quantity
+                )
+              )
+            );
+
+          },
+          0
+        );
+
+      }
+
+
+      /* ====================================================
+         STATS
+      ===================================================== */
+
+      function renderStats() {
+
+        var totalItems =
+          0;
+
+
+        var sellerSales =
+          0;
+
+
+        var pendingOrders =
+          0;
+
+
+        orders.forEach(
+          function (order) {
+
+            if (
+              order.order_status ===
+              'pending'
+            ) {
+
+              pendingOrders +=
+                1;
+
+            }
+
+
+            order.items.forEach(
+              function (item) {
+
+                totalItems +=
+                  Number(
+                    item.quantity || 0
+                  );
+
+
+                /*
+                  Sales statistic currently includes
+                  only paid orders.
+
+                  This is a display calculation only.
+                  It is NOT a seller payout calculation.
+                */
+
+                if (
+                  order.payment_status ===
+                  'paid'
+                ) {
+
+                  sellerSales +=
+
+                    Number(
+                      item.item_price || 0
+                    )
+
+                    *
+
+                    Number(
+                      item.quantity || 0
+                    );
+
+                }
+
+              }
+            );
+
+          }
+        );
+
+
+        totalOrdersElement.textContent =
+          String(
+            orders.length
+          );
+
+
+        totalItemsElement.textContent =
+          String(
+            totalItems
+          );
+
+
+        pendingOrdersElement.textContent =
+          String(
+            pendingOrders
+          );
+
+
+        sellerSalesElement.textContent =
+          formatPrice(
+            sellerSales
+          );
+
+      }
+
+
+      /* ====================================================
+         ITEMS HTML
+      ===================================================== */
+
+      function itemsHtml(
+        order
+      ) {
+
+        return order.items
+          .map(
+            function (item) {
+
+              var lineTotal =
+
+                Number(
+                  item.item_price || 0
+                )
+
+                *
+
+                Number(
+                  item.quantity || 0
+                );
+
+
+              return `
+
+                <tr>
+
+                  <td>
+
+                    <strong>
+                      ${escapeHtml(
+                        item.product_name
+                      )}
+                    </strong>
+
+                  </td>
+
+
+                  <td>
+
+                    ${escapeHtml(
+                      formatPrice(
+                        item.item_price
+                      )
+                    )}
+
+                  </td>
+
+
+                  <td>
+
+                    ${escapeHtml(
+                      item.quantity
+                    )}
+
+                  </td>
+
+
+                  <td>
+
+                    <strong>
+                      ${escapeHtml(
+                        formatPrice(
+                          lineTotal
+                        )
+                      )}
+                    </strong>
+
+                  </td>
+
+                </tr>
+
+              `;
+
+            }
+          )
+          .join('');
+
+      }
+
+
+      /* ====================================================
+         ORDER CARD
+      ===================================================== */
+
+      function orderCardHtml(
+        order
+      ) {
+
+        var total =
+          sellerOrderTotal(
+            order
+          );
+
+
+        var addressParts = [
+
+          order.shipping_address,
+
+          order.city,
+
+          order.state,
+
+          order.pincode
+
+        ].filter(Boolean);
+
+
+        var address =
+          addressParts.join(
+            ', '
+          );
+
+
+        return `
+
+          <article
+            class="card"
+            style="
+              margin-bottom: 20px;
+            "
+          >
+
+
+            <!-- ORDER HEADER -->
+
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 16px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+              "
+            >
+
+              <div>
+
+                <div class="muted">
+                  Order
+                </div>
+
+                <h2
+                  style="
+                    margin: 2px 0 6px;
+                  "
+                >
+                  #${escapeHtml(
+                    order.order_id
+                  )}
+                </h2>
+
+                <div class="muted">
+
+                  ${escapeHtml(
+                    formatDate(
+                      order.order_created_at
+                    )
+                  )}
+
+                </div>
+
+              </div>
+
+
+              <div
+                style="
+                  display: flex;
+                  gap: 8px;
+                  flex-wrap: wrap;
+                "
+              >
+
+                ${statusBadge(
+                  order.order_status
+                )}
+
+                ${paymentBadge(
+                  order.payment_status
+                )}
+
+              </div>
+
+            </div>
+
+
+            <!-- CUSTOMER -->
+
+            <div
+              style="
+                display: grid;
+                grid-template-columns:
+                  repeat(
+                    auto-fit,
+                    minmax(200px, 1fr)
+                  );
+                gap: 16px;
+                margin-bottom: 20px;
+              "
+            >
+
+
+              <div>
+
+                <div class="muted">
+                  Customer
+                </div>
+
+                <strong>
+                  ${escapeHtml(
+                    order.customer_name ||
+                    '-'
+                  )}
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                <div class="muted">
+                  Phone
+                </div>
+
+                <strong>
+                  ${escapeHtml(
+                    order.customer_phone ||
+                    '-'
+                  )}
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                <div class="muted">
+                  Payment Method
+                </div>
+
+                <strong>
+                  ${escapeHtml(
+                    order.payment_method ||
+                    '-'
+                  )}
+                </strong>
+
+              </div>
+
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div
+              style="
+                margin-bottom: 20px;
+              "
+            >
+
+              <div class="muted">
+                Delivery Address
+              </div>
+
+              <strong>
+                ${escapeHtml(
+                  address || '-'
+                )}
+              </strong>
+
+            </div>
+
+
+            <!-- ITEMS -->
+
+            <div class="table-scroll">
+
+              <table class="seller-table">
+
+                <thead>
+
+                  <tr>
+
+                    <th>
+                      Product
+                    </th>
+
+                    <th>
+                      Price
+                    </th>
+
+                    <th>
+                      Quantity
+                    </th>
+
+                    <th>
+                      Total
+                    </th>
+
+                  </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                  ${itemsHtml(
+                    order
+                  )}
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+
+            <!-- SELLER TOTAL -->
+
+            <div
+              style="
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 18px;
+              "
+            >
+
+              <div
+                style="
+                  text-align: right;
+                "
+              >
+
+                <div class="muted">
+                  Your items total
+                </div>
+
+                <strong
+                  style="
+                    font-size: 22px;
+                  "
+                >
+
+                  ${escapeHtml(
+                    formatPrice(
+                      total
+                    )
+                  )}
+
+                </strong>
+
+              </div>
+
+            </div>
+
+
+          </article>
+
+        `;
+
+      }
+
+
+      /* ====================================================
+         FILTER + RENDER
+      ===================================================== */
+
+      function renderOrders() {
+
+        var query =
+          searchInput.value
+            .trim()
+            .toLowerCase();
+
+
+        var selectedStatus =
+          statusFilter.value;
+
+
+        var filtered =
+          orders.filter(
+            function (order) {
+
+              var orderId =
+                String(
+                  order.order_id || ''
+                ).toLowerCase();
+
+
+              var customerName =
+                String(
+                  order.customer_name ||
+                  ''
+                ).toLowerCase();
+
+
+              var customerPhone =
+                String(
+                  order.customer_phone ||
+                  ''
+                ).toLowerCase();
+
+
+              var matchesSearch =
+
+                !query
+
+                ||
+
+                orderId.includes(
+                  query
+                )
+
+                ||
+
+                customerName.includes(
+                  query
+                )
+
+                ||
+
+                customerPhone.includes(
+                  query
+                );
+
+
+              var matchesStatus =
+
+                selectedStatus ===
+                  'all'
+
+                ||
+
+                order.order_status ===
+                  selectedStatus;
+
+
+              return (
+                matchesSearch &&
+                matchesStatus
+              );
+
+            }
+          );
+
+
+        ordersContainer.innerHTML =
+          '';
+
+
+        if (
+          filtered.length === 0
+        ) {
+
+          emptyState.hidden =
+            false;
+
+
+          if (
+            orders.length === 0
+          ) {
+
+            emptyMessage.textContent =
+              'You do not have any seller orders yet.';
+
+          }
+
+          else {
+
+            emptyMessage.textContent =
+              'No orders match your current search or filter.';
+
+          }
+
+
+          return;
+
+        }
+
+
+        emptyState.hidden =
+          true;
+
+
+        filtered.forEach(
+          function (order) {
+
+            ordersContainer.insertAdjacentHTML(
+              'beforeend',
+              orderCardHtml(
+                order
+              )
+            );
+
+          }
+        );
+
+      }
+
+
+      /* ====================================================
+         INITIALISE
+      ===================================================== */
+
+      async function initialisePage() {
+
+        loading.hidden =
+          false;
+
+
+        content.hidden =
+          true;
+
+
+        messageBox.hidden =
+          true;
+
+
+        try {
+
+          /*
+             Only approved sellers can enter.
+          */
+
+          var auth =
+            await window.BTSeller
+              .requireSeller();
+
+
+          if (!auth) {
+
+            return;
+
+          }
+
+
+          currentUser =
+            auth.user;
+
+
+          /*
+             Secure database RPC.
+          */
+
+          await loadSellerOrders();
+
+
+          /*
+             Convert rows into grouped orders.
+          */
+
+          groupOrders();
+
+
+          /*
+             Render.
+          */
+
+          renderStats();
+
+          renderOrders();
+
+
+          loading.hidden =
+            true;
+
+
+          content.hidden =
+            false;
+
+        }
+
+        catch (error) {
+
+          console.error(
+            'Seller orders error:',
+            error
+          );
+
+
+          loading.hidden =
+            true;
+
+
+          showMessage(
+            error.message ||
+            'Unable to load seller orders.',
+            'error'
+          );
+
+        }
+
+      }
+
+
+      /* ====================================================
+         EVENTS
+      ===================================================== */
+
+      searchInput.addEventListener(
+        'input',
+        renderOrders
+      );
+
+
+      statusFilter.addEventListener(
+        'change',
+        renderOrders
+      );
+
+
+      /* ====================================================
+         START
+      ===================================================== */
+
+      if (
+        document.readyState ===
+        'loading'
+      ) {
+
+        document.addEventListener(
+          'DOMContentLoaded',
+          function () {
+
+            setTimeout(
+              initialisePage,
+              0
+            );
+
+          }
+        );
+
+      }
+
+      else {
+
+        setTimeout(
+          initialisePage,
+          0
+        );
+
+      }
+
+
+    })();
+
+  </script>
+
+
+</body>
+
+</html>
