@@ -2,51 +2,1096 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1"
+    content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Brit.Tuna Seller Portal</title>
+  <meta
+    name="description"
+    content="Brit.Tuna Seller Portal - Sign in and manage your marketplace products and orders."
+  >
+
+  <title>Seller Login | Brit.Tuna</title>
+
+  <!-- Google Fonts -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Seller Portal CSS -->
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="responsive.css"
+  >
+
 </head>
+
 
 <body>
 
-  <h1>Brit.Tuna Seller Portal</h1>
 
-  <p>Supabase connection test</p>
+  <!-- ======================================================
+       HEADER
+  ======================================================= -->
+
+  <div id="site-header"></div>
 
 
-  <!-- 1. Supabase Library -->
+  <!-- ======================================================
+       MAIN
+  ======================================================= -->
+
+  <main class="seller-main">
+
+    <div class="container">
+
+
+      <div class="auth-layout">
+
+
+        <section class="card auth-card">
+
+
+          <div class="text-center">
+
+            <div
+              class="seller-logo-mark"
+              style="
+                margin: 0 auto 18px;
+                width: 54px;
+                height: 54px;
+                font-size: 24px;
+              "
+            >
+              B
+            </div>
+
+
+            <h1>
+              Seller Sign In
+            </h1>
+
+
+            <p>
+              Sign in to manage your Brit.Tuna marketplace
+              products, inventory and orders.
+            </p>
+
+          </div>
+
+
+          <!-- ==================================================
+               STATUS MESSAGE
+          =================================================== -->
+
+          <div
+            id="login-message"
+            class="notice"
+            hidden
+            role="status"
+            aria-live="polite"
+          ></div>
+
+
+          <!-- ==================================================
+               LOGIN FORM
+          =================================================== -->
+
+          <form
+            id="seller-login-form"
+            novalidate
+          >
+
+
+            <div class="form-grid">
+
+
+              <div class="form-field full">
+
+                <label for="login-email">
+                  Email Address
+                </label>
+
+                <input
+                  type="email"
+                  id="login-email"
+                  name="email"
+                  autocomplete="email"
+                  placeholder="you@example.com"
+                  required
+                >
+
+                <div
+                  class="error"
+                  id="email-error"
+                ></div>
+
+              </div>
+
+
+              <div class="form-field full">
+
+                <label for="login-password">
+                  Password
+                </label>
+
+                <input
+                  type="password"
+                  id="login-password"
+                  name="password"
+                  autocomplete="current-password"
+                  placeholder="Enter your password"
+                  required
+                >
+
+                <div
+                  class="error"
+                  id="password-error"
+                ></div>
+
+              </div>
+
+
+              <div class="form-field full">
+
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block"
+                  id="login-button"
+                >
+                  Sign in
+                </button>
+
+              </div>
+
+
+            </div>
+
+
+          </form>
+
+
+          <!-- ==================================================
+               DIVIDER
+          =================================================== -->
+
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              margin: 22px 0;
+              color: #69746d;
+              font-size: 13px;
+            "
+          >
+
+            <span
+              style="
+                height: 1px;
+                background: #ddd9ce;
+                flex: 1;
+              "
+            ></span>
+
+            <span>
+              OR
+            </span>
+
+            <span
+              style="
+                height: 1px;
+                background: #ddd9ce;
+                flex: 1;
+              "
+            ></span>
+
+          </div>
+
+
+          <!-- ==================================================
+               GOOGLE LOGIN
+          =================================================== -->
+
+          <button
+            type="button"
+            class="btn btn-outline btn-block"
+            id="google-login-button"
+          >
+            Continue with Google
+          </button>
+
+
+          <!-- ==================================================
+               SELLER APPLICATION
+          =================================================== -->
+
+          <div
+            class="text-center"
+            style="margin-top: 24px;"
+          >
+
+            <p class="muted">
+
+              Want to sell on Brit.Tuna?
+
+            </p>
+
+            <a
+              href="seller-register.html"
+              class="btn btn-outline btn-block"
+            >
+              Apply to Become a Seller
+            </a>
+
+          </div>
+
+
+          <!-- ==================================================
+               CUSTOMER ACCOUNT INFORMATION
+          =================================================== -->
+
+          <div
+            class="notice notice-warning"
+            style="margin-top: 22px;"
+          >
+
+            <strong>
+              Important:
+            </strong>
+
+            <br>
+
+            Use the same Brit.Tuna customer account.
+
+            If your seller application is approved,
+            your account will receive seller access.
+
+          </div>
+
+
+        </section>
+
+
+      </div>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- ======================================================
+       FOOTER
+  ======================================================= -->
+
+  <div id="site-footer"></div>
+
+
+  <!-- ======================================================
+       JAVASCRIPT
+
+       ORDER IS IMPORTANT
+  ======================================================= -->
+
+
+  <!-- Supabase JavaScript Library -->
+
   <script
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
   ></script>
 
-  <!-- 2. Seller Config -->
+
+  <!-- Seller Configuration -->
+
   <script src="config.js"></script>
 
-  <!-- 3. Supabase Connection -->
+
+  <!-- Supabase Connection -->
+
   <script src="supabase.js"></script>
 
 
+  <!-- Common Seller Portal JavaScript -->
+
+  <script src="script.js"></script>
+
+
+  <!-- ======================================================
+       LOGIN PAGE JAVASCRIPT
+  ======================================================= -->
+
   <script>
 
-    if (window.supabaseClient) {
+    (function () {
 
-      console.log(
-        'Seller Portal Test: Ready.'
+      'use strict';
+
+
+      /* ====================================================
+         ELEMENTS
+      ===================================================== */
+
+      var form =
+        document.getElementById(
+          'seller-login-form'
+        );
+
+
+      var emailInput =
+        document.getElementById(
+          'login-email'
+        );
+
+
+      var passwordInput =
+        document.getElementById(
+          'login-password'
+        );
+
+
+      var emailError =
+        document.getElementById(
+          'email-error'
+        );
+
+
+      var passwordError =
+        document.getElementById(
+          'password-error'
+        );
+
+
+      var loginButton =
+        document.getElementById(
+          'login-button'
+        );
+
+
+      var googleButton =
+        document.getElementById(
+          'google-login-button'
+        );
+
+
+      var messageBox =
+        document.getElementById(
+          'login-message'
+        );
+
+
+      /* ====================================================
+         SHOW MESSAGE
+      ===================================================== */
+
+      function showMessage(
+        message,
+        type
+      ) {
+
+        messageBox.textContent =
+          message;
+
+
+        messageBox.className =
+          'notice';
+
+
+        if (type === 'error') {
+
+          messageBox.classList.add(
+            'notice-error'
+          );
+
+        }
+
+
+        if (type === 'success') {
+
+          messageBox.classList.add(
+            'notice-success'
+          );
+
+        }
+
+
+        if (type === 'warning') {
+
+          messageBox.classList.add(
+            'notice-warning'
+          );
+
+        }
+
+
+        messageBox.hidden =
+          false;
+
+      }
+
+
+      /* ====================================================
+         CLEAR ERRORS
+      ===================================================== */
+
+      function clearErrors() {
+
+        emailError.textContent =
+          '';
+
+        passwordError.textContent =
+          '';
+
+        messageBox.hidden =
+          true;
+
+      }
+
+
+      /* ====================================================
+         VALIDATE LOGIN FORM
+      ===================================================== */
+
+      function validateForm() {
+
+        clearErrors();
+
+
+        var valid =
+          true;
+
+
+        var email =
+          emailInput.value.trim();
+
+
+        var password =
+          passwordInput.value;
+
+
+        if (!email) {
+
+          emailError.textContent =
+            'Email address is required.';
+
+          valid =
+            false;
+
+        }
+
+        else if (
+          !email.includes('@')
+        ) {
+
+          emailError.textContent =
+            'Enter a valid email address.';
+
+          valid =
+            false;
+
+        }
+
+
+        if (!password) {
+
+          passwordError.textContent =
+            'Password is required.';
+
+          valid =
+            false;
+
+        }
+
+
+        return valid;
+
+      }
+
+
+      /* ====================================================
+         GET PROFILE AFTER LOGIN
+      ===================================================== */
+
+      async function getProfile(
+        userId
+      ) {
+
+        var result =
+          await window.supabaseClient
+
+            .from('profiles')
+
+            .select(
+              'id, full_name, phone, role'
+            )
+
+            .eq(
+              'id',
+              userId
+            )
+
+            .maybeSingle();
+
+
+        if (result.error) {
+
+          console.error(
+            'Seller login profile error:',
+            result.error
+          );
+
+
+          throw new Error(
+            'Unable to load your account profile.'
+          );
+
+        }
+
+
+        return result.data;
+
+      }
+
+
+      /* ====================================================
+         REDIRECT USER BASED ON ROLE
+      ===================================================== */
+
+      async function redirectLoggedInUser(
+        user
+      ) {
+
+        if (!user) {
+
+          return;
+
+        }
+
+
+        try {
+
+          var profile =
+            await getProfile(
+              user.id
+            );
+
+
+          if (!profile) {
+
+            showMessage(
+              'Your account profile could not be found.',
+              'error'
+            );
+
+
+            return;
+
+          }
+
+
+          /*
+             APPROVED SELLER
+          */
+
+          if (
+            profile.role ===
+            'seller'
+          ) {
+
+            var returnPage =
+              null;
+
+
+            try {
+
+              returnPage =
+                sessionStorage.getItem(
+                  'britTunaSellerReturnTo'
+                );
+
+
+              sessionStorage.removeItem(
+                'britTunaSellerReturnTo'
+              );
+
+            }
+
+            catch (error) {
+
+              console.warn(
+                'Could not read seller return page.'
+              );
+
+            }
+
+
+            /*
+              Only allow known seller pages.
+              Do not blindly redirect to arbitrary URLs.
+            */
+
+            var allowedPages = [
+
+              'seller-dashboard.html',
+
+              'products.html',
+
+              'add-product.html',
+
+              'orders.html'
+
+            ];
+
+
+            if (
+              returnPage &&
+              allowedPages.includes(
+                returnPage
+              )
+            ) {
+
+              window.location.href =
+                returnPage;
+
+              return;
+
+            }
+
+
+            window.location.href =
+              'seller-dashboard.html';
+
+
+            return;
+
+          }
+
+
+          /*
+             ADMIN ACCOUNT
+
+             Seller portal is not the Admin Portal.
+          */
+
+          if (
+            profile.role ===
+            'admin'
+          ) {
+
+            showMessage(
+              'This account is an administrator account. Please use the Brit.Tuna Admin Portal.',
+              'warning'
+            );
+
+
+            return;
+
+          }
+
+
+          /*
+             CUSTOMER / NOT YET SELLER
+          */
+
+          window.location.href =
+            'seller-register.html';
+
+        }
+
+        catch (error) {
+
+          console.error(
+            error
+          );
+
+
+          showMessage(
+            error.message ||
+            'Unable to continue.',
+            'error'
+          );
+
+        }
+
+      }
+
+
+      /* ====================================================
+         EMAIL + PASSWORD LOGIN
+      ===================================================== */
+
+      async function loginWithEmail(
+        event
+      ) {
+
+        event.preventDefault();
+
+
+        if (
+          !window.supabaseClient
+        ) {
+
+          showMessage(
+            'Supabase connection is not available.',
+            'error'
+          );
+
+
+          return;
+
+        }
+
+
+        if (!validateForm()) {
+
+          return;
+
+        }
+
+
+        loginButton.disabled =
+          true;
+
+
+        loginButton.textContent =
+          'Signing in...';
+
+
+        try {
+
+          var result =
+            await window.supabaseClient
+
+              .auth
+
+              .signInWithPassword({
+
+                email:
+                  emailInput.value.trim(),
+
+                password:
+                  passwordInput.value
+
+              });
+
+
+          if (result.error) {
+
+            showMessage(
+              result.error.message ||
+              'Sign in failed.',
+              'error'
+            );
+
+
+            return;
+
+          }
+
+
+          if (
+            !result.data ||
+            !result.data.user
+          ) {
+
+            showMessage(
+              'Sign in failed. User information was not returned.',
+              'error'
+            );
+
+
+            return;
+
+          }
+
+
+          showMessage(
+            'Signed in successfully. Checking seller access...',
+            'success'
+          );
+
+
+          await redirectLoggedInUser(
+            result.data.user
+          );
+
+        }
+
+        catch (error) {
+
+          console.error(
+            'Seller login error:',
+            error
+          );
+
+
+          showMessage(
+            'Unable to sign in. Please try again.',
+            'error'
+          );
+
+        }
+
+        finally {
+
+          loginButton.disabled =
+            false;
+
+
+          loginButton.textContent =
+            'Sign in';
+
+        }
+
+      }
+
+
+      /* ====================================================
+         GOOGLE LOGIN
+      ===================================================== */
+
+      async function loginWithGoogle() {
+
+        if (
+          !window.supabaseClient
+        ) {
+
+          showMessage(
+            'Supabase connection is not available.',
+            'error'
+          );
+
+
+          return;
+
+        }
+
+
+        googleButton.disabled =
+          true;
+
+
+        googleButton.textContent =
+          'Opening Google...';
+
+
+        try {
+
+          /*
+            IMPORTANT:
+
+            This returns to the Seller Portal index page.
+
+            The deployed Seller Portal URL must also be added
+            to Supabase:
+
+            Authentication
+            → URL Configuration
+            → Redirect URLs
+          */
+
+          var redirectUrl =
+            window.location.origin +
+            window.location.pathname;
+
+
+          var result =
+            await window.supabaseClient
+
+              .auth
+
+              .signInWithOAuth({
+
+                provider:
+                  'google',
+
+                options: {
+
+                  redirectTo:
+                    redirectUrl
+
+                }
+
+              });
+
+
+          if (result.error) {
+
+            showMessage(
+              result.error.message ||
+              'Google sign in failed.',
+              'error'
+            );
+
+
+            googleButton.disabled =
+              false;
+
+
+            googleButton.textContent =
+              'Continue with Google';
+
+          }
+
+        }
+
+        catch (error) {
+
+          console.error(
+            'Google seller login error:',
+            error
+          );
+
+
+          showMessage(
+            'Unable to start Google sign in.',
+            'error'
+          );
+
+
+          googleButton.disabled =
+            false;
+
+
+          googleButton.textContent =
+            'Continue with Google';
+
+        }
+
+      }
+
+
+      /* ====================================================
+         CHECK EXISTING SESSION
+
+         Example:
+         User already signed into main Brit.Tuna website
+         or has returned from Google OAuth.
+      ===================================================== */
+
+      async function checkExistingSession() {
+
+        if (
+          !window.supabaseClient
+        ) {
+
+          showMessage(
+            'Supabase connection is not available. Check config.js and supabase.js.',
+            'error'
+          );
+
+
+          return;
+
+        }
+
+
+        try {
+
+          var result =
+            await window.supabaseClient
+              .auth
+              .getSession();
+
+
+          if (result.error) {
+
+            console.error(
+              'Existing session error:',
+              result.error
+            );
+
+
+            return;
+
+          }
+
+
+          var session =
+            result.data
+              ? result.data.session
+              : null;
+
+
+          if (
+            session &&
+            session.user
+          ) {
+
+            showMessage(
+              'Account detected. Checking seller access...',
+              'success'
+            );
+
+
+            await redirectLoggedInUser(
+              session.user
+            );
+
+          }
+
+        }
+
+        catch (error) {
+
+          console.error(
+            'Session check failed:',
+            error
+          );
+
+        }
+
+      }
+
+
+      /* ====================================================
+         EVENTS
+      ===================================================== */
+
+      form.addEventListener(
+        'submit',
+        loginWithEmail
       );
 
-    } else {
 
-      console.error(
-        'Seller Portal Test: Supabase client not ready.'
+      googleButton.addEventListener(
+        'click',
+        loginWithGoogle
       );
 
-    }
+
+      /* ====================================================
+         START
+      ===================================================== */
+
+      checkExistingSession();
+
+
+    })();
 
   </script>
+
 
 </body>
 
