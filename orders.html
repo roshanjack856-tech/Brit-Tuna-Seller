@@ -107,6 +107,24 @@
       font-size: 22px;
     }
 
+    .product-meta {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .product-pack {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #eef5f0;
+      color: #1f5a3a;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
     .fulfillment-cell {
       min-width: 210px;
     }
@@ -255,16 +273,13 @@
       >
 
 
-        <!-- ==================================================
-             SIDEBAR
-             ================================================== -->
+        <!-- SIDEBAR -->
 
         <aside class="seller-sidebar">
 
           <div class="sidebar-title">
             Seller Center
           </div>
-
 
           <nav class="sidebar-nav">
 
@@ -292,14 +307,10 @@
         </aside>
 
 
-        <!-- ==================================================
-             ORDERS CONTENT
-             ================================================== -->
+        <!-- ORDERS -->
 
         <section>
 
-
-          <!-- PAGE HEADER -->
 
           <div class="page-header">
 
@@ -315,8 +326,6 @@
           </div>
 
 
-          <!-- SECURITY INFO -->
-
           <div class="notice">
 
             <strong>
@@ -331,9 +340,7 @@
           </div>
 
 
-          <!-- ==================================================
-               STATS
-               ================================================== -->
+          <!-- STATS -->
 
           <div class="stats-grid">
 
@@ -405,16 +412,12 @@
           </div>
 
 
-          <!-- ==================================================
-               FILTERS
-               ================================================== -->
+          <!-- FILTERS -->
 
           <div class="card">
 
             <div class="form-grid">
 
-
-              <!-- SEARCH -->
 
               <div class="form-field">
 
@@ -430,8 +433,6 @@
 
               </div>
 
-
-              <!-- ORDER STATUS -->
 
               <div class="form-field">
 
@@ -473,8 +474,6 @@
 
               </div>
 
-
-              <!-- FULFILLMENT STATUS -->
 
               <div class="form-field">
 
@@ -518,9 +517,7 @@
           </div>
 
 
-          <!-- ==================================================
-               EMPTY
-               ================================================== -->
+          <!-- EMPTY -->
 
           <div
             id="orders-empty"
@@ -539,9 +536,7 @@
           </div>
 
 
-          <!-- ==================================================
-               ORDERS
-               ================================================== -->
+          <!-- ORDER CARDS -->
 
           <div id="orders-container"></div>
 
@@ -557,16 +552,12 @@
   </main>
 
 
-  <!-- ======================================================
-       FOOTER
-       ====================================================== -->
+  <!-- FOOTER -->
 
   <div id="site-footer"></div>
 
 
-  <!-- ======================================================
-       JAVASCRIPT
-       ====================================================== -->
+  <!-- JAVASCRIPT -->
 
   <script
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
@@ -579,9 +570,7 @@
   <script src="script.js"></script>
 
 
-  <!-- ======================================================
-       ORDERS LOGIC
-       ====================================================== -->
+  <!-- ORDERS LOGIC -->
 
   <script>
 
@@ -612,72 +601,60 @@
           'page-loading'
         );
 
-
       var content =
         document.getElementById(
           'page-content'
         );
-
 
       var messageBox =
         document.getElementById(
           'page-message'
         );
 
-
       var ordersContainer =
         document.getElementById(
           'orders-container'
         );
-
 
       var emptyState =
         document.getElementById(
           'orders-empty'
         );
 
-
       var emptyMessage =
         document.getElementById(
           'orders-empty-message'
         );
-
 
       var searchInput =
         document.getElementById(
           'order-search'
         );
 
-
       var statusFilter =
         document.getElementById(
           'order-status-filter'
         );
-
 
       var fulfillmentFilter =
         document.getElementById(
           'fulfillment-status-filter'
         );
 
-
       var totalOrdersElement =
         document.getElementById(
           'total-orders'
         );
-
 
       var totalItemsElement =
         document.getElementById(
           'total-items'
         );
 
-
       var pendingOrdersElement =
         document.getElementById(
           'pending-orders'
         );
-
 
       var sellerSalesElement =
         document.getElementById(
@@ -700,7 +677,6 @@
             .escapeHtml(value);
 
         }
-
 
         return String(
           value == null
@@ -728,7 +704,6 @@
 
         }
 
-
         return '₹' +
           Number(
             value || 0
@@ -740,26 +715,19 @@
       function formatDate(value) {
 
         if (!value) {
-
           return '-';
-
         }
-
 
         var date =
           new Date(value);
-
 
         if (
           Number.isNaN(
             date.getTime()
           )
         ) {
-
           return '-';
-
         }
-
 
         return date.toLocaleString(
           'en-IN',
@@ -780,37 +748,26 @@
         messageBox.textContent =
           text;
 
-
         messageBox.className =
           'notice';
 
-
         if (type === 'error') {
-
           messageBox.classList.add(
             'notice-error'
           );
-
         }
 
-
         if (type === 'success') {
-
           messageBox.classList.add(
             'notice-success'
           );
-
         }
 
-
         if (type === 'warning') {
-
           messageBox.classList.add(
             'notice-warning'
           );
-
         }
-
 
         messageBox.hidden =
           false;
@@ -833,7 +790,7 @@
 
 
       /* ====================================================
-         NORMALIZE FULFILLMENT STATUS
+         FULFILLMENT HELPERS
          ==================================================== */
 
       function normalizeFulfillmentStatus(
@@ -847,7 +804,6 @@
             .trim()
             .toLowerCase();
 
-
         var allowed = [
           'pending',
           'processing',
@@ -856,26 +812,18 @@
           'cancelled'
         ];
 
-
         if (
           !allowed.includes(
             value
           )
         ) {
-
           return 'pending';
-
         }
-
 
         return value;
 
       }
 
-
-      /* ====================================================
-         FINAL STATUS
-         ==================================================== */
 
       function isFinalFulfillmentStatus(
         status
@@ -886,7 +834,6 @@
             status
           );
 
-
         return (
           value === 'delivered' ||
           value === 'cancelled'
@@ -894,10 +841,6 @@
 
       }
 
-
-      /* ====================================================
-         VALID NEXT STATUSES
-         ==================================================== */
 
       function getAllowedNextStatuses(
         currentStatus
@@ -907,7 +850,6 @@
           normalizeFulfillmentStatus(
             currentStatus
           );
-
 
         var transitions = {
 
@@ -922,7 +864,6 @@
             }
           ],
 
-
           processing: [
             {
               value: 'shipped',
@@ -933,7 +874,6 @@
               label: 'Cancelled'
             }
           ],
-
 
           shipped: [
             {
@@ -946,25 +886,16 @@
             }
           ],
 
-
           delivered: [],
-
 
           cancelled: []
 
         };
 
-
         return transitions[current] || [];
 
       }
 
-
-      /* ====================================================
-         CLIENT-SIDE TRANSITION CHECK
-
-         Database RPC is still the final security layer.
-         ==================================================== */
 
       function isAllowedTransition(
         currentStatus,
@@ -976,29 +907,20 @@
             currentStatus
           );
 
-
         var requested =
           normalizeFulfillmentStatus(
             newStatus
           );
 
-
         if (
           current === requested
         ) {
-
           return false;
-
         }
 
-
-        var allowed =
-          getAllowedNextStatuses(
-            current
-          );
-
-
-        return allowed.some(
+        return getAllowedNextStatuses(
+          current
+        ).some(
           function (status) {
 
             return (
@@ -1013,7 +935,7 @@
 
 
       /* ====================================================
-         ORDER STATUS BADGE
+         BADGES
          ==================================================== */
 
       function statusBadge(
@@ -1027,61 +949,44 @@
             .trim()
             .toLowerCase();
 
-
         var className =
           'badge badge-pending';
-
 
         if (
           value === 'confirmed' ||
           value === 'active'
         ) {
-
           className =
             'badge badge-active';
-
         }
-
 
         if (
           value === 'processing'
         ) {
-
           className =
             'badge badge-processing';
-
         }
-
 
         if (
           value === 'shipped'
         ) {
-
           className =
             'badge badge-shipped';
-
         }
-
 
         if (
           value === 'delivered'
         ) {
-
           className =
             'badge badge-delivered';
-
         }
-
 
         if (
           value === 'cancelled'
         ) {
-
           className =
             'badge badge-cancelled';
-
         }
-
 
         return (
           '<span class="' +
@@ -1093,10 +998,6 @@
 
       }
 
-
-      /* ====================================================
-         PAYMENT BADGE
-         ==================================================== */
 
       function paymentBadge(
         status
@@ -1109,40 +1010,29 @@
             .trim()
             .toLowerCase();
 
-
         var className =
           'badge badge-pending';
-
 
         if (
           value === 'paid'
         ) {
-
           className =
             'badge badge-approved';
-
         }
-
 
         if (
           value === 'failed'
         ) {
-
           className =
             'badge badge-rejected';
-
         }
-
 
         if (
           value === 'refunded'
         ) {
-
           className =
             'badge';
-
         }
-
 
         return (
           '<span class="' +
@@ -1154,10 +1044,6 @@
 
       }
 
-
-      /* ====================================================
-         FULFILLMENT BADGE
-         ==================================================== */
 
       function fulfillmentBadge(
         status
@@ -1174,10 +1060,6 @@
 
       /* ====================================================
          LOAD SELLER ORDERS
-
-         SECURITY:
-         get_my_seller_orders() returns only items
-         where seller_id = auth.uid().
          ==================================================== */
 
       async function loadSellerOrders() {
@@ -1188,13 +1070,9 @@
               'get_my_seller_orders'
             );
 
-
         if (result.error) {
-
           throw result.error;
-
         }
-
 
         rawItems =
           result.data || [];
@@ -1203,13 +1081,12 @@
 
 
       /* ====================================================
-         GROUP ITEMS INTO ORDERS
+         GROUP ORDER ITEMS
          ==================================================== */
 
       function groupOrders() {
 
         var map = {};
-
 
         rawItems.forEach(
           function (row) {
@@ -1218,7 +1095,6 @@
               String(
                 row.order_id
               );
-
 
             if (!map[key]) {
 
@@ -1272,8 +1148,16 @@
               product_id:
                 row.product_id,
 
+              /* NEW */
+              variant_id:
+                row.variant_id || null,
+
               product_name:
                 row.product_name,
+
+              /* NEW */
+              pack_size:
+                row.pack_size || null,
 
               item_price:
                 Number(
@@ -1309,9 +1193,7 @@
               new Date(
                 b.order_created_at
               ).getTime()
-
               -
-
               new Date(
                 a.order_created_at
               ).getTime()
@@ -1366,10 +1248,8 @@
         var totalItems =
           0;
 
-
         var sellerSales =
           0;
-
 
         var pendingFulfillment =
           0;
@@ -1402,7 +1282,7 @@
                  * Seller Sales currently includes
                  * paid orders only.
                  *
-                 * This is NOT a payout calculation.
+                 * This is not payout calculation.
                  */
 
                 if (
@@ -1436,18 +1316,15 @@
             orders.length
           );
 
-
         totalItemsElement.textContent =
           String(
             totalItems
           );
 
-
         pendingOrdersElement.textContent =
           String(
             pendingFulfillment
           );
-
 
         sellerSalesElement.textContent =
           formatPrice(
@@ -1458,25 +1335,7 @@
 
 
       /* ====================================================
-         FULFILLMENT SELECT HTML
-
-         pending:
-           Processing
-           Cancelled
-
-         processing:
-           Shipped
-           Cancelled
-
-         shipped:
-           Delivered
-           Cancelled
-
-         delivered:
-           FINAL
-
-         cancelled:
-           FINAL
+         FULFILLMENT SELECT
          ==================================================== */
 
       function fulfillmentSelectHtml(
@@ -1490,7 +1349,7 @@
 
 
         /*
-         * FINAL STATUS
+         * Delivered / Cancelled = final
          */
 
         if (
@@ -1516,10 +1375,6 @@
         }
 
 
-        /*
-         * CURRENT STATUS
-         */
-
         var currentLabel =
           current.charAt(0).toUpperCase() +
           current.slice(1);
@@ -1538,10 +1393,6 @@
           ) +
           '</option>';
 
-
-        /*
-         * ALLOWED NEXT STATUSES
-         */
 
         var nextStatuses =
           getAllowedNextStatuses(
@@ -1594,9 +1445,7 @@
           return (
 
             '<div class="final-status-note">' +
-
-              '🔒 Delivered is a final status and cannot be changed.' +
-
+            '🔒 Delivered is a final status and cannot be changed.' +
             '</div>'
 
           );
@@ -1611,9 +1460,7 @@
           return (
 
             '<div class="final-status-note">' +
-
-              '🔒 Cancelled is a final status and cannot be changed.' +
-
+            '🔒 Cancelled is a final status and cannot be changed.' +
             '</div>'
 
           );
@@ -1622,6 +1469,84 @@
 
 
         return '';
+
+      }
+
+
+      /* ====================================================
+         PRODUCT META
+         ==================================================== */
+
+      function productMetaHtml(
+        item
+      ) {
+
+        var html =
+          '<div class="product-meta">';
+
+
+        html +=
+
+          '<small class="muted">' +
+          'Product ID: ' +
+          escapeHtml(
+            item.product_id || '-'
+          ) +
+          '</small>';
+
+
+        /*
+         * Pack size snapshot.
+         *
+         * Example:
+         * 500g
+         * 1kg
+         * 5kg
+         */
+
+        if (
+          item.pack_size
+        ) {
+
+          html +=
+
+            '<div>' +
+              '<span class="product-pack">' +
+                'Pack: ' +
+                escapeHtml(
+                  item.pack_size
+                ) +
+              '</span>' +
+            '</div>';
+
+        }
+
+
+        /*
+         * Variant ID
+         */
+
+        if (
+          item.variant_id
+        ) {
+
+          html +=
+
+            '<small class="muted">' +
+            'Variant ID: ' +
+            escapeHtml(
+              item.variant_id
+            ) +
+            '</small>';
+
+        }
+
+
+        html +=
+          '</div>';
+
+
+        return html;
 
       }
 
@@ -1694,6 +1619,9 @@
 
                 <tr>
 
+
+                  <!-- PRODUCT -->
+
                   <td>
 
                     <strong>
@@ -1702,17 +1630,14 @@
                       )}
                     </strong>
 
-                    <br>
-
-                    <small class="muted">
-                      Product ID:
-                      ${escapeHtml(
-                        item.product_id || '-'
-                      )}
-                    </small>
+                    ${productMetaHtml(
+                      item
+                    )}
 
                   </td>
 
+
+                  <!-- PRICE -->
 
                   <td>
 
@@ -1725,6 +1650,8 @@
                   </td>
 
 
+                  <!-- QUANTITY -->
+
                   <td>
 
                     ${escapeHtml(
@@ -1733,6 +1660,8 @@
 
                   </td>
 
+
+                  <!-- TOTAL -->
 
                   <td>
 
@@ -1748,6 +1677,8 @@
 
                   </td>
 
+
+                  <!-- FULFILLMENT -->
 
                   <td class="fulfillment-cell">
 
@@ -1809,6 +1740,7 @@
                     ></div>
 
                   </td>
+
 
                 </tr>
 
@@ -1909,7 +1841,7 @@
             </div>
 
 
-            <!-- CUSTOMER -->
+            <!-- CUSTOMER INFO -->
 
             <div class="seller-order-info-grid">
 
@@ -2055,6 +1987,8 @@
             </div>
 
 
+            <!-- OVERALL STATUS NOTE -->
+
             <div class="overall-order-note">
 
               <strong>
@@ -2115,7 +2049,6 @@
 
                 }
 
-
                 return false;
 
               }
@@ -2131,7 +2064,7 @@
 
 
       /* ====================================================
-         SET ITEM MESSAGE
+         ITEM MESSAGE
          ==================================================== */
 
       function setItemMessage(
@@ -2148,15 +2081,12 @@
 
 
         if (!element) {
-
           return;
-
         }
 
 
         element.textContent =
           text || '';
-
 
         element.className =
           'fulfillment-message';
@@ -2175,14 +2105,6 @@
 
       /* ====================================================
          UPDATE FULFILLMENT STATUS
-
-         SECURITY:
-         Database RPC verifies:
-         - authenticated user
-         - seller access
-         - seller owns the order item
-         - valid forward status transition
-         - delivered/cancelled are final
          ==================================================== */
 
       async function updateFulfillmentStatus(
@@ -2196,14 +2118,12 @@
 
 
         if (!item) {
-
           return;
-
         }
 
 
         /*
-         * FINAL STATUS PROTECTION
+         * Delivered and Cancelled are final.
          */
 
         if (
@@ -2242,9 +2162,7 @@
           !select ||
           !button
         ) {
-
           return;
-
         }
 
 
@@ -2277,9 +2195,7 @@
 
 
         /*
-         * CLIENT-SIDE TRANSITION VALIDATION
-         *
-         * Database RPC will also verify this.
+         * CLIENT VALIDATION
          */
 
         if (
@@ -2295,10 +2211,8 @@
             'error'
           );
 
-
           select.value =
             item.fulfillment_status;
-
 
           return;
 
@@ -2306,7 +2220,7 @@
 
 
         /*
-         * CONFIRMATION
+         * CONFIRM CHANGE
          */
 
         var confirmed =
@@ -2345,10 +2259,8 @@
         select.disabled =
           true;
 
-
         button.disabled =
           true;
-
 
         button.textContent =
           'Updating...';
@@ -2364,15 +2276,16 @@
         try {
 
 
-          /* ================================================
-             SECURE DATABASE RPC
-             ================================================ */
+          /*
+           * SECURE SUPABASE RPC
+           */
 
           var result =
             await window.supabaseClient
               .rpc(
                 'seller_update_fulfillment_status',
                 {
+
                   item_id_input:
                     Number(
                       itemId
@@ -2380,6 +2293,7 @@
 
                   new_status_input:
                     newStatus
+
                 }
               );
 
@@ -2387,14 +2301,12 @@
           if (
             result.error
           ) {
-
             throw result.error;
-
           }
 
 
           /*
-           * UPDATE LOCAL GROUPED ITEM
+           * UPDATE LOCAL ITEM
            */
 
           item.fulfillment_status =
@@ -2402,7 +2314,7 @@
 
 
           /*
-           * UPDATE RAW RPC DATA
+           * UPDATE RAW DATA
            */
 
           rawItems.forEach(
@@ -2441,17 +2353,14 @@
 
 
           /*
-           * REFRESH ORDERS UI
-           *
-           * This automatically changes dropdown
-           * to the next allowed statuses.
+           * REFRESH ORDER UI
            */
 
           renderOrders();
 
 
           /*
-           * SHOW SUCCESS
+           * SUCCESS MESSAGE
            */
 
           setTimeout(
@@ -2485,21 +2394,14 @@
           ];
 
 
-          /*
-           * Restore UI
-           */
-
           select.disabled =
             false;
-
 
           button.disabled =
             false;
 
-
           button.textContent =
             'Update Status';
-
 
           select.value =
             item.fulfillment_status;
@@ -2509,9 +2411,7 @@
             itemId,
             error &&
             error.message
-
               ? error.message
-
               : 'Unable to update fulfillment status.',
             'error'
           );
@@ -2522,7 +2422,7 @@
 
 
       /* ====================================================
-         ATTACH UPDATE BUTTON EVENTS
+         BUTTON EVENTS
          ==================================================== */
 
       function attachFulfillmentEvents() {
@@ -2536,16 +2436,10 @@
         buttons.forEach(
           function (button) {
 
-            /*
-             * Final status buttons are disabled.
-             */
-
             if (
               button.disabled
             ) {
-
               return;
-
             }
 
 
@@ -2558,9 +2452,7 @@
 
 
                 if (!itemId) {
-
                   return;
-
                 }
 
 
@@ -2750,10 +2642,8 @@
         loading.hidden =
           false;
 
-
         content.hidden =
           true;
-
 
         hideMessage();
 
@@ -2762,7 +2652,7 @@
 
 
           /*
-           * Only approved sellers can enter.
+           * Require seller login.
            */
 
           var auth =
@@ -2771,9 +2661,7 @@
 
 
           if (!auth) {
-
             return;
-
           }
 
 
@@ -2782,21 +2670,21 @@
 
 
           /*
-           * Secure seller-specific order RPC.
+           * Load secure seller orders.
            */
 
           await loadSellerOrders();
 
 
           /*
-           * Convert RPC rows into grouped orders.
+           * Group rows by order.
            */
 
           groupOrders();
 
 
           /*
-           * Render page.
+           * Render.
            */
 
           renderStats();
@@ -2806,7 +2694,6 @@
 
           loading.hidden =
             true;
-
 
           content.hidden =
             false;
@@ -2829,9 +2716,7 @@
           showMessage(
             error &&
             error.message
-
               ? error.message
-
               : 'Unable to load seller orders.',
             'error'
           );
