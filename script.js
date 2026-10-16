@@ -9,6 +9,7 @@
    - Supabase session
    - Profile / role
    - Seller access check
+   - Admin + Seller dual access
    - Logout
 ========================================================== */
 
@@ -22,7 +23,6 @@
   ======================================================== */
 
   var currentUser = null;
-
   var currentProfile = null;
 
 
@@ -32,28 +32,17 @@
 
   function getCurrentPage() {
 
-    var path =
-      window.location.pathname;
+    var path = window.location.pathname;
 
+    var page = path
+      .split('/')
+      .pop();
 
-    var page =
-      path
-        .split('/')
-        .pop();
-
-
-    if (
-      !page ||
-      page === ''
-    ) {
-
+    if (!page || page === '') {
       return 'index.html';
-
     }
 
-
     return page;
-
   }
 
 
@@ -66,7 +55,40 @@
     return getCurrentPage() === fileName
       ? 'active'
       : '';
+  }
 
+
+  /* ========================================================
+     SELLER ACCESS ROLE CHECK
+
+     seller = Seller Portal access
+     admin  = Seller Portal + Admin Portal access
+     customer = No Seller Portal protected access
+  ======================================================== */
+
+  function hasSellerAccess(profile) {
+
+    if (!profile) {
+      return false;
+    }
+
+    return (
+      profile.role === 'seller' ||
+      profile.role === 'admin'
+    );
+  }
+
+
+  /* ========================================================
+     ADMIN CHECK
+  ======================================================== */
+
+  function isAdmin(profile) {
+
+    return !!(
+      profile &&
+      profile.role === 'admin'
+    );
   }
 
 
@@ -81,20 +103,15 @@
         'site-header'
       );
 
-
     if (!target) {
-
       return;
-
     }
-
 
     target.innerHTML = `
 
       <header class="seller-header">
 
         <div class="container seller-header-inner">
-
 
           <a
             href="index.html"
@@ -201,7 +218,6 @@
           >
             ☰
           </button>
-
 
         </div>
 
@@ -335,11 +351,8 @@
 
     `;
 
-
     setupMobileMenu();
-
     setupLogoutButtons();
-
   }
 
 
@@ -354,17 +367,12 @@
         'site-footer'
       );
 
-
     if (!target) {
-
       return;
-
     }
-
 
     var year =
       new Date().getFullYear();
-
 
     target.innerHTML = `
 
@@ -385,7 +393,6 @@
       </footer>
 
     `;
-
   }
 
 
@@ -400,24 +407,20 @@
         'mobile-menu-button'
       );
 
-
     var closeButton =
       document.getElementById(
         'mobile-close'
       );
-
 
     var drawer =
       document.getElementById(
         'mobile-drawer'
       );
 
-
     var backdrop =
       document.getElementById(
         'mobile-backdrop'
       );
-
 
     if (
       !openButton ||
@@ -425,9 +428,7 @@
       !drawer ||
       !backdrop
     ) {
-
       return;
-
     }
 
 
@@ -437,31 +438,25 @@
         'open'
       );
 
-
       backdrop.classList.add(
         'open'
       );
 
-
       document.body.classList.add(
         'menu-open'
       );
-
 
       openButton.setAttribute(
         'aria-expanded',
         'true'
       );
 
-
       drawer.setAttribute(
         'aria-hidden',
         'false'
       );
 
-
       closeButton.focus();
-
     }
 
 
@@ -471,28 +466,23 @@
         'open'
       );
 
-
       backdrop.classList.remove(
         'open'
       );
 
-
       document.body.classList.remove(
         'menu-open'
       );
-
 
       openButton.setAttribute(
         'aria-expanded',
         'false'
       );
 
-
       drawer.setAttribute(
         'aria-hidden',
         'true'
       );
-
     }
 
 
@@ -501,12 +491,10 @@
       openMenu
     );
 
-
     closeButton.addEventListener(
       'click',
       closeMenu
     );
-
 
     backdrop.addEventListener(
       'click',
@@ -523,7 +511,6 @@
             'click',
             closeMenu
           );
-
         }
       );
 
@@ -532,18 +519,11 @@
       'keydown',
       function (event) {
 
-        if (
-          event.key ===
-          'Escape'
-        ) {
-
+        if (event.key === 'Escape') {
           closeMenu();
-
         }
-
       }
     );
-
   }
 
 
@@ -561,30 +541,25 @@
         'header-user-name'
       );
 
-
     var mobileName =
       document.getElementById(
         'mobile-user-name'
       );
-
 
     var headerLogin =
       document.getElementById(
         'header-login-link'
       );
 
-
     var mobileLogin =
       document.getElementById(
         'mobile-login-link'
       );
 
-
     var headerLogout =
       document.getElementById(
         'header-logout-button'
       );
-
 
     var mobileLogout =
       document.getElementById(
@@ -599,35 +574,28 @@
         headerName.textContent = '';
       }
 
-
       if (mobileName) {
         mobileName.hidden = true;
         mobileName.textContent = '';
       }
 
-
       if (headerLogin) {
         headerLogin.hidden = false;
       }
-
 
       if (mobileLogin) {
         mobileLogin.hidden = false;
       }
 
-
       if (headerLogout) {
         headerLogout.hidden = true;
       }
-
 
       if (mobileLogout) {
         mobileLogout.hidden = true;
       }
 
-
       return;
-
     }
 
 
@@ -636,37 +604,38 @@
 
 
     var name =
-
       (
         profile &&
         profile.full_name
       )
-
       ||
-
       metadata.full_name
-
       ||
-
       metadata.name
-
       ||
-
       user.email
-
       ||
-
       'Seller';
+
+
+    /*
+     * Show Admin badge text when the account
+     * has the Admin role but is using Seller Portal.
+     */
+
+    var displayName =
+      isAdmin(profile)
+        ? name + ' (Admin)'
+        : name;
 
 
     if (headerName) {
 
       headerName.textContent =
-        name;
+        displayName;
 
       headerName.hidden =
         false;
-
     }
 
 
@@ -674,11 +643,10 @@
 
       mobileName.textContent =
         'Signed in as ' +
-        name;
+        displayName;
 
       mobileName.hidden =
         false;
-
     }
 
 
@@ -686,21 +654,17 @@
       headerLogin.hidden = true;
     }
 
-
     if (mobileLogin) {
       mobileLogin.hidden = true;
     }
-
 
     if (headerLogout) {
       headerLogout.hidden = false;
     }
 
-
     if (mobileLogout) {
       mobileLogout.hidden = false;
     }
-
   }
 
 
@@ -716,9 +680,7 @@
       !window.supabaseClient ||
       !userId
     ) {
-
       return null;
-
     }
 
 
@@ -748,9 +710,7 @@
           result.error
         );
 
-
         return null;
-
       }
 
 
@@ -765,11 +725,8 @@
         error
       );
 
-
       return null;
-
     }
-
   }
 
 
@@ -785,12 +742,10 @@
         'Brit.Tuna Seller: Supabase client is not available.'
       );
 
-
       return {
         user: null,
         profile: null
       };
-
     }
 
 
@@ -809,12 +764,10 @@
           result.error
         );
 
-
         return {
           user: null,
           profile: null
         };
-
       }
 
 
@@ -830,21 +783,17 @@
       ) {
 
         currentUser = null;
-
         currentProfile = null;
-
 
         updateAuthUI(
           null,
           null
         );
 
-
         return {
           user: null,
           profile: null
         };
-
       }
 
 
@@ -878,32 +827,24 @@
         error
       );
 
-
       currentUser = null;
-
       currentProfile = null;
-
 
       updateAuthUI(
         null,
         null
       );
 
-
       return {
         user: null,
         profile: null
       };
-
     }
-
   }
 
 
   /* ========================================================
      REQUIRE LOGIN
-
-     Used by pages where the user must be authenticated.
   ======================================================== */
 
   async function requireLogin() {
@@ -932,7 +873,6 @@
         console.warn(
           'Brit.Tuna Seller: Could not save return page.'
         );
-
       }
 
 
@@ -941,25 +881,27 @@
 
 
       return null;
-
     }
 
 
     return auth;
-
   }
 
 
   /* ========================================================
      REQUIRE SELLER
 
-     Protects:
-     - Dashboard
-     - Products
-     - Add Product
-     - Orders
+     ALLOWED:
+     - seller
+     - admin
 
-     Seller role must come from profiles table.
+     NOT ALLOWED:
+     - customer
+     - missing profile
+
+     IMPORTANT:
+     Admin keeps role = admin.
+     We DO NOT change Admin to seller.
   ======================================================== */
 
   async function requireSeller() {
@@ -969,29 +911,25 @@
 
 
     if (!auth) {
-
       return null;
-
     }
 
 
     if (
       !auth.profile ||
-      auth.profile.role !==
-        'seller'
+      !hasSellerAccess(
+        auth.profile
+      )
     ) {
 
       window.location.href =
         'seller-register.html';
 
-
       return null;
-
     }
 
 
     return auth;
-
   }
 
 
@@ -1002,9 +940,7 @@
   async function logout() {
 
     if (!window.supabaseClient) {
-
       return;
-
     }
 
 
@@ -1027,7 +963,6 @@
         if (button) {
           button.disabled = true;
         }
-
       }
     );
 
@@ -1054,19 +989,27 @@
             if (button) {
               button.disabled = false;
             }
-
           }
         );
 
 
         return;
-
       }
 
 
       currentUser = null;
-
       currentProfile = null;
+
+
+      try {
+
+        sessionStorage.removeItem(
+          'britTunaSellerReturnTo'
+        );
+
+      } catch (error) {
+        // Ignore storage error.
+      }
 
 
       window.location.href =
@@ -1088,12 +1031,9 @@
           if (button) {
             button.disabled = false;
           }
-
         }
       );
-
     }
-
   }
 
 
@@ -1121,7 +1061,6 @@
         'click',
         logout
       );
-
     }
 
 
@@ -1131,9 +1070,7 @@
         'click',
         logout
       );
-
     }
-
   }
 
 
@@ -1144,9 +1081,7 @@
   function setupAuthListener() {
 
     if (!window.supabaseClient) {
-
       return;
-
     }
 
 
@@ -1165,29 +1100,20 @@
           ) {
 
             currentUser = null;
-
             currentProfile = null;
-
 
             updateAuthUI(
               null,
               null
             );
-
           }
 
 
           if (
-            event ===
-              'SIGNED_IN' &&
+            event === 'SIGNED_IN' &&
             session &&
             session.user
           ) {
-
-            /*
-              Do not run complex Supabase queries
-              directly inside the auth callback.
-            */
 
             setTimeout(
               function () {
@@ -1197,13 +1123,9 @@
               },
               0
             );
-
           }
-
         }
-
       );
-
   }
 
 
@@ -1219,14 +1141,12 @@
 
     setupAuthListener();
 
-
     await loadSession();
 
 
     console.log(
       'Brit.Tuna Seller: Common UI ready.'
     );
-
   }
 
 
@@ -1251,13 +1171,26 @@
     logout:
       logout,
 
+    hasSellerAccess:
+      hasSellerAccess,
+
+    isAdmin:
+      function () {
+
+        return isAdmin(
+          currentProfile
+        );
+      },
+
     getCurrentUser:
       function () {
+
         return currentUser;
       },
 
     getCurrentProfile:
       function () {
+
         return currentProfile;
       }
 
@@ -1278,10 +1211,11 @@
       initialise
     );
 
-  } else {
+  }
+
+  else {
 
     initialise();
-
   }
 
 
