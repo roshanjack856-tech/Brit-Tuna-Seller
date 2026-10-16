@@ -12,7 +12,12 @@
 
   <meta
     name="description"
-    content="View seller orders in the Brit.Tuna marketplace."
+    content="View and manage seller orders in the Brit.Tuna marketplace."
+  >
+
+  <meta
+    name="theme-color"
+    content="#1f5a3a"
   >
 
   <title>Seller Orders | Brit.Tuna</title>
@@ -49,6 +54,132 @@
     href="responsive.css"
   >
 
+
+  <!-- PAGE-SPECIFIC STYLES -->
+
+  <style>
+
+    .seller-order-card {
+      margin-bottom: 20px;
+    }
+
+    .seller-order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .seller-order-statuses {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .seller-order-info-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(200px, 1fr)
+        );
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .seller-order-address {
+      margin-bottom: 20px;
+    }
+
+    .seller-order-total {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 18px;
+    }
+
+    .seller-order-total-inner {
+      text-align: right;
+    }
+
+    .seller-order-total-value {
+      font-size: 22px;
+    }
+
+    .fulfillment-cell {
+      min-width: 210px;
+    }
+
+    .fulfillment-current {
+      margin-bottom: 10px;
+    }
+
+    .fulfillment-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .fulfillment-select {
+      width: 100%;
+      min-height: 40px;
+      padding: 8px 10px;
+      border: 1px solid #d8ddd9;
+      border-radius: 9px;
+      background: #ffffff;
+      font: inherit;
+    }
+
+    .fulfillment-button {
+      width: 100%;
+    }
+
+    .fulfillment-message {
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .fulfillment-message.success {
+      color: #1f5a3a;
+    }
+
+    .fulfillment-message.error {
+      color: #b42318;
+    }
+
+    .fulfillment-message.info {
+      color: #667085;
+    }
+
+    .overall-order-note {
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #f5f7f5;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 720px) {
+
+      .seller-order-total {
+        justify-content: flex-start;
+      }
+
+      .seller-order-total-inner {
+        text-align: left;
+      }
+
+      .fulfillment-cell {
+        min-width: 190px;
+      }
+
+    }
+
+  </style>
+
 </head>
 
 
@@ -57,14 +188,14 @@
 
   <!-- ======================================================
        HEADER
-  ======================================================= -->
+       ====================================================== -->
 
   <div id="site-header"></div>
 
 
   <!-- ======================================================
        MAIN
-  ======================================================= -->
+       ====================================================== -->
 
   <main class="seller-main">
 
@@ -94,7 +225,7 @@
 
       <!-- ==================================================
            PAGE CONTENT
-      =================================================== -->
+           ================================================== -->
 
       <div
         id="page-content"
@@ -105,7 +236,7 @@
 
         <!-- ==================================================
              SIDEBAR
-        =================================================== -->
+             ================================================== -->
 
         <aside class="seller-sidebar">
 
@@ -142,7 +273,7 @@
 
         <!-- ==================================================
              ORDERS CONTENT
-        =================================================== -->
+             ================================================== -->
 
         <section>
 
@@ -156,8 +287,8 @@
             </h1>
 
             <p>
-              View customer orders containing products
-              sold by your seller account.
+              View customer orders and manage fulfillment
+              for products sold by your seller account.
             </p>
 
           </div>
@@ -168,18 +299,20 @@
           <div class="notice">
 
             <strong>
-              Seller order view:
+              Seller fulfillment:
             </strong>
 
-            You can only view order items belonging to
-            your seller account.
+            You can only view and update order items
+            belonging to your seller account.
+            The overall customer order status is managed
+            separately by Brit.Tuna Admin.
 
           </div>
 
 
           <!-- ==================================================
                STATS
-          =================================================== -->
+               ================================================== -->
 
           <div class="stats-grid">
 
@@ -219,7 +352,7 @@
             <article class="stat-card">
 
               <div class="stat-label">
-                Pending Orders
+                Pending Fulfillment
               </div>
 
               <div
@@ -253,7 +386,7 @@
 
           <!-- ==================================================
                FILTERS
-          =================================================== -->
+               ================================================== -->
 
           <div class="card">
 
@@ -271,18 +404,18 @@
                 <input
                   type="search"
                   id="order-search"
-                  placeholder="Order ID or customer name"
+                  placeholder="Order ID, customer or phone"
                 >
 
               </div>
 
 
-              <!-- STATUS -->
+              <!-- ORDER STATUS -->
 
               <div class="form-field">
 
                 <label for="order-status-filter">
-                  Order Status
+                  Overall Order Status
                 </label>
 
                 <select id="order-status-filter">
@@ -320,6 +453,45 @@
               </div>
 
 
+              <!-- FULFILLMENT STATUS -->
+
+              <div class="form-field">
+
+                <label for="fulfillment-status-filter">
+                  Item Fulfillment
+                </label>
+
+                <select id="fulfillment-status-filter">
+
+                  <option value="all">
+                    All Fulfillment
+                  </option>
+
+                  <option value="pending">
+                    Pending
+                  </option>
+
+                  <option value="processing">
+                    Processing
+                  </option>
+
+                  <option value="shipped">
+                    Shipped
+                  </option>
+
+                  <option value="delivered">
+                    Delivered
+                  </option>
+
+                  <option value="cancelled">
+                    Cancelled
+                  </option>
+
+                </select>
+
+              </div>
+
+
             </div>
 
           </div>
@@ -327,7 +499,7 @@
 
           <!-- ==================================================
                EMPTY
-          =================================================== -->
+               ================================================== -->
 
           <div
             id="orders-empty"
@@ -348,11 +520,9 @@
 
           <!-- ==================================================
                ORDERS
-          =================================================== -->
+               ================================================== -->
 
-          <div
-            id="orders-container"
-          ></div>
+          <div id="orders-container"></div>
 
 
         </section>
@@ -368,14 +538,14 @@
 
   <!-- ======================================================
        FOOTER
-  ======================================================= -->
+       ====================================================== -->
 
   <div id="site-footer"></div>
 
 
   <!-- ======================================================
        JAVASCRIPT
-  ======================================================= -->
+       ====================================================== -->
 
   <script
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
@@ -390,7 +560,7 @@
 
   <!-- ======================================================
        ORDERS LOGIC
-  ======================================================= -->
+       ====================================================== -->
 
   <script>
 
@@ -401,7 +571,7 @@
 
       /* ====================================================
          STATE
-      ===================================================== */
+         ==================================================== */
 
       var currentUser = null;
 
@@ -409,10 +579,12 @@
 
       var orders = [];
 
+      var updatingItems = {};
+
 
       /* ====================================================
          ELEMENTS
-      ===================================================== */
+         ==================================================== */
 
       var loading =
         document.getElementById(
@@ -462,6 +634,12 @@
         );
 
 
+      var fulfillmentFilter =
+        document.getElementById(
+          'fulfillment-status-filter'
+        );
+
+
       var totalOrdersElement =
         document.getElementById(
           'total-orders'
@@ -488,7 +666,7 @@
 
       /* ====================================================
          HELPERS
-      ===================================================== */
+         ==================================================== */
 
       function escapeHtml(value) {
 
@@ -619,9 +797,23 @@
       }
 
 
+      function hideMessage() {
+
+        messageBox.hidden =
+          true;
+
+        messageBox.textContent =
+          '';
+
+        messageBox.className =
+          'notice';
+
+      }
+
+
       /* ====================================================
-         STATUS BADGE
-      ===================================================== */
+         ORDER STATUS BADGE
+         ==================================================== */
 
       function statusBadge(
         status
@@ -630,7 +822,9 @@
         var value =
           String(
             status || 'pending'
-          ).toLowerCase();
+          )
+            .trim()
+            .toLowerCase();
 
 
         var className =
@@ -701,7 +895,7 @@
 
       /* ====================================================
          PAYMENT BADGE
-      ===================================================== */
+         ==================================================== */
 
       function paymentBadge(
         status
@@ -710,7 +904,9 @@
         var value =
           String(
             status || 'pending'
-          ).toLowerCase();
+          )
+            .trim()
+            .toLowerCase();
 
 
         var className =
@@ -759,23 +955,32 @@
 
 
       /* ====================================================
+         FULFILLMENT BADGE
+         ==================================================== */
+
+      function fulfillmentBadge(
+        status
+      ) {
+
+        return statusBadge(
+          status || 'pending'
+        );
+
+      }
+
+
+      /* ====================================================
          LOAD SELLER ORDERS
 
          SECURITY:
-         This calls our SECURITY DEFINER RPC.
-
-         The database function uses:
-         oi.seller_id = auth.uid()
-
-         Do not replace this with an unrestricted
-         direct orders table query.
-      ===================================================== */
+         get_my_seller_orders() returns only items
+         where seller_id = auth.uid().
+         ==================================================== */
 
       async function loadSellerOrders() {
 
         var result =
           await window.supabaseClient
-
             .rpc(
               'get_my_seller_orders'
             );
@@ -796,12 +1001,11 @@
 
       /* ====================================================
          GROUP ITEMS INTO ORDERS
-      ===================================================== */
+         ==================================================== */
 
       function groupOrders() {
 
-        var map =
-          {};
+        var map = {};
 
 
         rawItems.forEach(
@@ -876,7 +1080,15 @@
               quantity:
                 Number(
                   row.quantity || 0
+                ),
+
+              fulfillment_status:
+                String(
+                  row.fulfillment_status ||
+                  'pending'
                 )
+                  .trim()
+                  .toLowerCase()
 
             });
 
@@ -910,14 +1122,8 @@
 
 
       /* ====================================================
-         ORDER TOTAL FOR THIS SELLER
-
-         This is NOT the customer's whole marketplace
-         order total.
-
-         It is only:
-         seller's item price × quantity.
-      ===================================================== */
+         SELLER ORDER TOTAL
+         ==================================================== */
 
       function sellerOrderTotal(
         order
@@ -951,7 +1157,7 @@
 
       /* ====================================================
          STATS
-      ===================================================== */
+         ==================================================== */
 
       function renderStats() {
 
@@ -963,23 +1169,12 @@
           0;
 
 
-        var pendingOrders =
+        var pendingFulfillment =
           0;
 
 
         orders.forEach(
           function (order) {
-
-            if (
-              order.order_status ===
-              'pending'
-            ) {
-
-              pendingOrders +=
-                1;
-
-            }
-
 
             order.items.forEach(
               function (item) {
@@ -990,13 +1185,23 @@
                   );
 
 
-                /*
-                  Sales statistic currently includes
-                  only paid orders.
+                if (
+                  item.fulfillment_status ===
+                  'pending'
+                ) {
 
-                  This is a display calculation only.
-                  It is NOT a seller payout calculation.
-                */
+                  pendingFulfillment +=
+                    1;
+
+                }
+
+
+                /*
+                 * Seller Sales currently includes
+                 * paid orders only.
+                 *
+                 * This is NOT a payout calculation.
+                 */
 
                 if (
                   order.payment_status ===
@@ -1038,7 +1243,7 @@
 
         pendingOrdersElement.textContent =
           String(
-            pendingOrders
+            pendingFulfillment
           );
 
 
@@ -1051,8 +1256,77 @@
 
 
       /* ====================================================
+         FULFILLMENT SELECT HTML
+         ==================================================== */
+
+      function fulfillmentSelectHtml(
+        item
+      ) {
+
+        var current =
+          String(
+            item.fulfillment_status ||
+            'pending'
+          )
+            .trim()
+            .toLowerCase();
+
+
+        var statuses = [
+          {
+            value: 'pending',
+            label: 'Pending'
+          },
+          {
+            value: 'processing',
+            label: 'Processing'
+          },
+          {
+            value: 'shipped',
+            label: 'Shipped'
+          },
+          {
+            value: 'delivered',
+            label: 'Delivered'
+          },
+          {
+            value: 'cancelled',
+            label: 'Cancelled'
+          }
+        ];
+
+
+        return statuses.map(
+          function (status) {
+
+            return (
+              '<option value="' +
+              escapeHtml(
+                status.value
+              ) +
+              '"' +
+              (
+                current ===
+                status.value
+                  ? ' selected'
+                  : ''
+              ) +
+              '>' +
+              escapeHtml(
+                status.label
+              ) +
+              '</option>'
+            );
+
+          }
+        ).join('');
+
+      }
+
+
+      /* ====================================================
          ITEMS HTML
-      ===================================================== */
+         ==================================================== */
 
       function itemsHtml(
         order
@@ -1075,6 +1349,22 @@
                 );
 
 
+              var itemId =
+                escapeHtml(
+                  item.item_id
+                );
+
+
+              var isUpdating =
+                Boolean(
+                  updatingItems[
+                    String(
+                      item.item_id
+                    )
+                  ]
+                );
+
+
               return `
 
                 <tr>
@@ -1086,6 +1376,15 @@
                         item.product_name
                       )}
                     </strong>
+
+                    <br>
+
+                    <small class="muted">
+                      Product ID:
+                      ${escapeHtml(
+                        item.product_id || '-'
+                      )}
+                    </small>
 
                   </td>
 
@@ -1113,12 +1412,75 @@
                   <td>
 
                     <strong>
+
                       ${escapeHtml(
                         formatPrice(
                           lineTotal
                         )
                       )}
+
                     </strong>
+
+                  </td>
+
+
+                  <td class="fulfillment-cell">
+
+                    <div class="fulfillment-current">
+
+                      <span class="muted">
+                        Current:
+                      </span>
+
+                      ${fulfillmentBadge(
+                        item.fulfillment_status
+                      )}
+
+                    </div>
+
+
+                    <div class="fulfillment-controls">
+
+                      <select
+                        class="fulfillment-select"
+                        id="fulfillment-select-${itemId}"
+                        data-item-id="${itemId}"
+                        aria-label="Fulfillment status for ${escapeHtml(
+                          item.product_name
+                        )}"
+                        ${isUpdating ? 'disabled' : ''}
+                      >
+
+                        ${fulfillmentSelectHtml(
+                          item
+                        )}
+
+                      </select>
+
+
+                      <button
+                        class="btn fulfillment-button update-fulfillment-button"
+                        type="button"
+                        data-item-id="${itemId}"
+                        ${isUpdating ? 'disabled' : ''}
+                      >
+
+                        ${
+                          isUpdating
+                            ? 'Updating...'
+                            : 'Update Status'
+                        }
+
+                      </button>
+
+                    </div>
+
+
+                    <div
+                      id="fulfillment-message-${itemId}"
+                      class="fulfillment-message"
+                      aria-live="polite"
+                    ></div>
 
                   </td>
 
@@ -1135,7 +1497,7 @@
 
       /* ====================================================
          ORDER CARD
-      ===================================================== */
+         ==================================================== */
 
       function orderCardHtml(
         order
@@ -1169,25 +1531,13 @@
         return `
 
           <article
-            class="card"
-            style="
-              margin-bottom: 20px;
-            "
+            class="card seller-order-card"
           >
 
 
             <!-- ORDER HEADER -->
 
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                gap: 16px;
-                flex-wrap: wrap;
-                margin-bottom: 20px;
-              "
-            >
+            <div class="seller-order-header">
 
               <div>
 
@@ -1218,13 +1568,7 @@
               </div>
 
 
-              <div
-                style="
-                  display: flex;
-                  gap: 8px;
-                  flex-wrap: wrap;
-                "
-              >
+              <div class="seller-order-statuses">
 
                 ${statusBadge(
                   order.order_status
@@ -1241,18 +1585,7 @@
 
             <!-- CUSTOMER -->
 
-            <div
-              style="
-                display: grid;
-                grid-template-columns:
-                  repeat(
-                    auto-fit,
-                    minmax(200px, 1fr)
-                  );
-                gap: 16px;
-                margin-bottom: 20px;
-              "
-            >
+            <div class="seller-order-info-grid">
 
 
               <div>
@@ -1308,11 +1641,7 @@
 
             <!-- ADDRESS -->
 
-            <div
-              style="
-                margin-bottom: 20px;
-              "
-            >
+            <div class="seller-order-address">
 
               <div class="muted">
                 Delivery Address
@@ -1353,6 +1682,10 @@
                       Total
                     </th>
 
+                    <th>
+                      Fulfillment
+                    </th>
+
                   </tr>
 
                 </thead>
@@ -1373,29 +1706,15 @@
 
             <!-- SELLER TOTAL -->
 
-            <div
-              style="
-                display: flex;
-                justify-content: flex-end;
-                margin-top: 18px;
-              "
-            >
+            <div class="seller-order-total">
 
-              <div
-                style="
-                  text-align: right;
-                "
-              >
+              <div class="seller-order-total-inner">
 
                 <div class="muted">
                   Your items total
                 </div>
 
-                <strong
-                  style="
-                    font-size: 22px;
-                  "
-                >
+                <strong class="seller-order-total-value">
 
                   ${escapeHtml(
                     formatPrice(
@@ -1410,6 +1729,25 @@
             </div>
 
 
+            <div class="overall-order-note">
+
+              <strong>
+                Overall Order Status:
+              </strong>
+
+              ${escapeHtml(
+                order.order_status ||
+                'pending'
+              )}
+
+              <br>
+
+              Your fulfillment updates apply only to
+              your own products in this order.
+
+            </div>
+
+
           </article>
 
         `;
@@ -1418,8 +1756,415 @@
 
 
       /* ====================================================
+         FIND ITEM
+         ==================================================== */
+
+      function findItemById(
+        itemId
+      ) {
+
+        var foundItem =
+          null;
+
+
+        orders.some(
+          function (order) {
+
+            return order.items.some(
+              function (item) {
+
+                if (
+                  String(
+                    item.item_id
+                  ) ===
+                  String(
+                    itemId
+                  )
+                ) {
+
+                  foundItem =
+                    item;
+
+                  return true;
+
+                }
+
+
+                return false;
+
+              }
+            );
+
+          }
+        );
+
+
+        return foundItem;
+
+      }
+
+
+      /* ====================================================
+         SET ITEM MESSAGE
+         ==================================================== */
+
+      function setItemMessage(
+        itemId,
+        text,
+        type
+      ) {
+
+        var element =
+          document.getElementById(
+            'fulfillment-message-' +
+            itemId
+          );
+
+
+        if (!element) {
+
+          return;
+
+        }
+
+
+        element.textContent =
+          text || '';
+
+
+        element.className =
+          'fulfillment-message';
+
+
+        if (type) {
+
+          element.classList.add(
+            type
+          );
+
+        }
+
+      }
+
+
+      /* ====================================================
+         UPDATE FULFILLMENT STATUS
+
+         SECURITY:
+         The database RPC verifies:
+         - authenticated user
+         - seller access
+         - item belongs to auth.uid()
+         ==================================================== */
+
+      async function updateFulfillmentStatus(
+        itemId
+      ) {
+
+        var item =
+          findItemById(
+            itemId
+          );
+
+
+        if (!item) {
+
+          return;
+
+        }
+
+
+        var select =
+          document.getElementById(
+            'fulfillment-select-' +
+            itemId
+          );
+
+
+        var button =
+          document.querySelector(
+            '.update-fulfillment-button[data-item-id="' +
+            itemId +
+            '"]'
+          );
+
+
+        if (
+          !select ||
+          !button
+        ) {
+
+          return;
+
+        }
+
+
+        var newStatus =
+          String(
+            select.value || ''
+          )
+            .trim()
+            .toLowerCase();
+
+
+        var allowedStatuses = [
+          'pending',
+          'processing',
+          'shipped',
+          'delivered',
+          'cancelled'
+        ];
+
+
+        if (
+          !allowedStatuses.includes(
+            newStatus
+          )
+        ) {
+
+          setItemMessage(
+            itemId,
+            'Please select a valid status.',
+            'error'
+          );
+
+          return;
+
+        }
+
+
+        if (
+          newStatus ===
+          item.fulfillment_status
+        ) {
+
+          setItemMessage(
+            itemId,
+            'This item already has the selected status.',
+            'info'
+          );
+
+          return;
+
+        }
+
+
+        var confirmed =
+          window.confirm(
+            'Change "' +
+            item.product_name +
+            '" fulfillment status from "' +
+            item.fulfillment_status +
+            '" to "' +
+            newStatus +
+            '"?'
+          );
+
+
+        if (!confirmed) {
+
+          select.value =
+            item.fulfillment_status;
+
+          return;
+
+        }
+
+
+        updatingItems[
+          String(
+            itemId
+          )
+        ] = true;
+
+
+        select.disabled =
+          true;
+
+
+        button.disabled =
+          true;
+
+
+        button.textContent =
+          'Updating...';
+
+
+        setItemMessage(
+          itemId,
+          'Updating fulfillment status...',
+          'info'
+        );
+
+
+        try {
+
+          var result =
+            await window.supabaseClient
+              .rpc(
+                'seller_update_fulfillment_status',
+                {
+                  item_id_input:
+                    Number(
+                      itemId
+                    ),
+
+                  new_status_input:
+                    newStatus
+                }
+              );
+
+
+          if (result.error) {
+
+            throw result.error;
+
+          }
+
+
+          item.fulfillment_status =
+            newStatus;
+
+
+          rawItems.forEach(
+            function (row) {
+
+              if (
+                String(
+                  row.item_id
+                ) ===
+                String(
+                  itemId
+                )
+              ) {
+
+                row.fulfillment_status =
+                  newStatus;
+
+              }
+
+            }
+          );
+
+
+          delete updatingItems[
+            String(
+              itemId
+            )
+          ];
+
+
+          renderStats();
+
+          renderOrders();
+
+
+          setTimeout(
+            function () {
+
+              setItemMessage(
+                itemId,
+                'Fulfillment status updated successfully.',
+                'success'
+              );
+
+            },
+            0
+          );
+
+        }
+
+        catch (error) {
+
+          console.error(
+            'Seller fulfillment update error:',
+            error
+          );
+
+
+          delete updatingItems[
+            String(
+              itemId
+            )
+          ];
+
+
+          select.disabled =
+            false;
+
+
+          button.disabled =
+            false;
+
+
+          button.textContent =
+            'Update Status';
+
+
+          select.value =
+            item.fulfillment_status;
+
+
+          setItemMessage(
+            itemId,
+            error &&
+            error.message
+              ? error.message
+              : 'Unable to update fulfillment status.',
+            'error'
+          );
+
+        }
+
+      }
+
+
+      /* ====================================================
+         ATTACH UPDATE BUTTON EVENTS
+         ==================================================== */
+
+      function attachFulfillmentEvents() {
+
+        var buttons =
+          document.querySelectorAll(
+            '.update-fulfillment-button'
+          );
+
+
+        buttons.forEach(
+          function (button) {
+
+            button.addEventListener(
+              'click',
+              function () {
+
+                var itemId =
+                  button.dataset.itemId;
+
+
+                if (!itemId) {
+
+                  return;
+
+                }
+
+
+                updateFulfillmentStatus(
+                  itemId
+                );
+
+              }
+            );
+
+          }
+        );
+
+      }
+
+
+      /* ====================================================
          FILTER + RENDER
-      ===================================================== */
+         ==================================================== */
 
       function renderOrders() {
 
@@ -1431,6 +2176,10 @@
 
         var selectedStatus =
           statusFilter.value;
+
+
+        var selectedFulfillment =
+          fulfillmentFilter.value;
 
 
         var filtered =
@@ -1491,9 +2240,29 @@
                   selectedStatus;
 
 
+              var matchesFulfillment =
+
+                selectedFulfillment ===
+                  'all'
+
+                ||
+
+                order.items.some(
+                  function (item) {
+
+                    return (
+                      item.fulfillment_status ===
+                      selectedFulfillment
+                    );
+
+                  }
+                );
+
+
               return (
                 matchesSearch &&
-                matchesStatus
+                matchesStatus &&
+                matchesFulfillment
               );
 
             }
@@ -1551,12 +2320,15 @@
           }
         );
 
+
+        attachFulfillmentEvents();
+
       }
 
 
       /* ====================================================
          INITIALISE
-      ===================================================== */
+         ==================================================== */
 
       async function initialisePage() {
 
@@ -1568,15 +2340,14 @@
           true;
 
 
-        messageBox.hidden =
-          true;
+        hideMessage();
 
 
         try {
 
           /*
-             Only approved sellers can enter.
-          */
+           * Only approved sellers can enter.
+           */
 
           var auth =
             await window.BTSeller
@@ -1595,22 +2366,22 @@
 
 
           /*
-             Secure database RPC.
-          */
+           * Secure seller-specific order RPC.
+           */
 
           await loadSellerOrders();
 
 
           /*
-             Convert rows into grouped orders.
-          */
+           * Convert RPC rows into grouped orders.
+           */
 
           groupOrders();
 
 
           /*
-             Render.
-          */
+           * Render page.
+           */
 
           renderStats();
 
@@ -1639,8 +2410,10 @@
 
 
           showMessage(
-            error.message ||
-            'Unable to load seller orders.',
+            error &&
+            error.message
+              ? error.message
+              : 'Unable to load seller orders.',
             'error'
           );
 
@@ -1651,7 +2424,7 @@
 
       /* ====================================================
          EVENTS
-      ===================================================== */
+         ==================================================== */
 
       searchInput.addEventListener(
         'input',
@@ -1665,9 +2438,15 @@
       );
 
 
+      fulfillmentFilter.addEventListener(
+        'change',
+        renderOrders
+      );
+
+
       /* ====================================================
          START
-      ===================================================== */
+         ==================================================== */
 
       if (
         document.readyState ===
