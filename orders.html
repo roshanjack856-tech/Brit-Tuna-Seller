@@ -131,8 +131,19 @@
       font: inherit;
     }
 
+    .fulfillment-select:disabled {
+      cursor: not-allowed;
+      background: #f4f5f4;
+      color: #667085;
+    }
+
     .fulfillment-button {
       width: 100%;
+    }
+
+    .fulfillment-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
     }
 
     .fulfillment-message {
@@ -151,6 +162,16 @@
 
     .fulfillment-message.info {
       color: #667085;
+    }
+
+    .final-status-note {
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #f5f7f5;
+      color: #667085;
+      font-size: 12px;
+      line-height: 1.45;
     }
 
     .overall-order-note {
@@ -812,6 +833,186 @@
 
 
       /* ====================================================
+         NORMALIZE FULFILLMENT STATUS
+         ==================================================== */
+
+      function normalizeFulfillmentStatus(
+        status
+      ) {
+
+        var value =
+          String(
+            status || 'pending'
+          )
+            .trim()
+            .toLowerCase();
+
+
+        var allowed = [
+          'pending',
+          'processing',
+          'shipped',
+          'delivered',
+          'cancelled'
+        ];
+
+
+        if (
+          !allowed.includes(
+            value
+          )
+        ) {
+
+          return 'pending';
+
+        }
+
+
+        return value;
+
+      }
+
+
+      /* ====================================================
+         FINAL STATUS
+         ==================================================== */
+
+      function isFinalFulfillmentStatus(
+        status
+      ) {
+
+        var value =
+          normalizeFulfillmentStatus(
+            status
+          );
+
+
+        return (
+          value === 'delivered' ||
+          value === 'cancelled'
+        );
+
+      }
+
+
+      /* ====================================================
+         VALID NEXT STATUSES
+         ==================================================== */
+
+      function getAllowedNextStatuses(
+        currentStatus
+      ) {
+
+        var current =
+          normalizeFulfillmentStatus(
+            currentStatus
+          );
+
+
+        var transitions = {
+
+          pending: [
+            {
+              value: 'processing',
+              label: 'Processing'
+            },
+            {
+              value: 'cancelled',
+              label: 'Cancelled'
+            }
+          ],
+
+
+          processing: [
+            {
+              value: 'shipped',
+              label: 'Shipped'
+            },
+            {
+              value: 'cancelled',
+              label: 'Cancelled'
+            }
+          ],
+
+
+          shipped: [
+            {
+              value: 'delivered',
+              label: 'Delivered'
+            },
+            {
+              value: 'cancelled',
+              label: 'Cancelled'
+            }
+          ],
+
+
+          delivered: [],
+
+
+          cancelled: []
+
+        };
+
+
+        return transitions[current] || [];
+
+      }
+
+
+      /* ====================================================
+         CLIENT-SIDE TRANSITION CHECK
+
+         Database RPC is still the final security layer.
+         ==================================================== */
+
+      function isAllowedTransition(
+        currentStatus,
+        newStatus
+      ) {
+
+        var current =
+          normalizeFulfillmentStatus(
+            currentStatus
+          );
+
+
+        var requested =
+          normalizeFulfillmentStatus(
+            newStatus
+          );
+
+
+        if (
+          current === requested
+        ) {
+
+          return false;
+
+        }
+
+
+        var allowed =
+          getAllowedNextStatuses(
+            current
+          );
+
+
+        return allowed.some(
+          function (status) {
+
+            return (
+              status.value ===
+              requested
+            );
+
+          }
+        );
+
+      }
+
+
+      /* ====================================================
          ORDER STATUS BADGE
          ==================================================== */
 
@@ -963,7 +1164,9 @@
       ) {
 
         return statusBadge(
-          status || 'pending'
+          normalizeFulfillmentStatus(
+            status
+          )
         );
 
       }
@@ -1083,12 +1286,9 @@
                 ),
 
               fulfillment_status:
-                String(
-                  row.fulfillment_status ||
-                  'pending'
+                normalizeFulfillmentStatus(
+                  row.fulfillment_status
                 )
-                  .trim()
-                  .toLowerCase()
 
             });
 
@@ -1097,7 +1297,9 @@
 
 
         orders =
-          Object.values(map);
+          Object.values(
+            map
+          );
 
 
         orders.sort(
@@ -1257,6 +1459,24 @@
 
       /* ====================================================
          FULFILLMENT SELECT HTML
+
+         pending:
+           Processing
+           Cancelled
+
+         processing:
+           Shipped
+           Cancelled
+
+         shipped:
+           Delivered
+           Cancelled
+
+         delivered:
+           FINAL
+
+         cancelled:
+           FINAL
          ==================================================== */
 
       function fulfillmentSelectHtml(
@@ -1264,62 +1484,144 @@
       ) {
 
         var current =
-          String(
-            item.fulfillment_status ||
-            'pending'
+          normalizeFulfillmentStatus(
+            item.fulfillment_status
+          );
+
+
+        /*
+         * FINAL STATUS
+         */
+
+        if (
+          isFinalFulfillmentStatus(
+            current
           )
-            .trim()
-            .toLowerCase();
+        ) {
+
+          return (
+            '<option value="' +
+            escapeHtml(
+              current
+            ) +
+            '" selected>' +
+            escapeHtml(
+              current === 'delivered'
+                ? 'Delivered — Final'
+                : 'Cancelled — Final'
+            ) +
+            '</option>'
+          );
+
+        }
 
 
-        var statuses = [
-          {
-            value: 'pending',
-            label: 'Pending'
-          },
-          {
-            value: 'processing',
-            label: 'Processing'
-          },
-          {
-            value: 'shipped',
-            label: 'Shipped'
-          },
-          {
-            value: 'delivered',
-            label: 'Delivered'
-          },
-          {
-            value: 'cancelled',
-            label: 'Cancelled'
-          }
-        ];
+        /*
+         * CURRENT STATUS
+         */
+
+        var currentLabel =
+          current.charAt(0).toUpperCase() +
+          current.slice(1);
 
 
-        return statuses.map(
+        var html =
+
+          '<option value="' +
+          escapeHtml(
+            current
+          ) +
+          '" selected>' +
+          escapeHtml(
+            currentLabel +
+            ' — Current'
+          ) +
+          '</option>';
+
+
+        /*
+         * ALLOWED NEXT STATUSES
+         */
+
+        var nextStatuses =
+          getAllowedNextStatuses(
+            current
+          );
+
+
+        nextStatuses.forEach(
           function (status) {
 
-            return (
+            html +=
+
               '<option value="' +
               escapeHtml(
                 status.value
               ) +
-              '"' +
-              (
-                current ===
-                status.value
-                  ? ' selected'
-                  : ''
-              ) +
-              '>' +
+              '">' +
               escapeHtml(
                 status.label
               ) +
-              '</option>'
-            );
+              '</option>';
 
           }
-        ).join('');
+        );
+
+
+        return html;
+
+      }
+
+
+      /* ====================================================
+         FINAL STATUS NOTE
+         ==================================================== */
+
+      function finalStatusNoteHtml(
+        item
+      ) {
+
+        var status =
+          normalizeFulfillmentStatus(
+            item.fulfillment_status
+          );
+
+
+        if (
+          status === 'delivered'
+        ) {
+
+          return (
+
+            '<div class="final-status-note">' +
+
+              '🔒 Delivered is a final status and cannot be changed.' +
+
+            '</div>'
+
+          );
+
+        }
+
+
+        if (
+          status === 'cancelled'
+        ) {
+
+          return (
+
+            '<div class="final-status-note">' +
+
+              '🔒 Cancelled is a final status and cannot be changed.' +
+
+            '</div>'
+
+          );
+
+        }
+
+
+        return '';
 
       }
 
@@ -1363,6 +1665,29 @@
                     )
                   ]
                 );
+
+
+              var isFinal =
+                isFinalFulfillmentStatus(
+                  item.fulfillment_status
+                );
+
+
+              var controlsDisabled =
+                isUpdating ||
+                isFinal;
+
+
+              var buttonText =
+                isUpdating
+
+                  ? 'Updating...'
+
+                  : isFinal
+
+                    ? 'Final Status 🔒'
+
+                    : 'Update Status';
 
 
               return `
@@ -1448,7 +1773,7 @@
                         aria-label="Fulfillment status for ${escapeHtml(
                           item.product_name
                         )}"
-                        ${isUpdating ? 'disabled' : ''}
+                        ${controlsDisabled ? 'disabled' : ''}
                       >
 
                         ${fulfillmentSelectHtml(
@@ -1462,18 +1787,19 @@
                         class="btn fulfillment-button update-fulfillment-button"
                         type="button"
                         data-item-id="${itemId}"
-                        ${isUpdating ? 'disabled' : ''}
+                        ${controlsDisabled ? 'disabled' : ''}
                       >
 
-                        ${
-                          isUpdating
-                            ? 'Updating...'
-                            : 'Update Status'
-                        }
+                        ${buttonText}
 
                       </button>
 
                     </div>
+
+
+                    ${finalStatusNoteHtml(
+                      item
+                    )}
 
 
                     <div
@@ -1851,10 +2177,12 @@
          UPDATE FULFILLMENT STATUS
 
          SECURITY:
-         The database RPC verifies:
+         Database RPC verifies:
          - authenticated user
          - seller access
-         - item belongs to auth.uid()
+         - seller owns the order item
+         - valid forward status transition
+         - delivered/cancelled are final
          ==================================================== */
 
       async function updateFulfillmentStatus(
@@ -1868,6 +2196,27 @@
 
 
         if (!item) {
+
+          return;
+
+        }
+
+
+        /*
+         * FINAL STATUS PROTECTION
+         */
+
+        if (
+          isFinalFulfillmentStatus(
+            item.fulfillment_status
+          )
+        ) {
+
+          setItemMessage(
+            itemId,
+            'This item has reached a final status and cannot be changed.',
+            'info'
+          );
 
           return;
 
@@ -1907,31 +2256,9 @@
             .toLowerCase();
 
 
-        var allowedStatuses = [
-          'pending',
-          'processing',
-          'shipped',
-          'delivered',
-          'cancelled'
-        ];
-
-
-        if (
-          !allowedStatuses.includes(
-            newStatus
-          )
-        ) {
-
-          setItemMessage(
-            itemId,
-            'Please select a valid status.',
-            'error'
-          );
-
-          return;
-
-        }
-
+        /*
+         * SAME STATUS
+         */
 
         if (
           newStatus ===
@@ -1940,7 +2267,7 @@
 
           setItemMessage(
             itemId,
-            'This item already has the selected status.',
+            'Please select the next fulfillment status.',
             'info'
           );
 
@@ -1948,6 +2275,39 @@
 
         }
 
+
+        /*
+         * CLIENT-SIDE TRANSITION VALIDATION
+         *
+         * Database RPC will also verify this.
+         */
+
+        if (
+          !isAllowedTransition(
+            item.fulfillment_status,
+            newStatus
+          )
+        ) {
+
+          setItemMessage(
+            itemId,
+            'This fulfillment status change is not allowed.',
+            'error'
+          );
+
+
+          select.value =
+            item.fulfillment_status;
+
+
+          return;
+
+        }
+
+
+        /*
+         * CONFIRMATION
+         */
 
         var confirmed =
           window.confirm(
@@ -1970,6 +2330,10 @@
 
         }
 
+
+        /*
+         * LOCK UI
+         */
 
         updatingItems[
           String(
@@ -1999,6 +2363,11 @@
 
         try {
 
+
+          /* ================================================
+             SECURE DATABASE RPC
+             ================================================ */
+
           var result =
             await window.supabaseClient
               .rpc(
@@ -2015,16 +2384,26 @@
               );
 
 
-          if (result.error) {
+          if (
+            result.error
+          ) {
 
             throw result.error;
 
           }
 
 
+          /*
+           * UPDATE LOCAL GROUPED ITEM
+           */
+
           item.fulfillment_status =
             newStatus;
 
+
+          /*
+           * UPDATE RAW RPC DATA
+           */
 
           rawItems.forEach(
             function (row) {
@@ -2054,10 +2433,26 @@
           ];
 
 
+          /*
+           * REFRESH STATS
+           */
+
           renderStats();
+
+
+          /*
+           * REFRESH ORDERS UI
+           *
+           * This automatically changes dropdown
+           * to the next allowed statuses.
+           */
 
           renderOrders();
 
+
+          /*
+           * SHOW SUCCESS
+           */
 
           setTimeout(
             function () {
@@ -2071,6 +2466,7 @@
             },
             0
           );
+
 
         }
 
@@ -2088,6 +2484,10 @@
             )
           ];
 
+
+          /*
+           * Restore UI
+           */
 
           select.disabled =
             false;
@@ -2109,7 +2509,9 @@
             itemId,
             error &&
             error.message
+
               ? error.message
+
               : 'Unable to update fulfillment status.',
             'error'
           );
@@ -2133,6 +2535,19 @@
 
         buttons.forEach(
           function (button) {
+
+            /*
+             * Final status buttons are disabled.
+             */
+
+            if (
+              button.disabled
+            ) {
+
+              return;
+
+            }
+
 
             button.addEventListener(
               'click',
@@ -2345,6 +2760,7 @@
 
         try {
 
+
           /*
            * Only approved sellers can enter.
            */
@@ -2395,6 +2811,7 @@
           content.hidden =
             false;
 
+
         }
 
         catch (error) {
@@ -2412,7 +2829,9 @@
           showMessage(
             error &&
             error.message
+
               ? error.message
+
               : 'Unable to load seller orders.',
             'error'
           );
