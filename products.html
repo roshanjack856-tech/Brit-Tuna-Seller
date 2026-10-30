@@ -17,7 +17,6 @@
 
   <title>My Products | Brit.Tuna Seller</title>
 
-
   <link
     rel="preconnect"
     href="https://fonts.googleapis.com"
@@ -34,7 +33,6 @@
     rel="stylesheet"
   >
 
-
   <link
     rel="stylesheet"
     href="style.css"
@@ -44,6 +42,114 @@
     rel="stylesheet"
     href="responsive.css"
   >
+
+  <style>
+
+    /* ======================================================
+       COD CONTROL
+    ======================================================= */
+
+    .seller-cod-control {
+      margin: 16px 0;
+      padding: 15px;
+      border: 1px solid #e4e0d7;
+      border-radius: 12px;
+      background: #faf9f5;
+    }
+
+    .seller-cod-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .seller-cod-title {
+      margin: 0 0 4px;
+      font-weight: 700;
+    }
+
+    .seller-cod-description {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .seller-cod-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-weight: 700;
+      user-select: none;
+    }
+
+    .seller-cod-toggle input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .seller-cod-switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      border-radius: 999px;
+      background: #c8c8c8;
+      transition: 0.2s ease;
+    }
+
+    .seller-cod-switch::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 3px;
+      left: 3px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
+      transition: 0.2s ease;
+    }
+
+    .seller-cod-toggle input:checked +
+    .seller-cod-switch {
+      background: #1f5a3a;
+    }
+
+    .seller-cod-toggle input:checked +
+    .seller-cod-switch::after {
+      transform: translateX(22px);
+    }
+
+    .seller-cod-toggle input:focus-visible +
+    .seller-cod-switch {
+      outline: 3px solid rgba(31, 90, 58, 0.2);
+      outline-offset: 2px;
+    }
+
+    .seller-cod-toggle input:disabled +
+    .seller-cod-switch {
+      opacity: 0.55;
+      cursor: wait;
+    }
+
+    .cod-toggle-label {
+      min-width: 52px;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    @media (max-width: 520px) {
+
+      .seller-cod-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+    }
+
+  </style>
 
 </head>
 
@@ -182,6 +288,9 @@
 
             Editing product information does not allow you to
             approve your own product.
+
+            You can independently enable or disable
+            Cash on Delivery for your own products.
 
           </div>
 
@@ -542,7 +651,6 @@
           type="hidden"
           id="variant-id"
         >
-
 
         <input
           type="hidden"
@@ -1018,6 +1126,87 @@
 
 
       /* ====================================================
+         COD CONTROL HTML
+      ===================================================== */
+
+      function codControlHtml(
+        product
+      ) {
+
+        var enabled =
+          product.cod_enabled === true;
+
+
+        return `
+
+          <div class="seller-cod-control">
+
+            <div class="seller-cod-row">
+
+
+              <div>
+
+                <p class="seller-cod-title">
+                  Cash on Delivery
+                </p>
+
+                <p
+                  class="muted seller-cod-description cod-status-text"
+                >
+
+                  ${
+                    enabled
+                      ? 'COD is available for this product.'
+                      : 'COD is not available for this product.'
+                  }
+
+                </p>
+
+              </div>
+
+
+              <label class="seller-cod-toggle">
+
+                <input
+                  type="checkbox"
+                  class="cod-toggle"
+                  data-product-id="${escapeHtml(
+                    product.id
+                  )}"
+                  ${enabled ? 'checked' : ''}
+                  aria-label="Cash on Delivery for ${escapeHtml(
+                    product.name
+                  )}"
+                >
+
+                <span
+                  class="seller-cod-switch"
+                  aria-hidden="true"
+                ></span>
+
+                <span class="cod-toggle-label">
+
+                  ${
+                    enabled
+                      ? 'ON'
+                      : 'OFF'
+                  }
+
+                </span>
+
+              </label>
+
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+
+
+      /* ====================================================
          LOAD CATEGORIES
       ===================================================== */
 
@@ -1134,6 +1323,7 @@
                 product_type,
                 status,
                 is_active,
+                cod_enabled,
                 created_at,
                 product_variants (
                   id,
@@ -1617,6 +1807,13 @@
                 </div>
 
 
+                <!-- COD CONTROL -->
+
+                ${codControlHtml(
+                  product
+                )}
+
+
                 <button
                   type="button"
                   class="btn btn-outline edit-product-button"
@@ -1710,6 +1907,248 @@
 
           }
         );
+
+      }
+
+
+      /* ====================================================
+         UPDATE PRODUCT COD
+      ===================================================== */
+
+      async function updateProductCod(
+        checkbox
+      ) {
+
+        var productId =
+          Number(
+            checkbox.dataset.productId
+          );
+
+
+        if (
+          !Number.isSafeInteger(
+            productId
+          ) ||
+          productId <= 0
+        ) {
+
+          return;
+
+        }
+
+
+        var product =
+          findProduct(
+            productId
+          );
+
+
+        if (!product) {
+
+          return;
+
+        }
+
+
+        var previousValue =
+          product.cod_enabled === true;
+
+
+        var newValue =
+          checkbox.checked === true;
+
+
+        var container =
+          checkbox.closest(
+            '.seller-cod-control'
+          );
+
+
+        var statusText =
+          container
+            ? container.querySelector(
+                '.cod-status-text'
+              )
+            : null;
+
+
+        var toggleLabel =
+          container
+            ? container.querySelector(
+                '.cod-toggle-label'
+              )
+            : null;
+
+
+        checkbox.disabled =
+          true;
+
+
+        if (statusText) {
+
+          statusText.textContent =
+            'Saving COD setting...';
+
+        }
+
+
+        if (toggleLabel) {
+
+          toggleLabel.textContent =
+            'Saving...';
+
+        }
+
+
+        try {
+
+          /*
+             SECURITY:
+
+             This uses the secure database RPC.
+
+             The RPC only allows:
+             - authenticated seller
+             - seller's own product
+             - seller product_type
+
+             Seller cannot use this control to
+             change another seller's product.
+          */
+
+          var result =
+            await window.supabaseClient
+
+              .rpc(
+                'update_seller_product_cod',
+                {
+
+                  product_id_input:
+                    productId,
+
+                  cod_enabled_input:
+                    newValue
+
+                }
+              );
+
+
+          if (
+            result.error
+          ) {
+
+            throw result.error;
+
+          }
+
+
+          product.cod_enabled =
+            newValue;
+
+
+          checkbox.checked =
+            newValue;
+
+
+          if (toggleLabel) {
+
+            toggleLabel.textContent =
+              newValue
+                ? 'ON'
+                : 'OFF';
+
+          }
+
+
+          if (statusText) {
+
+            statusText.textContent =
+              newValue
+                ? 'COD is available for this product.'
+                : 'COD is not available for this product.';
+
+          }
+
+
+          showMessage(
+
+            newValue
+              ? 'Cash on Delivery enabled for ' +
+                product.name +
+                '.'
+              : 'Cash on Delivery disabled for ' +
+                product.name +
+                '.',
+
+            'success'
+
+          );
+
+        }
+
+        catch (error) {
+
+          console.error(
+            'COD update error:',
+            error
+          );
+
+
+          /*
+             Database update failed.
+
+             Restore the previous switch state.
+          */
+
+          product.cod_enabled =
+            previousValue;
+
+
+          checkbox.checked =
+            previousValue;
+
+
+          if (toggleLabel) {
+
+            toggleLabel.textContent =
+              previousValue
+                ? 'ON'
+                : 'OFF';
+
+          }
+
+
+          if (statusText) {
+
+            statusText.textContent =
+              previousValue
+                ? 'COD is available for this product.'
+                : 'COD is not available for this product.';
+
+          }
+
+
+          showMessage(
+
+            error &&
+            error.message
+
+              ? error.message
+
+              : 'Unable to update Cash on Delivery.',
+
+            'error'
+
+          );
+
+        }
+
+        finally {
+
+          checkbox.disabled =
+            false;
+
+        }
 
       }
 
@@ -1850,17 +2289,6 @@
 
         try {
 
-          /*
-             Secure RPC created earlier.
-
-             Seller cannot change:
-             - seller_id
-             - product_type
-             - approval status
-
-             through this function.
-          */
-
           var result =
             await window.supabaseClient
 
@@ -1887,24 +2315,13 @@
               );
 
 
-          if (result.error) {
+          if (
+            result.error
+          ) {
 
             throw result.error;
 
           }
-
-
-          /*
-             update_my_product currently updates the
-             legacy text category.
-
-             category_id must also eventually move into
-             the secure RPC before the legacy category
-             column is removed.
-
-             For now we do not perform an insecure direct
-             category_id update here.
-          */
 
 
           modalMessage(
@@ -2116,12 +2533,6 @@
 
         try {
 
-          /*
-             Existing product_variants RLS must allow
-             a seller to update variants only when the
-             parent product belongs to auth.uid().
-          */
-
           var result =
             await window.supabaseClient
 
@@ -2161,7 +2572,9 @@
               );
 
 
-          if (result.error) {
+          if (
+            result.error
+          ) {
 
             throw result.error;
 
@@ -2178,16 +2591,6 @@
             );
 
           }
-
-
-          /*
-             Keep legacy products.price aligned with the
-             first/base variant later through a secure
-             database function.
-
-             We intentionally do NOT directly update the
-             products table price here.
-          */
 
 
           modalMessage(
@@ -2247,6 +2650,9 @@
 
       function setupDynamicButtons() {
 
+
+        /* EDIT PRODUCT */
+
         document
           .querySelectorAll(
             '.edit-product-button'
@@ -2270,6 +2676,8 @@
           );
 
 
+        /* EDIT VARIANT */
+
         document
           .querySelectorAll(
             '.edit-variant-button'
@@ -2289,6 +2697,30 @@
                     button.dataset
                       .variantId
 
+                  );
+
+                }
+              );
+
+            }
+          );
+
+
+        /* COD ON / OFF */
+
+        document
+          .querySelectorAll(
+            '.cod-toggle'
+          )
+          .forEach(
+            function (checkbox) {
+
+              checkbox.addEventListener(
+                'change',
+                function () {
+
+                  updateProductCod(
+                    checkbox
                   );
 
                 }
