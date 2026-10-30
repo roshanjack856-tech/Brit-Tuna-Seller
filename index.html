@@ -12,7 +12,7 @@
 
   <meta
     name="description"
-    content="Brit.Tuna Seller Portal - Sign in and manage your marketplace products and orders."
+    content="Brit.Tuna Seller Portal - Sign in and manage your marketplace products, COD settings, inventory and orders."
   >
 
   <title>Seller Login | Brit.Tuna</title>
@@ -95,7 +95,8 @@
 
             <p>
               Sign in to manage your Brit.Tuna marketplace
-              products, inventory and orders.
+              products, inventory, Cash on Delivery settings
+              and orders.
             </p>
 
           </div>
@@ -271,7 +272,7 @@
 
 
           <!-- ==================================================
-               INFORMATION
+               SELLER INFORMATION
           =================================================== -->
 
           <div
@@ -280,16 +281,19 @@
           >
 
             <strong>
-              Important:
+              Seller Portal
             </strong>
 
-            <br>
+            <br><br>
 
             You can use the same Google account or email
             that you use for Brit.Tuna.
 
-            After seller approval, this portal will open
-            your Seller Dashboard.
+            <br><br>
+
+            After seller approval, you can manage your
+            products, stock, Cash on Delivery availability
+            and customer orders.
 
           </div>
 
@@ -755,8 +759,6 @@
 
           /* ================================================
              CUSTOMER / NEW SELLER
-
-             They must complete seller application.
           ================================================= */
 
           window.location.replace(
@@ -948,22 +950,11 @@
         try {
 
           /*
-            IMPORTANT:
+             Google OAuth returns to the root
+             of the Seller Portal.
 
-            Always return Google OAuth to THIS website's
-            root URL.
-
-            Example:
-
-            Seller website:
-            https://brit-tuna-seller.vercel.app/
-
-            Therefore redirect URL becomes:
-            https://brit-tuna-seller.vercel.app/
-
-            This URL MUST exist in Supabase:
-            Authentication → URL Configuration
-            → Redirect URLs
+             Production:
+             https://brit-tuna-seller.vercel.app/
           */
 
           var sellerPortalUrl =
@@ -1006,17 +997,13 @@
               });
 
 
-          if (result.error) {
+          if (
+            result.error
+          ) {
 
             throw result.error;
 
           }
-
-
-          /*
-            Normally Supabase now redirects the browser
-            to Google, so no manual redirect is required.
-          */
 
         }
 
@@ -1049,10 +1036,6 @@
 
       /* ====================================================
          CHECK EXISTING SESSION
-
-         This runs:
-         - when seller opens this page
-         - after returning from Google OAuth
       ===================================================== */
 
       async function checkExistingSession() {
@@ -1082,7 +1065,9 @@
               .getSession();
 
 
-          if (result.error) {
+          if (
+            result.error
+          ) {
 
             console.error(
               'Session error:',
@@ -1141,9 +1126,6 @@
 
       /* ====================================================
          AUTH STATE LISTENER
-
-         Helps catch OAuth sign-in after Supabase finishes
-         creating the session.
       ===================================================== */
 
       function setupAuthListener() {
