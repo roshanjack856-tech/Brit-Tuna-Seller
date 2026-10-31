@@ -282,6 +282,12 @@
               Add Product
             </a>
 
+            <!-- INVENTORY ADDED -->
+
+            <a href="inventory.html">
+              Inventory
+            </a>
+
             <a href="orders.html">
               Orders
             </a>
@@ -332,9 +338,7 @@
               <div class="form-grid">
 
 
-                <!-- ==================================================
-                     PRODUCT NAME
-                =================================================== -->
+                <!-- PRODUCT NAME -->
 
                 <div class="form-field full">
 
@@ -358,9 +362,7 @@
                 </div>
 
 
-                <!-- ==================================================
-                     CATEGORY
-                =================================================== -->
+                <!-- CATEGORY -->
 
                 <div class="form-field">
 
@@ -387,9 +389,7 @@
                 </div>
 
 
-                <!-- ==================================================
-                     VARIANT
-                =================================================== -->
+                <!-- VARIANT -->
 
                 <div class="form-field">
 
@@ -418,9 +418,7 @@
                 </div>
 
 
-                <!-- ==================================================
-                     PRICE
-                =================================================== -->
+                <!-- PRICE -->
 
                 <div class="form-field">
 
@@ -446,9 +444,7 @@
                 </div>
 
 
-                <!-- ==================================================
-                     STOCK
-                =================================================== -->
+                <!-- STOCK -->
 
                 <div class="form-field">
 
@@ -474,9 +470,7 @@
                 </div>
 
 
-                <!-- ==================================================
-                     PRODUCT IMAGES
-                =================================================== -->
+                <!-- PRODUCT IMAGES -->
 
                 <div class="form-field full">
 
@@ -559,9 +553,7 @@
                 </div>
 
 
-                <!-- ==================================================
-                     DESCRIPTION
-                =================================================== -->
+                <!-- DESCRIPTION -->
 
                 <div class="form-field full">
 
@@ -584,9 +576,7 @@
                 </div>
 
 
-                <!-- ==================================================
-                     SUBMIT
-                =================================================== -->
+                <!-- SUBMIT -->
 
                 <div class="form-field full">
 
@@ -618,31 +608,23 @@
   </main>
 
 
-  <!-- ======================================================
-       FOOTER
-  ======================================================= -->
+  <!-- FOOTER -->
 
   <div id="site-footer"></div>
 
 
-  <!-- ======================================================
-       SCRIPTS
-  ======================================================= -->
+  <!-- SCRIPTS -->
 
   <script
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
   ></script>
 
   <script src="config.js"></script>
-
   <script src="supabase.js"></script>
-
   <script src="script.js"></script>
 
 
-  <!-- ======================================================
-       ADD PRODUCT PAGE LOGIC
-  ======================================================= -->
+  <!-- ADD PRODUCT PAGE LOGIC -->
 
   <script>
 
@@ -656,7 +638,6 @@
       ===================================================== */
 
       var MIN_IMAGES = 2;
-
       var MAX_IMAGES = 6;
 
       var MAX_IMAGE_SIZE =
@@ -664,13 +645,9 @@
 
 
       var ALLOWED_IMAGE_TYPES = [
-
         'image/jpeg',
-
         'image/png',
-
         'image/webp'
-
       ];
 
 
@@ -683,78 +660,65 @@
           'page-loading'
         );
 
-
       var content =
         document.getElementById(
           'page-content'
         );
-
 
       var messageBox =
         document.getElementById(
           'page-message'
         );
 
-
       var form =
         document.getElementById(
           'add-product-form'
         );
-
 
       var submitButton =
         document.getElementById(
           'submit-button'
         );
 
-
       var nameInput =
         document.getElementById(
           'product-name'
         );
-
 
       var categoryInput =
         document.getElementById(
           'product-category'
         );
 
-
       var variantInput =
         document.getElementById(
           'variant-name'
         );
-
 
       var priceInput =
         document.getElementById(
           'product-price'
         );
 
-
       var stockInput =
         document.getElementById(
           'product-stock'
         );
-
 
       var descriptionInput =
         document.getElementById(
           'product-description'
         );
 
-
       var imageInput =
         document.getElementById(
           'product-images'
         );
 
-
       var imagePreviewGrid =
         document.getElementById(
           'image-preview-grid'
         );
-
 
       var imageCount =
         document.getElementById(
@@ -785,14 +749,11 @@
         messageBox.textContent =
           text;
 
-
         messageBox.className =
           'notice';
 
 
-        if (
-          type === 'success'
-        ) {
+        if (type === 'success') {
 
           messageBox.classList.add(
             'notice-success'
@@ -801,9 +762,7 @@
         }
 
 
-        if (
-          type === 'error'
-        ) {
+        if (type === 'error') {
 
           messageBox.classList.add(
             'notice-error'
@@ -812,9 +771,7 @@
         }
 
 
-        if (
-          type === 'warning'
-        ) {
+        if (type === 'warning') {
 
           messageBox.classList.add(
             'notice-warning'
@@ -828,11 +785,8 @@
 
 
         window.scrollTo({
-
           top: 0,
-
           behavior: 'smooth'
-
         });
 
       }
@@ -882,9 +836,7 @@
           );
 
 
-        if (
-          dotPosition !== -1
-        ) {
+        if (dotPosition !== -1) {
 
           extension =
             fileName
@@ -910,19 +862,13 @@
 
 
         return (
-
           'image-' +
-
           Date.now() +
-
           '-' +
-
           Math.random()
             .toString(36)
             .slice(2, 10) +
-
           extension
-
         );
 
       }
@@ -945,7 +891,6 @@
 
 
         selectedImages.forEach(
-
           function (
             item,
             index
@@ -956,7 +901,6 @@
                 'div'
               );
 
-
             card.className =
               'image-preview-card';
 
@@ -966,15 +910,12 @@
                 'img'
               );
 
-
             image.src =
               item.previewUrl;
-
 
             image.alt =
               'Product image ' +
               (index + 1);
-
 
             card.appendChild(
               image
@@ -983,23 +924,18 @@
 
             /* FIRST IMAGE = PRIMARY */
 
-            if (
-              index === 0
-            ) {
+            if (index === 0) {
 
               var primary =
                 document.createElement(
                   'span'
                 );
 
-
               primary.className =
                 'primary-image-badge';
 
-
               primary.textContent =
                 'Primary';
-
 
               card.appendChild(
                 primary
@@ -1013,7 +949,6 @@
                 'div'
               );
 
-
             info.className =
               'image-preview-info';
 
@@ -1023,10 +958,8 @@
                 'span'
               );
 
-
             name.className =
               'image-preview-name';
-
 
             name.textContent =
               (index + 1) +
@@ -1039,23 +972,18 @@
                 'button'
               );
 
-
             removeButton.type =
               'button';
 
-
             removeButton.className =
               'remove-image-button';
-
 
             removeButton.textContent =
               'Remove';
 
 
             removeButton.addEventListener(
-
               'click',
-
               function () {
 
                 removeSelectedImage(
@@ -1063,7 +991,6 @@
                 );
 
               }
-
             );
 
 
@@ -1071,23 +998,19 @@
               name
             );
 
-
             info.appendChild(
               removeButton
             );
 
-
             card.appendChild(
               info
             );
-
 
             imagePreviewGrid.appendChild(
               card
             );
 
           }
-
         );
 
       }
@@ -1127,7 +1050,6 @@
       function clearSelectedImages() {
 
         selectedImages.forEach(
-
           function (item) {
 
             if (
@@ -1141,7 +1063,6 @@
             }
 
           }
-
         );
 
 
@@ -1290,7 +1211,6 @@
 
 
         files.forEach(
-
           function (file) {
 
             selectedImages.push({
@@ -1306,7 +1226,6 @@
             });
 
           }
-
         );
 
 
@@ -1343,7 +1262,6 @@
           ).textContent =
             'Enter a product name.';
 
-
           valid =
             false;
 
@@ -1358,7 +1276,6 @@
             'category-error'
           ).textContent =
             'Select a category.';
-
 
           valid =
             false;
@@ -1376,7 +1293,6 @@
             'variant-error'
           ).textContent =
             'Enter a variant, pack size or model.';
-
 
           valid =
             false;
@@ -1402,7 +1318,6 @@
           ).textContent =
             'Enter a valid selling price.';
 
-
           valid =
             false;
 
@@ -1427,7 +1342,6 @@
           ).textContent =
             'Enter a valid stock quantity.';
 
-
           valid =
             false;
 
@@ -1445,7 +1359,6 @@
           ).textContent =
             'Enter a product description.';
 
-
           valid =
             false;
 
@@ -1462,7 +1375,6 @@
           ).textContent =
             'Please select at least 2 product images.';
 
-
           valid =
             false;
 
@@ -1478,7 +1390,6 @@
             'image-error'
           ).textContent =
             'Maximum 6 product images are allowed.';
-
 
           valid =
             false;
@@ -1547,7 +1458,6 @@
 
 
         categories.forEach(
-
           function (category) {
 
             categoriesById[
@@ -1558,7 +1468,6 @@
               category;
 
           }
-
         );
 
 
@@ -1567,7 +1476,6 @@
 
 
         categories.forEach(
-
           function (category) {
 
             var option =
@@ -1596,7 +1504,6 @@
             );
 
           }
-
         );
 
 
@@ -1607,10 +1514,8 @@
           categoryInput.innerHTML =
             '<option value="">No categories available</option>';
 
-
           categoryInput.disabled =
             true;
-
 
           submitButton.disabled =
             true;
@@ -1679,10 +1584,6 @@
 
           price:
             price,
-
-          /*
-             Primary image is uploaded later.
-          */
 
           image_url:
             null,
@@ -1803,19 +1704,6 @@
 
       /* ====================================================
          UPLOAD PRODUCT IMAGES
-
-         Storage:
-         product-images/
-             seller-user-id/
-                 product-id/
-                     image-file.jpg
-
-         Database:
-         product_images
-             image_url
-             storage_path
-             sort_order
-             is_primary
       ===================================================== */
 
       async function uploadProductImages(
@@ -1832,10 +1720,6 @@
 
         try {
 
-
-          /* ----------------------------------------------
-             UPLOAD EACH IMAGE TO STORAGE
-          ----------------------------------------------- */
 
           for (
             var i = 0;
@@ -1911,10 +1795,6 @@
             );
 
 
-            /* --------------------------------------------
-               GET PUBLIC URL
-            --------------------------------------------- */
-
             var publicUrlResult =
               window.supabaseClient
 
@@ -1952,13 +1832,6 @@
             }
 
 
-            /* --------------------------------------------
-               PREPARE DATABASE ROW
-
-               IMPORTANT:
-               storage_path is now saved.
-            --------------------------------------------- */
-
             imageRows.push({
 
               product_id:
@@ -1980,10 +1853,6 @@
 
           }
 
-
-          /* ----------------------------------------------
-             SAVE IMAGE ROWS TO DATABASE
-          ----------------------------------------------- */
 
           var insertResult =
             await window.supabaseClient
@@ -2032,11 +1901,6 @@
         catch (error) {
 
 
-          /*
-             If database insert or another upload fails,
-             remove Storage files that were already uploaded.
-          */
-
           if (
             uploadedPaths.length >
             0
@@ -2079,11 +1943,6 @@
 
       /* ====================================================
          SET LEGACY PRIMARY IMAGE
-
-         products.image_url is kept temporarily so older
-         customer/seller pages can still display the image.
-
-         product_images is the new image source of truth.
       ===================================================== */
 
       async function setLegacyPrimaryImage(
@@ -2133,12 +1992,6 @@
             );
 
 
-        /*
-           This is intentionally non-fatal.
-
-           product_images is the real image source.
-        */
-
         if (
           result.error
         ) {
@@ -2147,7 +2000,6 @@
             'Legacy primary image was not updated:',
             result.error
           );
-
 
           return;
 
@@ -2214,7 +2066,6 @@
               listResult.error
             );
 
-
             return;
 
           }
@@ -2248,13 +2099,9 @@
                 function (file) {
 
                   return (
-
                     prefix +
-
                     '/' +
-
                     file.name
-
                   );
 
                 }
@@ -2320,21 +2167,10 @@
         try {
 
 
-          /*
-             Remove uploaded Storage objects first.
-          */
-
           await cleanupProductImages(
             productId
           );
 
-
-          /*
-             Delete pending product.
-
-             product_variants and product_images should
-             cascade through their foreign keys.
-          */
 
           var result =
             await window.supabaseClient
@@ -2415,7 +2251,6 @@
             'error'
           );
 
-
           return;
 
         }
@@ -2436,19 +2271,13 @@
         try {
 
 
-          /* ================================================
-             STEP 1
-             CREATE PENDING PRODUCT
-          ================================================= */
+          /* STEP 1: CREATE PRODUCT */
 
           createdProduct =
             await createProduct();
 
 
-          /* ================================================
-             STEP 2
-             CREATE INITIAL VARIANT
-          ================================================= */
+          /* STEP 2: CREATE VARIANT */
 
           submitButton.textContent =
             'Saving variant...';
@@ -2482,16 +2311,7 @@
           }
 
 
-          /* ================================================
-             STEP 3
-             UPLOAD 2-6 PRODUCT IMAGES
-
-             Saves:
-             - image_url
-             - storage_path
-             - sort_order
-             - is_primary
-          ================================================= */
+          /* STEP 3: UPLOAD IMAGES */
 
           submitButton.textContent =
             'Uploading images...';
@@ -2529,30 +2349,21 @@
           }
 
 
-          /* ================================================
-             STEP 4
-             KEEP LEGACY products.image_url
-          ================================================= */
+          /* STEP 4: SET LEGACY PRIMARY IMAGE */
 
           submitButton.textContent =
             'Finishing...';
 
 
           await setLegacyPrimaryImage(
-
             createdProduct.id,
-
             imageUpload.primaryUrl
-
           );
 
 
-          /* ================================================
-             SUCCESS
-          ================================================= */
+          /* SUCCESS */
 
           form.reset();
-
 
           clearSelectedImages();
 
@@ -2564,16 +2375,13 @@
 
 
           setTimeout(
-
             function () {
 
               window.location.href =
                 'products.html';
 
             },
-
             1600
-
           );
 
         }
@@ -2614,7 +2422,6 @@
         loading.hidden =
           false;
 
-
         content.hidden =
           true;
 
@@ -2644,7 +2451,6 @@
 
           loading.hidden =
             true;
-
 
           content.hidden =
             false;
@@ -2691,7 +2497,7 @@
 
 
       /* ====================================================
-         CLEAN PREVIEW URLS WHEN LEAVING PAGE
+         CLEAN PREVIEW URLS
       ===================================================== */
 
       window.addEventListener(
@@ -2728,9 +2534,7 @@
       ) {
 
         document.addEventListener(
-
           'DOMContentLoaded',
-
           function () {
 
             setTimeout(
@@ -2739,7 +2543,6 @@
             );
 
           }
-
         );
 
       }
