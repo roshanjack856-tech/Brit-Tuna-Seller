@@ -22,13 +22,7 @@
 
   <title>Seller Orders | Brit.Tuna</title>
 
-
-  <!-- Google Fonts -->
-
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
 
   <link
     rel="preconnect"
@@ -41,21 +35,9 @@
     rel="stylesheet"
   >
 
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css">
 
-  <!-- CSS -->
-
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
-
-  <link
-    rel="stylesheet"
-    href="responsive.css"
-  >
-
-
-  <!-- PAGE-SPECIFIC STYLES -->
 
   <style>
 
@@ -117,7 +99,7 @@
 
     /* =====================================================
        PRODUCT IMAGE
-       ===================================================== */
+    ===================================================== */
 
     .seller-product-cell {
       display: flex;
@@ -162,7 +144,6 @@
       line-height: 1.3;
     }
 
-
     .product-pack {
       display: inline-block;
       margin-top: 5px;
@@ -174,8 +155,14 @@
       font-weight: 700;
     }
 
+
+    /* =====================================================
+       FULFILLMENT
+    ===================================================== */
+
     .fulfillment-cell {
-      min-width: 210px;
+      min-width: 300px;
+      vertical-align: top;
     }
 
     .fulfillment-current {
@@ -250,6 +237,131 @@
       line-height: 1.6;
     }
 
+
+    /* =====================================================
+       SHIPPING / TRACKING
+    ===================================================== */
+
+    .shipping-box {
+      margin-top: 16px;
+      padding: 14px;
+      border: 1px solid #e2e6e3;
+      border-radius: 12px;
+      background: #fafbf9;
+    }
+
+    .shipping-box-title {
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #1f5a3a;
+    }
+
+    .shipping-form {
+      display: grid;
+      gap: 10px;
+    }
+
+    .shipping-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .shipping-field label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #34443a;
+    }
+
+    .shipping-field input {
+      width: 100%;
+      min-height: 40px;
+      padding: 8px 10px;
+      border: 1px solid #d8ddd9;
+      border-radius: 9px;
+      background: #ffffff;
+      font: inherit;
+      box-sizing: border-box;
+    }
+
+    .shipping-field input:focus {
+      outline: 2px solid rgba(31, 90, 58, 0.15);
+      border-color: #1f5a3a;
+    }
+
+    .shipping-field input:disabled {
+      background: #f2f4f2;
+      color: #667085;
+      cursor: not-allowed;
+    }
+
+    .shipping-save-button {
+      width: 100%;
+      margin-top: 2px;
+    }
+
+    .shipping-save-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .shipping-message {
+      margin-top: 8px;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .shipping-message.success {
+      color: #1f5a3a;
+    }
+
+    .shipping-message.error {
+      color: #b42318;
+    }
+
+    .shipping-message.info {
+      color: #667085;
+    }
+
+    .shipping-summary {
+      display: grid;
+      gap: 7px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #e2e6e3;
+      font-size: 13px;
+    }
+
+    .shipping-summary-row {
+      overflow-wrap: anywhere;
+    }
+
+    .shipping-track-link {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 10px;
+      color: #1f5a3a;
+      font-weight: 700;
+      text-decoration: underline;
+      overflow-wrap: anywhere;
+    }
+
+    .shipping-required-note {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #fff7e8;
+      color: #7a4d00;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
     @media (max-width: 720px) {
 
       .seller-order-total {
@@ -261,7 +373,7 @@
       }
 
       .fulfillment-cell {
-        min-width: 190px;
+        min-width: 260px;
       }
 
       .seller-product-cell {
@@ -284,12 +396,16 @@
 <body>
 
 
-  <!-- HEADER -->
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
 
   <div id="site-header"></div>
 
 
-  <!-- MAIN -->
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
 
   <main class="seller-main">
 
@@ -326,7 +442,9 @@
       >
 
 
-        <!-- SIDEBAR -->
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
 
         <aside class="seller-sidebar">
 
@@ -364,7 +482,9 @@
         </aside>
 
 
-        <!-- ORDERS -->
+        <!-- =================================================
+             ORDERS
+        ================================================== -->
 
         <section>
 
@@ -376,8 +496,9 @@
             </h1>
 
             <p>
-              View customer orders and manage fulfillment
-              for products sold by your seller account.
+              View customer orders, shipping details and
+              manage fulfillment for products sold by your
+              seller account.
             </p>
 
           </div>
@@ -391,13 +512,16 @@
 
             You can only view and update order items
             belonging to your seller account.
-            The overall customer order status is managed
-            separately by Brit.Tuna Admin.
+
+            Add courier and tracking details before
+            marking an item as shipped.
 
           </div>
 
 
-          <!-- STATS -->
+          <!-- =================================================
+               STATS
+          ================================================== -->
 
           <div class="stats-grid">
 
@@ -469,7 +593,9 @@
           </div>
 
 
-          <!-- FILTERS -->
+          <!-- =================================================
+               FILTERS
+          ================================================== -->
 
           <div class="card">
 
@@ -574,7 +700,9 @@
           </div>
 
 
-          <!-- EMPTY -->
+          <!-- =================================================
+               EMPTY
+          ================================================== -->
 
           <div
             id="orders-empty"
@@ -593,7 +721,9 @@
           </div>
 
 
-          <!-- ORDER CARDS -->
+          <!-- =================================================
+               ORDER CARDS
+          ================================================== -->
 
           <div id="orders-container"></div>
 
@@ -609,12 +739,16 @@
   </main>
 
 
-  <!-- FOOTER -->
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
 
   <div id="site-footer"></div>
 
 
-  <!-- JAVASCRIPT -->
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
 
   <script
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
@@ -627,7 +761,9 @@
   <script src="script.js"></script>
 
 
-  <!-- ORDERS LOGIC -->
+  <!-- =====================================================
+       ORDERS LOGIC
+  ====================================================== -->
 
   <script>
 
@@ -638,7 +774,7 @@
 
       /* ====================================================
          STATE
-         ==================================================== */
+      ===================================================== */
 
       var currentUser = null;
 
@@ -648,12 +784,14 @@
 
       var updatingItems = {};
 
+      var savingShippingItems = {};
+
       var productImageMap = {};
 
 
       /* ====================================================
          ELEMENTS
-         ==================================================== */
+      ===================================================== */
 
       var loading =
         document.getElementById(
@@ -723,7 +861,7 @@
 
       /* ====================================================
          HELPERS
-         ==================================================== */
+      ===================================================== */
 
       function escapeHtml(value) {
 
@@ -736,6 +874,7 @@
             .escapeHtml(value);
 
         }
+
 
         return String(
           value == null
@@ -763,6 +902,7 @@
 
         }
 
+
         return '₹' +
           Number(
             value || 0
@@ -777,16 +917,21 @@
           return '-';
         }
 
+
         var date =
           new Date(value);
+
 
         if (
           Number.isNaN(
             date.getTime()
           )
         ) {
+
           return '-';
+
         }
+
 
         return date.toLocaleString(
           'en-IN',
@@ -807,26 +952,43 @@
         messageBox.textContent =
           text;
 
+
         messageBox.className =
           'notice';
 
-        if (type === 'error') {
+
+        if (
+          type === 'error'
+        ) {
+
           messageBox.classList.add(
             'notice-error'
           );
+
         }
 
-        if (type === 'success') {
+
+        if (
+          type === 'success'
+        ) {
+
           messageBox.classList.add(
             'notice-success'
           );
+
         }
 
-        if (type === 'warning') {
+
+        if (
+          type === 'warning'
+        ) {
+
           messageBox.classList.add(
             'notice-warning'
           );
+
         }
+
 
         messageBox.hidden =
           false;
@@ -850,7 +1012,7 @@
 
       /* ====================================================
          PRODUCT IMAGE HELPERS
-         ==================================================== */
+      ===================================================== */
 
       function getProductImage(
         productId
@@ -871,11 +1033,6 @@
 
         productImageMap = {};
 
-
-        /*
-         * Get unique Product IDs from
-         * seller order items.
-         */
 
         var productIds = [];
 
@@ -919,9 +1076,7 @@
 
 
         /*
-         * FIRST FALLBACK
-         *
-         * Read legacy image_url from products.
+         * LEGACY products.image_url FALLBACK
          */
 
         var productResult =
@@ -975,13 +1130,7 @@
 
 
         /*
-         * MAIN PRODUCT IMAGE SOURCE
-         *
-         * Priority:
-         *
-         * 1. Primary image
-         * 2. Lowest sort_order image
-         * 3. products.image_url fallback
+         * MAIN product_images SOURCE
          */
 
         var imageResult =
@@ -1065,10 +1214,6 @@
               ].slice();
 
 
-            /*
-             * Sort primary image first.
-             */
-
             images.sort(
               function (a, b) {
 
@@ -1145,10 +1290,6 @@
           );
 
 
-        /*
-         * No image available.
-         */
-
         if (
           !imageUrl
         ) {
@@ -1167,10 +1308,6 @@
 
         }
 
-
-        /*
-         * Product image.
-         */
 
         return `
 
@@ -1208,7 +1345,7 @@
 
       /* ====================================================
          FULFILLMENT HELPERS
-         ==================================================== */
+      ===================================================== */
 
       function normalizeFulfillmentStatus(
         status
@@ -1221,6 +1358,7 @@
             .trim()
             .toLowerCase();
 
+
         var allowed = [
           'pending',
           'processing',
@@ -1229,13 +1367,17 @@
           'cancelled'
         ];
 
+
         if (
           !allowed.includes(
             value
           )
         ) {
+
           return 'pending';
+
         }
+
 
         return value;
 
@@ -1250,6 +1392,7 @@
           normalizeFulfillmentStatus(
             status
           );
+
 
         return (
           value === 'delivered' ||
@@ -1268,40 +1411,53 @@
             currentStatus
           );
 
+
         var transitions = {
 
           pending: [
+
             {
               value: 'processing',
               label: 'Processing'
             },
+
             {
               value: 'cancelled',
               label: 'Cancelled'
             }
+
           ],
 
+
           processing: [
+
             {
               value: 'shipped',
               label: 'Shipped'
             },
+
             {
               value: 'cancelled',
               label: 'Cancelled'
             }
+
           ],
 
+
           shipped: [
+
             {
               value: 'delivered',
               label: 'Delivered'
             },
+
             {
               value: 'cancelled',
               label: 'Cancelled'
             }
+
           ],
+
 
           delivered: [],
 
@@ -1309,7 +1465,10 @@
 
         };
 
-        return transitions[current] || [];
+
+        return transitions[
+          current
+        ] || [];
 
       }
 
@@ -1324,16 +1483,21 @@
             currentStatus
           );
 
+
         var requested =
           normalizeFulfillmentStatus(
             newStatus
           );
 
+
         if (
           current === requested
         ) {
+
           return false;
+
         }
+
 
         return getAllowedNextStatuses(
           current
@@ -1353,7 +1517,7 @@
 
       /* ====================================================
          BADGES
-         ==================================================== */
+      ===================================================== */
 
       function statusBadge(
         status
@@ -1366,50 +1530,69 @@
             .trim()
             .toLowerCase();
 
+
         var className =
           'badge badge-pending';
+
 
         if (
           value === 'confirmed' ||
           value === 'active'
         ) {
+
           className =
             'badge badge-active';
+
         }
+
 
         if (
           value === 'processing'
         ) {
+
           className =
             'badge badge-processing';
+
         }
+
 
         if (
           value === 'shipped'
         ) {
+
           className =
             'badge badge-shipped';
+
         }
+
 
         if (
           value === 'delivered'
         ) {
+
           className =
             'badge badge-delivered';
+
         }
+
 
         if (
           value === 'cancelled'
         ) {
+
           className =
             'badge badge-cancelled';
+
         }
+
 
         return (
           '<span class="' +
           className +
           '">' +
-          escapeHtml(value) +
+          escapeHtml(
+            value
+          ) +
           '</span>'
         );
 
@@ -1427,35 +1610,48 @@
             .trim()
             .toLowerCase();
 
+
         var className =
           'badge badge-pending';
+
 
         if (
           value === 'paid'
         ) {
+
           className =
             'badge badge-approved';
+
         }
+
 
         if (
           value === 'failed'
         ) {
+
           className =
             'badge badge-rejected';
+
         }
+
 
         if (
           value === 'refunded'
         ) {
+
           className =
             'badge';
+
         }
+
 
         return (
           '<span class="' +
           className +
           '">' +
-          escapeHtml(value) +
+          escapeHtml(
+            value
+          ) +
           '</span>'
         );
 
@@ -1477,7 +1673,7 @@
 
       /* ====================================================
          LOAD SELLER ORDERS
-         ==================================================== */
+      ===================================================== */
 
       async function loadSellerOrders() {
 
@@ -1487,11 +1683,15 @@
               'get_my_seller_orders'
             );
 
+
         if (
           result.error
         ) {
+
           throw result.error;
+
         }
+
 
         rawItems =
           result.data || [];
@@ -1501,11 +1701,12 @@
 
       /* ====================================================
          GROUP ORDER ITEMS
-         ==================================================== */
+      ===================================================== */
 
       function groupOrders() {
 
         var map = {};
+
 
         rawItems.forEach(
           function (row) {
@@ -1514,6 +1715,7 @@
               String(
                 row.order_id
               );
+
 
             if (
               !map[key]
@@ -1591,7 +1793,22 @@
               fulfillment_status:
                 normalizeFulfillmentStatus(
                   row.fulfillment_status
-                )
+                ),
+
+              courier_name:
+                row.courier_name || '',
+
+              tracking_number:
+                row.tracking_number || '',
+
+              tracking_url:
+                row.tracking_url || '',
+
+              shipped_at:
+                row.shipped_at || null,
+
+              delivered_at:
+                row.delivered_at || null
 
             });
 
@@ -1626,7 +1843,7 @@
 
       /* ====================================================
          SELLER ORDER TOTAL
-         ==================================================== */
+      ===================================================== */
 
       function sellerOrderTotal(
         order
@@ -1660,7 +1877,7 @@
 
       /* ====================================================
          STATS
-         ==================================================== */
+      ===================================================== */
 
       function renderStats() {
 
@@ -1697,11 +1914,6 @@
                 }
 
 
-                /*
-                 * Seller Sales currently includes
-                 * paid orders only.
-                 */
-
                 if (
                   order.payment_status ===
                   'paid'
@@ -1733,15 +1945,18 @@
             orders.length
           );
 
+
         totalItemsElement.textContent =
           String(
             totalItems
           );
 
+
         pendingOrdersElement.textContent =
           String(
             pendingFulfillment
           );
+
 
         sellerSalesElement.textContent =
           formatPrice(
@@ -1753,7 +1968,7 @@
 
       /* ====================================================
          FULFILLMENT SELECT
-         ==================================================== */
+      ===================================================== */
 
       function fulfillmentSelectHtml(
         item
@@ -1839,7 +2054,7 @@
 
       /* ====================================================
          FINAL STATUS NOTE
-         ==================================================== */
+      ===================================================== */
 
       function finalStatusNoteHtml(
         item
@@ -1888,7 +2103,7 @@
 
       /* ====================================================
          PRODUCT META
-         ==================================================== */
+      ===================================================== */
 
       function productMetaHtml(
         item
@@ -1952,8 +2167,345 @@
 
 
       /* ====================================================
+         SHIPPING / TRACKING HTML
+      ===================================================== */
+
+      function shippingHtml(
+        item
+      ) {
+
+        var itemId =
+          escapeHtml(
+            item.item_id
+          );
+
+
+        var status =
+          normalizeFulfillmentStatus(
+            item.fulfillment_status
+          );
+
+
+        var editable =
+          status !== 'delivered' &&
+          status !== 'cancelled';
+
+
+        var isSaving =
+          Boolean(
+            savingShippingItems[
+              String(
+                item.item_id
+              )
+            ]
+          );
+
+
+        var disabled =
+          !editable ||
+          isSaving;
+
+
+        var html = `
+
+          <div class="shipping-box">
+
+            <div class="shipping-box-title">
+              Shipping / Tracking
+            </div>
+
+        `;
+
+
+        if (
+          status === 'processing' &&
+          (
+            !item.courier_name ||
+            !item.tracking_number
+          )
+        ) {
+
+          html += `
+
+            <div class="shipping-required-note">
+
+              Add Courier Name and Tracking Number,
+              then save the shipping details before
+              marking this item as Shipped.
+
+            </div>
+
+          `;
+
+        }
+
+
+        html += `
+
+            <div
+              class="shipping-form"
+              style="margin-top:10px;"
+            >
+
+
+              <div class="shipping-field">
+
+                <label
+                  for="courier-name-${itemId}"
+                >
+                  Courier Name *
+                </label>
+
+                <input
+                  type="text"
+                  id="courier-name-${itemId}"
+                  maxlength="100"
+                  value="${escapeHtml(
+                    item.courier_name || ''
+                  )}"
+                  placeholder="Example: Delhivery"
+                  ${disabled ? 'disabled' : ''}
+                >
+
+              </div>
+
+
+              <div class="shipping-field">
+
+                <label
+                  for="tracking-number-${itemId}"
+                >
+                  Tracking Number *
+                </label>
+
+                <input
+                  type="text"
+                  id="tracking-number-${itemId}"
+                  maxlength="150"
+                  value="${escapeHtml(
+                    item.tracking_number || ''
+                  )}"
+                  placeholder="Example: ABC123456"
+                  ${disabled ? 'disabled' : ''}
+                >
+
+              </div>
+
+
+              <div class="shipping-field">
+
+                <label
+                  for="tracking-url-${itemId}"
+                >
+                  Tracking URL
+                </label>
+
+                <input
+                  type="url"
+                  id="tracking-url-${itemId}"
+                  maxlength="1000"
+                  value="${escapeHtml(
+                    item.tracking_url || ''
+                  )}"
+                  placeholder="https://..."
+                  ${disabled ? 'disabled' : ''}
+                >
+
+              </div>
+
+        `;
+
+
+        if (
+          editable
+        ) {
+
+          html += `
+
+              <button
+                type="button"
+                class="btn shipping-save-button save-shipping-button"
+                data-item-id="${itemId}"
+                ${isSaving ? 'disabled' : ''}
+              >
+
+                ${
+                  isSaving
+                    ? 'Saving...'
+                    : 'Save Shipping Details'
+                }
+
+              </button>
+
+          `;
+
+        }
+
+
+        html += `
+
+            </div>
+
+
+            <div
+              id="shipping-message-${itemId}"
+              class="shipping-message"
+              aria-live="polite"
+            ></div>
+
+        `;
+
+
+        if (
+          item.courier_name ||
+          item.tracking_number ||
+          item.shipped_at ||
+          item.delivered_at
+        ) {
+
+          html += `
+
+            <div class="shipping-summary">
+
+          `;
+
+
+          if (
+            item.courier_name
+          ) {
+
+            html += `
+
+              <div class="shipping-summary-row">
+
+                <strong>
+                  Courier:
+                </strong>
+
+                ${escapeHtml(
+                  item.courier_name
+                )}
+
+              </div>
+
+            `;
+
+          }
+
+
+          if (
+            item.tracking_number
+          ) {
+
+            html += `
+
+              <div class="shipping-summary-row">
+
+                <strong>
+                  Tracking:
+                </strong>
+
+                ${escapeHtml(
+                  item.tracking_number
+                )}
+
+              </div>
+
+            `;
+
+          }
+
+
+          if (
+            item.shipped_at
+          ) {
+
+            html += `
+
+              <div class="shipping-summary-row">
+
+                <strong>
+                  Shipped:
+                </strong>
+
+                ${escapeHtml(
+                  formatDate(
+                    item.shipped_at
+                  )
+                )}
+
+              </div>
+
+            `;
+
+          }
+
+
+          if (
+            item.delivered_at
+          ) {
+
+            html += `
+
+              <div class="shipping-summary-row">
+
+                <strong>
+                  Delivered:
+                </strong>
+
+                ${escapeHtml(
+                  formatDate(
+                    item.delivered_at
+                  )
+                )}
+
+              </div>
+
+            `;
+
+          }
+
+
+          html +=
+            '</div>';
+
+        }
+
+
+        if (
+          item.tracking_url
+        ) {
+
+          html += `
+
+            <a
+              class="shipping-track-link"
+              href="${escapeHtml(
+                item.tracking_url
+              )}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Track Package
+            </a>
+
+          `;
+
+        }
+
+
+        html +=
+          '</div>';
+
+
+        return html;
+
+      }
+
+
+      /* ====================================================
          ITEMS HTML
-         ==================================================== */
+      ===================================================== */
 
       function itemsHtml(
         order
@@ -2094,6 +2646,7 @@
 
                   <td class="fulfillment-cell">
 
+
                     <div class="fulfillment-current">
 
                       <span class="muted">
@@ -2151,6 +2704,12 @@
                       aria-live="polite"
                     ></div>
 
+
+                    ${shippingHtml(
+                      item
+                    )}
+
+
                   </td>
 
 
@@ -2167,7 +2726,7 @@
 
       /* ====================================================
          ORDER CARD
-         ==================================================== */
+      ===================================================== */
 
       function orderCardHtml(
         order
@@ -2345,7 +2904,7 @@
                     </th>
 
                     <th>
-                      Fulfillment
+                      Fulfillment / Shipping
                     </th>
 
                   </tr>
@@ -2402,8 +2961,8 @@
 
               <br>
 
-              Your fulfillment updates apply only to
-              your own products in this order.
+              Your fulfillment and shipping updates
+              apply only to your own products in this order.
 
             </div>
 
@@ -2417,7 +2976,7 @@
 
       /* ====================================================
          FIND ITEM
-         ==================================================== */
+      ===================================================== */
 
       function findItemById(
         itemId
@@ -2449,6 +3008,7 @@
 
                 }
 
+
                 return false;
 
               }
@@ -2464,8 +3024,8 @@
 
 
       /* ====================================================
-         ITEM MESSAGE
-         ==================================================== */
+         FULFILLMENT MESSAGE
+      ===================================================== */
 
       function setItemMessage(
         itemId,
@@ -2483,12 +3043,15 @@
         if (
           !element
         ) {
+
           return;
+
         }
 
 
         element.textContent =
           text || '';
+
 
         element.className =
           'fulfillment-message';
@@ -2508,8 +3071,397 @@
 
 
       /* ====================================================
+         SHIPPING MESSAGE
+      ===================================================== */
+
+      function setShippingMessage(
+        itemId,
+        text,
+        type
+      ) {
+
+        var element =
+          document.getElementById(
+            'shipping-message-' +
+            itemId
+          );
+
+
+        if (
+          !element
+        ) {
+
+          return;
+
+        }
+
+
+        element.textContent =
+          text || '';
+
+
+        element.className =
+          'shipping-message';
+
+
+        if (
+          type
+        ) {
+
+          element.classList.add(
+            type
+          );
+
+        }
+
+      }
+
+
+      /* ====================================================
+         SAVE SHIPPING DETAILS
+      ===================================================== */
+
+      async function saveShippingDetails(
+        itemId
+      ) {
+
+        var item =
+          findItemById(
+            itemId
+          );
+
+
+        if (
+          !item
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          isFinalFulfillmentStatus(
+            item.fulfillment_status
+          )
+        ) {
+
+          setShippingMessage(
+            itemId,
+            'Shipping details cannot be changed for this final status.',
+            'error'
+          );
+
+          return;
+
+        }
+
+
+        var courierInput =
+          document.getElementById(
+            'courier-name-' +
+            itemId
+          );
+
+
+        var trackingInput =
+          document.getElementById(
+            'tracking-number-' +
+            itemId
+          );
+
+
+        var trackingUrlInput =
+          document.getElementById(
+            'tracking-url-' +
+            itemId
+          );
+
+
+        var button =
+          document.querySelector(
+            '.save-shipping-button[data-item-id="' +
+            itemId +
+            '"]'
+          );
+
+
+        if (
+          !courierInput ||
+          !trackingInput ||
+          !trackingUrlInput ||
+          !button
+        ) {
+
+          return;
+
+        }
+
+
+        var courierName =
+          courierInput.value.trim();
+
+
+        var trackingNumber =
+          trackingInput.value.trim();
+
+
+        var trackingUrl =
+          trackingUrlInput.value.trim();
+
+
+        if (
+          !courierName
+        ) {
+
+          setShippingMessage(
+            itemId,
+            'Enter the courier name.',
+            'error'
+          );
+
+          courierInput.focus();
+
+          return;
+
+        }
+
+
+        if (
+          !trackingNumber
+        ) {
+
+          setShippingMessage(
+            itemId,
+            'Enter the tracking number.',
+            'error'
+          );
+
+          trackingInput.focus();
+
+          return;
+
+        }
+
+
+        if (
+          courierName.length > 100
+        ) {
+
+          setShippingMessage(
+            itemId,
+            'Courier name is too long.',
+            'error'
+          );
+
+          return;
+
+        }
+
+
+        if (
+          trackingNumber.length > 150
+        ) {
+
+          setShippingMessage(
+            itemId,
+            'Tracking number is too long.',
+            'error'
+          );
+
+          return;
+
+        }
+
+
+        if (
+          trackingUrl &&
+          !/^https:\/\/\S+$/i.test(
+            trackingUrl
+          )
+        ) {
+
+          setShippingMessage(
+            itemId,
+            'Tracking URL must start with https://',
+            'error'
+          );
+
+          trackingUrlInput.focus();
+
+          return;
+
+        }
+
+
+        if (
+          trackingUrl.length > 1000
+        ) {
+
+          setShippingMessage(
+            itemId,
+            'Tracking URL is too long.',
+            'error'
+          );
+
+          return;
+
+        }
+
+
+        savingShippingItems[
+          String(
+            itemId
+          )
+        ] = true;
+
+
+        courierInput.disabled =
+          true;
+
+        trackingInput.disabled =
+          true;
+
+        trackingUrlInput.disabled =
+          true;
+
+        button.disabled =
+          true;
+
+        button.textContent =
+          'Saving...';
+
+
+        setShippingMessage(
+          itemId,
+          'Saving shipping details...',
+          'info'
+        );
+
+
+        try {
+
+
+          var result =
+            await window.supabaseClient
+              .rpc(
+                'seller_update_shipping_details',
+                {
+
+                  item_id_input:
+                    Number(
+                      itemId
+                    ),
+
+                  courier_name_input:
+                    courierName,
+
+                  tracking_number_input:
+                    trackingNumber,
+
+                  tracking_url_input:
+                    trackingUrl || null
+
+                }
+              );
+
+
+          if (
+            result.error
+          ) {
+
+            throw result.error;
+
+          }
+
+
+          delete savingShippingItems[
+            String(
+              itemId
+            )
+          ];
+
+
+          /*
+           * Reload secure server data.
+           */
+
+          await loadSellerOrders();
+
+          await loadProductImages();
+
+          groupOrders();
+
+          renderStats();
+
+          renderOrders();
+
+
+          setTimeout(
+            function () {
+
+              setShippingMessage(
+                itemId,
+                'Shipping details saved successfully.',
+                'success'
+              );
+
+            },
+            0
+          );
+
+
+        }
+
+        catch (error) {
+
+
+          console.error(
+            'Shipping update error:',
+            error
+          );
+
+
+          delete savingShippingItems[
+            String(
+              itemId
+            )
+          ];
+
+
+          courierInput.disabled =
+            false;
+
+          trackingInput.disabled =
+            false;
+
+          trackingUrlInput.disabled =
+            false;
+
+          button.disabled =
+            false;
+
+          button.textContent =
+            'Save Shipping Details';
+
+
+          setShippingMessage(
+            itemId,
+            error &&
+            error.message
+              ? error.message
+              : 'Unable to save shipping details.',
+            'error'
+          );
+
+        }
+
+      }
+
+
+      /* ====================================================
          UPDATE FULFILLMENT STATUS
-         ==================================================== */
+      ===================================================== */
 
       async function updateFulfillmentStatus(
         itemId
@@ -2524,7 +3476,9 @@
         if (
           !item
         ) {
+
           return;
+
         }
 
 
@@ -2564,7 +3518,9 @@
           !select ||
           !button
         ) {
+
           return;
+
         }
 
 
@@ -2605,10 +3561,44 @@
             'error'
           );
 
+
           select.value =
             item.fulfillment_status;
 
+
           return;
+
+        }
+
+
+        /*
+         * Frontend check before Shipping.
+         * Backend RPC also enforces this.
+         */
+
+        if (
+          newStatus === 'shipped'
+        ) {
+
+          if (
+            !item.courier_name ||
+            !item.tracking_number
+          ) {
+
+            setItemMessage(
+              itemId,
+              'Save Courier Name and Tracking Number before marking this item as Shipped.',
+              'error'
+            );
+
+
+            select.value =
+              item.fulfillment_status;
+
+
+            return;
+
+          }
 
         }
 
@@ -2685,33 +3675,10 @@
           if (
             result.error
           ) {
+
             throw result.error;
+
           }
-
-
-          item.fulfillment_status =
-            newStatus;
-
-
-          rawItems.forEach(
-            function (row) {
-
-              if (
-                String(
-                  row.item_id
-                ) ===
-                String(
-                  itemId
-                )
-              ) {
-
-                row.fulfillment_status =
-                  newStatus;
-
-              }
-
-            }
-          );
 
 
           delete updatingItems[
@@ -2720,6 +3687,21 @@
             )
           ];
 
+
+          /*
+           * Reload server data.
+           *
+           * This is important because:
+           *
+           * shipped -> shipped_at automatic
+           * delivered -> delivered_at automatic
+           */
+
+          await loadSellerOrders();
+
+          await loadProductImages();
+
+          groupOrders();
 
           renderStats();
 
@@ -2743,6 +3725,7 @@
         }
 
         catch (error) {
+
 
           console.error(
             'Seller fulfillment update error:',
@@ -2785,8 +3768,8 @@
 
 
       /* ====================================================
-         BUTTON EVENTS
-         ==================================================== */
+         FULFILLMENT EVENTS
+      ===================================================== */
 
       function attachFulfillmentEvents() {
 
@@ -2802,7 +3785,9 @@
             if (
               button.disabled
             ) {
+
               return;
+
             }
 
 
@@ -2817,7 +3802,9 @@
                 if (
                   !itemId
                 ) {
+
                   return;
+
                 }
 
 
@@ -2835,8 +3822,62 @@
 
 
       /* ====================================================
+         SHIPPING EVENTS
+      ===================================================== */
+
+      function attachShippingEvents() {
+
+        var buttons =
+          document.querySelectorAll(
+            '.save-shipping-button'
+          );
+
+
+        buttons.forEach(
+          function (button) {
+
+            if (
+              button.disabled
+            ) {
+
+              return;
+
+            }
+
+
+            button.addEventListener(
+              'click',
+              function () {
+
+                var itemId =
+                  button.dataset.itemId;
+
+
+                if (
+                  !itemId
+                ) {
+
+                  return;
+
+                }
+
+
+                saveShippingDetails(
+                  itemId
+                );
+
+              }
+            );
+
+          }
+        );
+
+      }
+
+
+      /* ====================================================
          FILTER + RENDER
-         ==================================================== */
+      ===================================================== */
 
       function renderOrders() {
 
@@ -2908,7 +3949,10 @@
 
                 ||
 
-                order.order_status ===
+                String(
+                  order.order_status ||
+                  ''
+                ).toLowerCase() ===
                   selectedStatus;
 
 
@@ -2995,12 +4039,14 @@
 
         attachFulfillmentEvents();
 
+        attachShippingEvents();
+
       }
 
 
       /* ====================================================
          INITIALISE
-         ==================================================== */
+      ===================================================== */
 
       async function initialisePage() {
 
@@ -3028,7 +4074,9 @@
           if (
             !auth
           ) {
+
             return;
+
           }
 
 
@@ -3044,8 +4092,7 @@
 
 
           /*
-           * NEW:
-           * Load product photos before rendering.
+           * Load product images.
            */
 
           await loadProductImages();
@@ -3078,6 +4125,7 @@
 
         catch (error) {
 
+
           console.error(
             'Seller orders error:',
             error
@@ -3102,8 +4150,8 @@
 
 
       /* ====================================================
-         EVENTS
-         ==================================================== */
+         FILTER EVENTS
+      ===================================================== */
 
       searchInput.addEventListener(
         'input',
@@ -3125,7 +4173,7 @@
 
       /* ====================================================
          START
-         ==================================================== */
+      ===================================================== */
 
       if (
         document.readyState ===
