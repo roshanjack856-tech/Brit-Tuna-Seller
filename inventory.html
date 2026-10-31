@@ -1,82 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    name="description"
-    content="Manage product inventory and stock in the Brit.Tuna Seller Portal."
-  >
-
-  <meta
-    name="theme-color"
-    content="#1f5a3a"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Manage product stock in the Brit.Tuna Seller Portal.">
   <title>Inventory | Brit.Tuna Seller</title>
 
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
 
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap"
-    rel="stylesheet"
-  >
-
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
-
-  <link
-    rel="stylesheet"
-    href="responsive.css"
-  >
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css">
 
   <style>
     .inventory-stats {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 16px;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
 
     .inventory-stat {
-      padding: 20px;
+      background: #fff;
       border: 1px solid #e4e0d7;
       border-radius: 14px;
-      background: #ffffff;
+      padding: 18px;
     }
 
     .inventory-stat-label {
       color: #667085;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 8px;
     }
 
     .inventory-stat-value {
       font-size: 28px;
       font-weight: 700;
-      line-height: 1;
-    }
-
-    .inventory-toolbar {
-      margin-bottom: 22px;
     }
 
     .inventory-table-wrap {
@@ -85,99 +46,70 @@
 
     .inventory-table {
       width: 100%;
+      min-width: 900px;
       border-collapse: collapse;
-      min-width: 920px;
     }
 
     .inventory-table th,
     .inventory-table td {
-      padding: 15px 12px;
       text-align: left;
+      padding: 14px 12px;
       border-bottom: 1px solid #e8e8e8;
       vertical-align: middle;
     }
 
     .inventory-table th {
-      color: #667085;
+      background: #faf9f5;
       font-size: 13px;
-      font-weight: 700;
-      background: #fafafa;
+      color: #667085;
     }
 
     .inventory-product {
       display: flex;
-      align-items: center;
       gap: 12px;
+      align-items: center;
       min-width: 220px;
     }
 
-    .inventory-image {
-      width: 54px;
-      height: 54px;
-      border-radius: 10px;
-      object-fit: cover;
-      background: #f0eee7;
-      flex-shrink: 0;
-    }
-
+    .inventory-image,
     .inventory-no-image {
       width: 54px;
       height: 54px;
       border-radius: 10px;
+      flex: 0 0 54px;
+    }
+
+    .inventory-image {
+      object-fit: cover;
       background: #f0eee7;
+    }
+
+    .inventory-no-image {
       display: flex;
       align-items: center;
       justify-content: center;
+      background: #f0eee7;
       font-size: 10px;
       font-weight: 700;
       color: #667085;
-      flex-shrink: 0;
-    }
-
-    .inventory-product-name {
-      font-weight: 700;
-      margin-bottom: 3px;
-    }
-
-    .inventory-product-id {
-      color: #667085;
-      font-size: 12px;
     }
 
     .stock-badge {
       display: inline-flex;
-      align-items: center;
       padding: 5px 9px;
       border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
-      white-space: nowrap;
     }
 
-    .stock-in {
-      background: #e9f7ef;
-      color: #1f6b3a;
-    }
-
-    .stock-low {
-      background: #fff4d8;
-      color: #8a5a00;
-    }
-
-    .stock-out {
-      background: #fdecec;
-      color: #b42318;
-    }
-
-    .stock-inactive {
-      background: #f2f4f7;
-      color: #667085;
-    }
+    .stock-in { background: #e9f7ef; color: #1f6b3a; }
+    .stock-low { background: #fff4d8; color: #8a5a00; }
+    .stock-out { background: #fdecec; color: #b42318; }
 
     .stock-editor {
       display: flex;
-      align-items: center;
       gap: 8px;
+      align-items: center;
       min-width: 205px;
     }
 
@@ -190,74 +122,28 @@
       font: inherit;
     }
 
-    .stock-input:focus {
-      outline: none;
-      border-color: #1f5a3a;
-      box-shadow: 0 0 0 3px rgba(31, 90, 58, 0.1);
-    }
-
-    .stock-input:disabled {
-      background: #f5f5f5;
-      cursor: not-allowed;
-    }
-
-    .stock-save-button {
-      min-height: 40px;
-      white-space: nowrap;
-    }
-
     .stock-message {
-      margin-top: 7px;
+      margin-top: 6px;
       font-size: 12px;
-      line-height: 1.4;
     }
 
-    .stock-message.success {
-      color: #1f5a3a;
-    }
+    .stock-message.success { color: #1f5a3a; }
+    .stock-message.error { color: #b42318; }
+    .stock-message.info { color: #667085; }
 
-    .stock-message.error {
-      color: #b42318;
-    }
-
-    .stock-message.info {
-      color: #667085;
-    }
-
-    .inventory-alert {
-      margin-bottom: 22px;
-    }
-
-    .inventory-alert-list {
-      margin: 10px 0 0;
-      padding-left: 20px;
-    }
-
-    .inventory-alert-list li {
-      margin: 5px 0;
-    }
-
-    @media (max-width: 1100px) {
+    @media (max-width: 1050px) {
       .inventory-stats {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 650px) {
       .inventory-stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-
-      .inventory-stat {
-        padding: 16px;
-      }
-
-      .inventory-stat-value {
-        font-size: 24px;
-      }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 420px) {
       .inventory-stats {
         grid-template-columns: 1fr;
       }
@@ -266,1706 +152,525 @@
 </head>
 
 <body>
-
-  <!-- HEADER -->
   <div id="site-header"></div>
 
   <main class="seller-main">
-
     <div class="container">
 
-      <!-- LOADING -->
-      <div
-        id="page-loading"
-        class="card loading"
-      >
+      <div id="page-loading" class="card loading">
         Loading your inventory...
       </div>
 
-      <!-- MESSAGE -->
-      <div
-        id="page-message"
-        class="notice"
-        hidden
-        role="status"
-        aria-live="polite"
-      ></div>
+      <div id="page-message" class="notice" hidden role="status" aria-live="polite"></div>
 
-      <!-- PAGE -->
-      <div
-        id="page-content"
-        class="dashboard-layout"
-        hidden
-      >
+      <div id="page-content" class="dashboard-layout" hidden>
 
-        <!-- SIDEBAR -->
         <aside class="seller-sidebar">
-
-          <div class="sidebar-title">
-            Seller Center
-          </div>
+          <div class="sidebar-title">Seller Center</div>
 
           <nav class="sidebar-nav">
-
-            <a href="seller-dashboard.html">
-              Dashboard
-            </a>
-
-            <a href="products.html">
-              My Products
-            </a>
-
-            <a href="add-product.html">
-              Add Product
-            </a>
-
-            <a
-              href="inventory.html"
-              class="active"
-            >
-              Inventory
-            </a>
-
-            <a href="orders.html">
-              Orders
-            </a>
-
+            <a href="seller-dashboard.html">Dashboard</a>
+            <a href="products.html">My Products</a>
+            <a href="add-product.html">Add Product</a>
+            <a href="inventory.html" class="active">Inventory</a>
+            <a href="orders.html">Orders</a>
           </nav>
-
         </aside>
 
-        <!-- INVENTORY -->
         <section>
-
           <div class="toolbar">
-
             <div class="page-header">
-
-              <h1>
-                Inventory
-              </h1>
-
-              <p>
-                Manage stock for your product variants and
-                monitor low-stock products.
-              </p>
-
+              <h1>Inventory</h1>
+              <p>Manage stock for every product variant or pack size.</p>
             </div>
 
             <div class="toolbar-actions">
-
-              <a
-                href="add-product.html"
-                class="btn btn-primary"
-              >
-                + Add Product
-              </a>
-
+              <a href="add-product.html" class="btn btn-primary">+ Add Product</a>
             </div>
-
           </div>
 
-          <!-- INFO -->
-          <div class="notice inventory-alert">
-
-            <strong>
-              Inventory Management
-            </strong>
-
-            <br>
-
-            Stock is managed separately for every product
-            variant or pack size.
-
-            Only products belonging to your seller account
-            can be updated.
-
+          <div class="notice">
+            <strong>Secure stock management:</strong>
+            only variants belonging to your seller products can be updated.
+            Low stock means 1–5 units.
           </div>
 
-          <!-- STATS -->
           <div class="inventory-stats">
-
             <article class="inventory-stat">
-
-              <div class="inventory-stat-label">
-                Total Variants
-              </div>
-
-              <div
-                class="inventory-stat-value"
-                id="total-variants"
-              >
-                0
-              </div>
-
+              <div class="inventory-stat-label">Total Variants</div>
+              <div class="inventory-stat-value" id="total-variants">0</div>
             </article>
 
             <article class="inventory-stat">
-
-              <div class="inventory-stat-label">
-                Total Units
-              </div>
-
-              <div
-                class="inventory-stat-value"
-                id="total-stock"
-              >
-                0
-              </div>
-
+              <div class="inventory-stat-label">Total Units</div>
+              <div class="inventory-stat-value" id="total-stock">0</div>
             </article>
 
             <article class="inventory-stat">
-
-              <div class="inventory-stat-label">
-                In Stock
-              </div>
-
-              <div
-                class="inventory-stat-value"
-                id="in-stock"
-              >
-                0
-              </div>
-
+              <div class="inventory-stat-label">In Stock</div>
+              <div class="inventory-stat-value" id="in-stock">0</div>
             </article>
 
             <article class="inventory-stat">
-
-              <div class="inventory-stat-label">
-                Low Stock
-              </div>
-
-              <div
-                class="inventory-stat-value"
-                id="low-stock"
-              >
-                0
-              </div>
-
+              <div class="inventory-stat-label">Low Stock</div>
+              <div class="inventory-stat-value" id="low-stock">0</div>
             </article>
 
             <article class="inventory-stat">
-
-              <div class="inventory-stat-label">
-                Out of Stock
-              </div>
-
-              <div
-                class="inventory-stat-value"
-                id="out-stock"
-              >
-                0
-              </div>
-
+              <div class="inventory-stat-label">Out of Stock</div>
+              <div class="inventory-stat-value" id="out-stock">0</div>
             </article>
-
           </div>
 
-          <!-- LOW STOCK ALERT -->
-          <div
-            id="low-stock-alert"
-            class="notice notice-warning inventory-alert"
-            hidden
-          >
-
-            <strong>
-              ⚠ Low Stock Alert
-            </strong>
-
+          <div id="low-stock-alert" class="notice notice-warning" hidden>
+            <strong>Low Stock Alert</strong>
             <div id="low-stock-alert-content"></div>
-
           </div>
 
-          <!-- FILTERS -->
-          <div class="card inventory-toolbar">
-
+          <div class="card" style="margin-bottom:22px;">
             <div class="form-grid">
-
               <div class="form-field">
-
-                <label for="inventory-search">
-                  Search
-                </label>
-
-                <input
-                  type="search"
-                  id="inventory-search"
-                  placeholder="Product or pack size..."
-                >
-
+                <label for="inventory-search">Search</label>
+                <input type="search" id="inventory-search" placeholder="Product or pack size...">
               </div>
 
               <div class="form-field">
-
-                <label for="stock-filter">
-                  Stock Status
-                </label>
-
+                <label for="stock-filter">Stock Status</label>
                 <select id="stock-filter">
-
-                  <option value="all">
-                    All Inventory
-                  </option>
-
-                  <option value="in">
-                    In Stock
-                  </option>
-
-                  <option value="low">
-                    Low Stock
-                  </option>
-
-                  <option value="out">
-                    Out of Stock
-                  </option>
-
+                  <option value="all">All Inventory</option>
+                  <option value="in">In Stock</option>
+                  <option value="low">Low Stock</option>
+                  <option value="out">Out of Stock</option>
                 </select>
-
               </div>
-
-              <div class="form-field">
-
-                <label for="product-status-filter">
-                  Product Status
-                </label>
-
-                <select id="product-status-filter">
-
-                  <option value="all">
-                    All Products
-                  </option>
-
-                  <option value="active">
-                    Active
-                  </option>
-
-                  <option value="pending">
-                    Pending
-                  </option>
-
-                  <option value="rejected">
-                    Rejected
-                  </option>
-
-                  <option value="inactive">
-                    Inactive
-                  </option>
-
-                </select>
-
-              </div>
-
             </div>
-
           </div>
 
-          <!-- EMPTY -->
-          <div
-            id="inventory-empty"
-            class="card empty-state"
-            hidden
-          >
-
-            <h2>
-              No inventory found
-            </h2>
-
-            <p id="inventory-empty-message">
-              You do not have product variants yet.
-            </p>
-
-            <a
-              href="add-product.html"
-              class="btn btn-primary"
-            >
-              Add Product
-            </a>
-
+          <div id="inventory-empty" class="card empty-state" hidden>
+            <h2>No inventory found</h2>
+            <p id="inventory-empty-message">You do not have product variants yet.</p>
+            <a href="add-product.html" class="btn btn-primary">Add Product</a>
           </div>
 
-          <!-- TABLE -->
-          <div
-            id="inventory-table-card"
-            class="card"
-            hidden
-          >
-
+          <div id="inventory-table-card" class="card" hidden>
             <div class="inventory-table-wrap">
-
               <table class="inventory-table">
-
                 <thead>
-
                   <tr>
-
-                    <th>
-                      Product
-                    </th>
-
-                    <th>
-                      Variant
-                    </th>
-
-                    <th>
-                      Price
-                    </th>
-
-                    <th>
-                      Current Stock
-                    </th>
-
-                    <th>
-                      Status
-                    </th>
-
-                    <th>
-                      Update Stock
-                    </th>
-
+                    <th>Product</th>
+                    <th>Variant</th>
+                    <th>Price</th>
+                    <th>Current Stock</th>
+                    <th>Status</th>
+                    <th>Update Stock</th>
                   </tr>
-
                 </thead>
-
                 <tbody id="inventory-body"></tbody>
-
               </table>
-
             </div>
-
           </div>
-
         </section>
-
       </div>
-
     </div>
-
   </main>
 
-  <!-- FOOTER -->
   <div id="site-footer"></div>
 
-  <!-- SCRIPTS -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-  ></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
   <script src="supabase.js"></script>
   <script src="script.js"></script>
 
   <script>
-
     (function () {
-
       'use strict';
 
-      /* ================================================
-         SETTINGS
-      ================================================= */
-
-      /*
-       * 1 - 5 units = Low Stock
-       * 0 = Out of Stock
-       * 6+ = In Stock
-       */
-
       var LOW_STOCK_LIMIT = 5;
-
-
-      /* ================================================
-         STATE
-      ================================================= */
-
       var currentUser = null;
-
       var products = [];
-
       var inventory = [];
 
-      var updatingVariants = {};
-
-
-      /* ================================================
-         ELEMENTS
-      ================================================= */
-
-      var loading =
-        document.getElementById(
-          'page-loading'
-        );
-
-      var content =
-        document.getElementById(
-          'page-content'
-        );
-
-      var messageBox =
-        document.getElementById(
-          'page-message'
-        );
-
-      var searchInput =
-        document.getElementById(
-          'inventory-search'
-        );
-
-      var stockFilter =
-        document.getElementById(
-          'stock-filter'
-        );
-
-      var productStatusFilter =
-        document.getElementById(
-          'product-status-filter'
-        );
-
-      var inventoryBody =
-        document.getElementById(
-          'inventory-body'
-        );
-
-      var tableCard =
-        document.getElementById(
-          'inventory-table-card'
-        );
-
-      var emptyState =
-        document.getElementById(
-          'inventory-empty'
-        );
-
-      var emptyMessage =
-        document.getElementById(
-          'inventory-empty-message'
-        );
-
-      var totalVariantsElement =
-        document.getElementById(
-          'total-variants'
-        );
-
-      var totalStockElement =
-        document.getElementById(
-          'total-stock'
-        );
-
-      var inStockElement =
-        document.getElementById(
-          'in-stock'
-        );
-
-      var lowStockElement =
-        document.getElementById(
-          'low-stock'
-        );
-
-      var outStockElement =
-        document.getElementById(
-          'out-stock'
-        );
-
-      var lowStockAlert =
-        document.getElementById(
-          'low-stock-alert'
-        );
-
-      var lowStockAlertContent =
-        document.getElementById(
-          'low-stock-alert-content'
-        );
-
-
-      /* ================================================
-         HELPERS
-      ================================================= */
+      var loading = document.getElementById('page-loading');
+      var content = document.getElementById('page-content');
+      var messageBox = document.getElementById('page-message');
+      var searchInput = document.getElementById('inventory-search');
+      var stockFilter = document.getElementById('stock-filter');
+      var inventoryBody = document.getElementById('inventory-body');
+      var tableCard = document.getElementById('inventory-table-card');
+      var emptyState = document.getElementById('inventory-empty');
+      var emptyMessage = document.getElementById('inventory-empty-message');
 
       function escapeHtml(value) {
-
-        if (
-          window.BTSellerUtil &&
-          window.BTSellerUtil.escapeHtml
-        ) {
-
-          return window.BTSellerUtil
-            .escapeHtml(value);
-
+        if (window.BTSellerUtil && window.BTSellerUtil.escapeHtml) {
+          return window.BTSellerUtil.escapeHtml(value);
         }
 
-        return String(
-          value == null
-            ? ''
-            : value
-        )
+        return String(value == null ? '' : value)
           .replace(/&/g, '&amp;')
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;')
           .replace(/"/g, '&quot;')
           .replace(/'/g, '&#39;');
-
       }
-
 
       function formatPrice(value) {
-
-        if (
-          window.BTSellerUtil &&
-          window.BTSellerUtil.formatINR
-        ) {
-
-          return window.BTSellerUtil
-            .formatINR(value);
-
+        if (window.BTSellerUtil && window.BTSellerUtil.formatINR) {
+          return window.BTSellerUtil.formatINR(value);
         }
-
-        return '₹' +
-          Number(
-            value || 0
-          ).toFixed(2);
-
+        return '₹' + Number(value || 0).toFixed(2);
       }
 
+      function showMessage(text, type) {
+        messageBox.textContent = text;
+        messageBox.className = 'notice';
 
-      function showMessage(
-        text,
-        type
-      ) {
+        if (type === 'success') messageBox.classList.add('notice-success');
+        if (type === 'error') messageBox.classList.add('notice-error');
+        if (type === 'warning') messageBox.classList.add('notice-warning');
 
-        messageBox.textContent =
-          text;
-
-        messageBox.className =
-          'notice';
-
-        if (type === 'success') {
-
-          messageBox.classList.add(
-            'notice-success'
-          );
-
-        }
-
-        if (type === 'error') {
-
-          messageBox.classList.add(
-            'notice-error'
-          );
-
-        }
-
-        if (type === 'warning') {
-
-          messageBox.classList.add(
-            'notice-warning'
-          );
-
-        }
-
-        messageBox.hidden =
-          false;
-
+        messageBox.hidden = false;
       }
-
-
-      function hideMessage() {
-
-        messageBox.hidden =
-          true;
-
-        messageBox.textContent =
-          '';
-
-        messageBox.className =
-          'notice';
-
-      }
-
 
       function stockStatus(stock) {
-
-        var quantity =
-          Number(stock || 0);
-
-        if (quantity <= 0) {
-          return 'out';
-        }
-
-        if (
-          quantity <=
-          LOW_STOCK_LIMIT
-        ) {
-          return 'low';
-        }
-
+        var quantity = Number(stock || 0);
+        if (quantity <= 0) return 'out';
+        if (quantity <= LOW_STOCK_LIMIT) return 'low';
         return 'in';
-
       }
-
-
-      function stockStatusLabel(stock) {
-
-        var status =
-          stockStatus(stock);
-
-        if (status === 'out') {
-          return 'Out of Stock';
-        }
-
-        if (status === 'low') {
-          return 'Low Stock';
-        }
-
-        return 'In Stock';
-
-      }
-
 
       function stockBadge(stock) {
+        var status = stockStatus(stock);
+        var label = status === 'out'
+          ? 'Out of Stock'
+          : status === 'low'
+            ? 'Low Stock'
+            : 'In Stock';
 
-        var status =
-          stockStatus(stock);
-
-        var className =
-          'stock-badge stock-in';
-
-        if (status === 'low') {
-
-          className =
-            'stock-badge stock-low';
-
-        }
-
-        if (status === 'out') {
-
-          className =
-            'stock-badge stock-out';
-
-        }
-
-        return (
-          '<span class="' +
-          className +
+        return '<span class="stock-badge stock-' +
+          status +
           '">' +
-          escapeHtml(
-            stockStatusLabel(stock)
-          ) +
-          '</span>'
-        );
-
+          escapeHtml(label) +
+          '</span>';
       }
 
+      function getPrimaryImage(product) {
+        var images = Array.isArray(product.product_images)
+          ? product.product_images.slice()
+          : [];
 
-      function productStatusBadge(
-        status
-      ) {
+        images.sort(function (a, b) {
+          if (a.is_primary && !b.is_primary) return -1;
+          if (!a.is_primary && b.is_primary) return 1;
+          return Number(a.sort_order || 0) - Number(b.sort_order || 0);
+        });
 
-        var value =
-          String(
-            status || 'pending'
-          ).toLowerCase();
+        var selected = images.find(function (image) {
+          return image && image.image_url;
+        });
 
-        var className =
-          'badge badge-pending';
-
-        if (value === 'active') {
-
-          className =
-            'badge badge-active';
-
-        }
-
-        if (value === 'rejected') {
-
-          className =
-            'badge badge-rejected';
-
-        }
-
-        return (
-          '<span class="' +
-          className +
-          '">' +
-          escapeHtml(value) +
-          '</span>'
-        );
-
+        return selected && selected.image_url
+          ? selected.image_url
+          : product.image_url || '';
       }
-
-
-      /* ================================================
-         LOAD SELLER PRODUCTS
-      ================================================= */
 
       async function loadProducts() {
-
-        var result =
-          await window.supabaseClient
-
-            .from('products')
-
-            .select(
-              `
-                id,
-                name,
-                image_url,
-                seller_id,
-                product_type,
-                status,
-                is_active,
-                product_variants (
-                  id,
-                  product_id,
-                  pack_size,
-                  price,
-                  stock_quantity,
-                  is_active,
-                  updated_at
-                )
-              `
+        var result = await window.supabaseClient
+          .from('products')
+          .select(`
+            id,
+            name,
+            image_url,
+            seller_id,
+            product_type,
+            status,
+            is_active,
+            product_images (
+              id,
+              product_id,
+              image_url,
+              sort_order,
+              is_primary
+            ),
+            product_variants (
+              id,
+              product_id,
+              pack_size,
+              price,
+              stock_quantity,
+              is_active,
+              updated_at
             )
+          `)
+          .eq('seller_id', currentUser.id)
+          .eq('product_type', 'seller')
+          .order('created_at', { ascending: false });
 
-            .eq(
-              'seller_id',
-              currentUser.id
-            )
+        if (result.error) throw result.error;
 
-            .eq(
-              'product_type',
-              'seller'
-            )
-
-            .order(
-              'created_at',
-              {
-                ascending: false
-              }
-            );
-
-
-        if (result.error) {
-
-          throw result.error;
-
-        }
-
-
-        products =
-          result.data || [];
-
+        products = result.data || [];
       }
-
-
-      /* ================================================
-         BUILD INVENTORY
-      ================================================= */
 
       function buildInventory() {
-
         inventory = [];
 
+        products.forEach(function (product) {
+          var variants = product.product_variants || [];
+          var imageUrl = getPrimaryImage(product);
 
-        products.forEach(
-          function (product) {
-
-            var variants =
-              product.product_variants ||
-              [];
-
-
-            variants.forEach(
-              function (variant) {
-
-                inventory.push({
-
-                  product_id:
-                    product.id,
-
-                  product_name:
-                    product.name,
-
-                  product_image:
-                    product.image_url,
-
-                  product_status:
-                    product.status,
-
-                  product_active:
-                    product.is_active,
-
-                  variant_id:
-                    variant.id,
-
-                  pack_size:
-                    variant.pack_size,
-
-                  price:
-                    Number(
-                      variant.price || 0
-                    ),
-
-                  stock_quantity:
-                    Number(
-                      variant.stock_quantity || 0
-                    ),
-
-                  variant_active:
-                    variant.is_active,
-
-                  updated_at:
-                    variant.updated_at
-
-                });
-
-              }
-            );
-
-          }
-        );
-
+          variants.forEach(function (variant) {
+            inventory.push({
+              product_id: product.id,
+              product_name: product.name,
+              product_image: imageUrl,
+              product_status: product.status,
+              variant_id: variant.id,
+              pack_size: variant.pack_size,
+              price: Number(variant.price || 0),
+              stock_quantity: Number(variant.stock_quantity || 0),
+              variant_active: variant.is_active
+            });
+          });
+        });
       }
-
-
-      /* ================================================
-         STATS
-      ================================================= */
 
       function renderStats() {
+        var total = 0;
+        var inStock = 0;
+        var low = 0;
+        var out = 0;
 
-        var totalStock =
-          0;
+        inventory.forEach(function (item) {
+          total += Number(item.stock_quantity || 0);
+          var status = stockStatus(item.stock_quantity);
 
-        var inStock =
-          0;
+          if (status === 'in') inStock++;
+          if (status === 'low') low++;
+          if (status === 'out') out++;
+        });
 
-        var lowStock =
-          0;
-
-        var outStock =
-          0;
-
-
-        inventory.forEach(
-          function (item) {
-
-            var stock =
-              Number(
-                item.stock_quantity || 0
-              );
-
-
-            totalStock +=
-              stock;
-
-
-            var status =
-              stockStatus(stock);
-
-
-            if (status === 'in') {
-
-              inStock += 1;
-
-            }
-
-
-            if (status === 'low') {
-
-              lowStock += 1;
-
-            }
-
-
-            if (status === 'out') {
-
-              outStock += 1;
-
-            }
-
-          }
-        );
-
-
-        totalVariantsElement.textContent =
-          String(
-            inventory.length
-          );
-
-
-        totalStockElement.textContent =
-          String(
-            totalStock
-          );
-
-
-        inStockElement.textContent =
-          String(
-            inStock
-          );
-
-
-        lowStockElement.textContent =
-          String(
-            lowStock
-          );
-
-
-        outStockElement.textContent =
-          String(
-            outStock
-          );
-
+        document.getElementById('total-variants').textContent = inventory.length;
+        document.getElementById('total-stock').textContent = total;
+        document.getElementById('in-stock').textContent = inStock;
+        document.getElementById('low-stock').textContent = low;
+        document.getElementById('out-stock').textContent = out;
       }
-
-
-      /* ================================================
-         LOW STOCK ALERT
-      ================================================= */
 
       function renderLowStockAlert() {
+        var alertBox = document.getElementById('low-stock-alert');
+        var alertContent = document.getElementById('low-stock-alert-content');
 
-        var alerts =
-          inventory.filter(
-            function (item) {
+        var alerts = inventory.filter(function (item) {
+          return stockStatus(item.stock_quantity) !== 'in';
+        });
 
-              return (
-                stockStatus(
-                  item.stock_quantity
-                ) === 'low' ||
-                stockStatus(
-                  item.stock_quantity
-                ) === 'out'
-              );
-
-            }
-          );
-
-
-        if (
-          alerts.length === 0
-        ) {
-
-          lowStockAlert.hidden =
-            true;
-
-          lowStockAlertContent.innerHTML =
-            '';
-
+        if (!alerts.length) {
+          alertBox.hidden = true;
+          alertContent.innerHTML = '';
           return;
-
         }
 
-
-        var html =
-          '<ul class="inventory-alert-list">';
-
-
-        alerts
-          .slice(0, 8)
-          .forEach(
-            function (item) {
-
-              html +=
-                '<li>' +
-                '<strong>' +
-                escapeHtml(
-                  item.product_name
-                ) +
-                '</strong>' +
-                ' — ' +
-                escapeHtml(
-                  item.pack_size
-                ) +
-                ': ' +
-                escapeHtml(
-                  item.stock_quantity
-                ) +
-                ' units' +
-                '</li>';
-
-            }
-          );
-
-
-        html +=
+        alertContent.innerHTML =
+          '<ul>' +
+          alerts.slice(0, 8).map(function (item) {
+            return '<li><strong>' +
+              escapeHtml(item.product_name) +
+              '</strong> — ' +
+              escapeHtml(item.pack_size) +
+              ': ' +
+              escapeHtml(item.stock_quantity) +
+              ' units</li>';
+          }).join('') +
           '</ul>';
 
+        alertBox.hidden = false;
+      }
 
-        if (
-          alerts.length > 8
-        ) {
-
-          html +=
-            '<p class="muted">' +
-            '+' +
-            escapeHtml(
-              alerts.length - 8
-            ) +
-            ' more low-stock variants.' +
-            '</p>';
-
+      function productImageHtml(item) {
+        if (!item.product_image) {
+          return '<div class="inventory-no-image">No Image</div>';
         }
 
-
-        lowStockAlertContent.innerHTML =
-          html;
-
-        lowStockAlert.hidden =
-          false;
-
+        return '<img class="inventory-image" src="' +
+          escapeHtml(item.product_image) +
+          '" alt="' +
+          escapeHtml(item.product_name) +
+          '">';
       }
-
-
-      /* ================================================
-         PRODUCT IMAGE
-      ================================================= */
-
-      function productImageHtml(
-        item
-      ) {
-
-        if (
-          item.product_image
-        ) {
-
-          return `
-
-            <img
-              class="inventory-image"
-              src="${escapeHtml(
-                item.product_image
-              )}"
-              alt="${escapeHtml(
-                item.product_name
-              )}"
-              loading="lazy"
-              onerror="
-                this.style.display='none';
-                this.nextElementSibling.style.display='flex';
-              "
-            >
-
-            <div
-              class="inventory-no-image"
-              style="display:none;"
-            >
-              No Image
-            </div>
-
-          `;
-
-        }
-
-
-        return `
-
-          <div class="inventory-no-image">
-            No Image
-          </div>
-
-        `;
-
-      }
-
-
-      /* ================================================
-         ROW
-      ================================================= */
-
-      function inventoryRowHtml(
-        item
-      ) {
-
-        var variantId =
-          escapeHtml(
-            item.variant_id
-          );
-
-
-        var isUpdating =
-          Boolean(
-            updatingVariants[
-              String(
-                item.variant_id
-              )
-            ]
-          );
-
-
-        return `
-
-          <tr>
-
-            <td>
-
-              <div class="inventory-product">
-
-                ${productImageHtml(
-                  item
-                )}
-
-                <div>
-
-                  <div class="inventory-product-name">
-
-                    ${escapeHtml(
-                      item.product_name
-                    )}
-
-                  </div>
-
-                  <div class="inventory-product-id">
-
-                    Product #${escapeHtml(
-                      item.product_id
-                    )}
-
-                  </div>
-
-                  <div style="margin-top:5px;">
-
-                    ${productStatusBadge(
-                      item.product_status
-                    )}
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </td>
-
-
-            <td>
-
-              <strong>
-                ${escapeHtml(
-                  item.pack_size
-                )}
-              </strong>
-
-              <div class="muted">
-
-                Variant #${variantId}
-
-              </div>
-
-            </td>
-
-
-            <td>
-
-              <strong>
-
-                ${escapeHtml(
-                  formatPrice(
-                    item.price
-                  )
-                )}
-
-              </strong>
-
-            </td>
-
-
-            <td>
-
-              <strong>
-
-                ${escapeHtml(
-                  item.stock_quantity
-                )}
-
-              </strong>
-
-              units
-
-            </td>
-
-
-            <td>
-
-              ${stockBadge(
-                item.stock_quantity
-              )}
-
-            </td>
-
-
-            <td>
-
-              <div class="stock-editor">
-
-                <input
-                  type="number"
-                  class="stock-input"
-                  id="stock-input-${variantId}"
-                  data-variant-id="${variantId}"
-                  min="0"
-                  max="1000000"
-                  step="1"
-                  value="${escapeHtml(
-                    item.stock_quantity
-                  )}"
-                  aria-label="Stock quantity for ${escapeHtml(
-                    item.product_name
-                  )} ${escapeHtml(
-                    item.pack_size
-                  )}"
-                  ${isUpdating ? 'disabled' : ''}
-                >
-
-                <button
-                  type="button"
-                  class="btn btn-primary stock-save-button"
-                  data-variant-id="${variantId}"
-                  ${isUpdating ? 'disabled' : ''}
-                >
-
-                  ${
-                    isUpdating
-                      ? 'Saving...'
-                      : 'Update'
-                  }
-
-                </button>
-
-              </div>
-
-              <div
-                id="stock-message-${variantId}"
-                class="stock-message"
-                aria-live="polite"
-              ></div>
-
-            </td>
-
-          </tr>
-
-        `;
-
-      }
-
-
-      /* ================================================
-         RENDER INVENTORY
-      ================================================= */
 
       function renderInventory() {
+        var query = searchInput.value.trim().toLowerCase();
+        var filter = stockFilter.value;
 
-        var query =
-          searchInput.value
-            .trim()
-            .toLowerCase();
+        var filtered = inventory.filter(function (item) {
+          var matchesSearch =
+            !query ||
+            String(item.product_name || '').toLowerCase().includes(query) ||
+            String(item.pack_size || '').toLowerCase().includes(query);
 
+          var matchesStatus =
+            filter === 'all' ||
+            stockStatus(item.stock_quantity) === filter;
 
-        var selectedStock =
-          stockFilter.value;
+          return matchesSearch && matchesStatus;
+        });
 
+        inventoryBody.innerHTML = '';
 
-        var selectedProductStatus =
-          productStatusFilter.value;
-
-
-        var filtered =
-          inventory.filter(
-            function (item) {
-
-              var productName =
-                String(
-                  item.product_name || ''
-                ).toLowerCase();
-
-
-              var packSize =
-                String(
-                  item.pack_size || ''
-                ).toLowerCase();
-
-
-              var matchesSearch =
-                !query ||
-                productName.includes(
-                  query
-                ) ||
-                packSize.includes(
-                  query
-                );
-
-
-              var currentStockStatus =
-                stockStatus(
-                  item.stock_quantity
-                );
-
-
-              var matchesStock =
-                selectedStock === 'all' ||
-                currentStockStatus ===
-                  selectedStock;
-
-
-              var matchesProductStatus =
-                selectedProductStatus ===
-                  'all' ||
-                item.product_status ===
-                  selectedProductStatus;
-
-
-              return (
-                matchesSearch &&
-                matchesStock &&
-                matchesProductStatus
-              );
-
-            }
-          );
-
-
-        inventoryBody.innerHTML =
-          '';
-
-
-        if (
-          filtered.length === 0
-        ) {
-
-          tableCard.hidden =
-            true;
-
-          emptyState.hidden =
-            false;
-
-
-          if (
-            inventory.length === 0
-          ) {
-
-            emptyMessage.textContent =
-              'You do not have product variants yet.';
-
-          }
-
-          else {
-
-            emptyMessage.textContent =
-              'No inventory matches your current search or filter.';
-
-          }
-
+        if (!filtered.length) {
+          tableCard.hidden = true;
+          emptyState.hidden = false;
+          emptyMessage.textContent = inventory.length
+            ? 'No inventory matches your search or filter.'
+            : 'You do not have product variants yet.';
           return;
-
         }
 
+        emptyState.hidden = true;
+        tableCard.hidden = false;
 
-        emptyState.hidden =
-          true;
+        filtered.forEach(function (item) {
+          var id = escapeHtml(item.variant_id);
 
-        tableCard.hidden =
-          false;
+          inventoryBody.insertAdjacentHTML(
+            'beforeend',
+            `
+              <tr>
+                <td>
+                  <div class="inventory-product">
+                    ${productImageHtml(item)}
+                    <div>
+                      <strong>${escapeHtml(item.product_name)}</strong>
+                      <div class="muted">Product #${escapeHtml(item.product_id)}</div>
+                    </div>
+                  </div>
+                </td>
 
+                <td>
+                  <strong>${escapeHtml(item.pack_size)}</strong>
+                  <div class="muted">Variant #${id}</div>
+                </td>
 
-        filtered.forEach(
-          function (item) {
+                <td>${escapeHtml(formatPrice(item.price))}</td>
 
-            inventoryBody
-              .insertAdjacentHTML(
-                'beforeend',
-                inventoryRowHtml(
-                  item
-                )
-              );
+                <td>
+                  <strong>${escapeHtml(item.stock_quantity)}</strong> units
+                </td>
 
-          }
-        );
+                <td>${stockBadge(item.stock_quantity)}</td>
 
+                <td>
+                  <div class="stock-editor">
+                    <input
+                      type="number"
+                      class="stock-input"
+                      id="stock-input-${id}"
+                      min="0"
+                      max="1000000"
+                      step="1"
+                      value="${escapeHtml(item.stock_quantity)}"
+                    >
+
+                    <button
+                      type="button"
+                      class="btn btn-primary stock-save-button"
+                      data-variant-id="${id}"
+                    >
+                      Update
+                    </button>
+                  </div>
+
+                  <div
+                    class="stock-message"
+                    id="stock-message-${id}"
+                    aria-live="polite"
+                  ></div>
+                </td>
+              </tr>
+            `
+          );
+        });
 
         attachStockEvents();
-
       }
 
+      function findInventoryItem(variantId) {
+        return inventory.find(function (item) {
+          return String(item.variant_id) === String(variantId);
+        });
+      }
 
-      /* ================================================
-         FIND INVENTORY ITEM
-      ================================================= */
+      function setStockMessage(variantId, text, type) {
+        var el = document.getElementById('stock-message-' + variantId);
+        if (!el) return;
 
-      function findInventoryItem(
-        variantId
-      ) {
+        el.textContent = text || '';
+        el.className = 'stock-message';
+        if (type) el.classList.add(type);
+      }
 
-        return inventory.find(
-          function (item) {
-
-            return (
-              String(
-                item.variant_id
-              ) ===
-              String(
-                variantId
-              )
-            );
-
-          }
+      async function updateStock(variantId) {
+        var item = findInventoryItem(variantId);
+        var input = document.getElementById('stock-input-' + variantId);
+        var button = document.querySelector(
+          '.stock-save-button[data-variant-id="' + variantId + '"]'
         );
 
-      }
+        if (!item || !input || !button) return;
 
-
-      /* ================================================
-         ITEM MESSAGE
-      ================================================= */
-
-      function setStockMessage(
-        variantId,
-        text,
-        type
-      ) {
-
-        var element =
-          document.getElementById(
-            'stock-message-' +
-            variantId
-          );
-
-
-        if (!element) {
-          return;
-        }
-
-
-        element.textContent =
-          text || '';
-
-        element.className =
-          'stock-message';
-
-
-        if (type) {
-
-          element.classList.add(
-            type
-          );
-
-        }
-
-      }
-
-
-      /* ================================================
-         UPDATE STOCK
-      ================================================= */
-
-      async function updateStock(
-        variantId
-      ) {
-
-        var item =
-          findInventoryItem(
-            variantId
-          );
-
-
-        if (!item) {
-          return;
-        }
-
-
-        var input =
-          document.getElementById(
-            'stock-input-' +
-            variantId
-          );
-
-
-        var button =
-          document.querySelector(
-            '.stock-save-button[data-variant-id="' +
-            variantId +
-            '"]'
-          );
-
+        var newStock = Number(input.value);
 
         if (
-          !input ||
-          !button
-        ) {
-          return;
-        }
-
-
-        var newStock =
-          Number(
-            input.value
-          );
-
-
-        if (
-          !Number.isInteger(
-            newStock
-          ) ||
+          !Number.isInteger(newStock) ||
           newStock < 0 ||
           newStock > 1000000
         ) {
-
-          setStockMessage(
-            variantId,
-            'Enter a valid stock quantity.',
-            'error'
-          );
-
-          input.value =
-            item.stock_quantity;
-
+          setStockMessage(variantId, 'Enter a valid stock quantity.', 'error');
+          input.value = item.stock_quantity;
           return;
-
         }
 
-
-        if (
-          newStock ===
-          item.stock_quantity
-        ) {
-
-          setStockMessage(
-            variantId,
-            'Stock quantity has not changed.',
-            'info'
-          );
-
+        if (newStock === item.stock_quantity) {
+          setStockMessage(variantId, 'Stock quantity has not changed.', 'info');
           return;
-
         }
 
-
-        updatingVariants[
-          String(
-            variantId
-          )
-        ] = true;
-
-
-        input.disabled =
-          true;
-
-        button.disabled =
-          true;
-
-        button.textContent =
-          'Saving...';
-
-
-        setStockMessage(
-          variantId,
-          'Updating stock...',
-          'info'
-        );
-
+        input.disabled = true;
+        button.disabled = true;
+        button.textContent = 'Saving...';
+        setStockMessage(variantId, 'Updating stock...', 'info');
 
         try {
-
-          /*
-           * Secure RPC.
-           *
-           * Database verifies that the variant belongs
-           * to the currently logged-in seller.
-           */
-
-          var result =
-            await window.supabaseClient
-
-              .rpc(
-                'seller_update_variant_stock',
-                {
-
-                  variant_id_input:
-                    Number(
-                      variantId
-                    ),
-
-                  stock_quantity_input:
-                    newStock
-
-                }
-              );
-
-
-          if (result.error) {
-
-            throw result.error;
-
-          }
-
-
-          /*
-           * Update local inventory.
-           */
-
-          item.stock_quantity =
-            newStock;
-
-
-          /*
-           * Keep nested product data synced.
-           */
-
-          products.forEach(
-            function (product) {
-
-              (
-                product.product_variants ||
-                []
-              ).forEach(
-                function (variant) {
-
-                  if (
-                    String(
-                      variant.id
-                    ) ===
-                    String(
-                      variantId
-                    )
-                  ) {
-
-                    variant.stock_quantity =
-                      newStock;
-
-                  }
-
-                }
-              );
-
+          var result = await window.supabaseClient.rpc(
+            'seller_update_variant_stock',
+            {
+              variant_id_input: Number(variantId),
+              stock_quantity_input: newStock
             }
           );
 
+          if (result.error) throw result.error;
 
-          delete updatingVariants[
-            String(
-              variantId
-            )
-          ];
+          item.stock_quantity = newStock;
 
+          products.forEach(function (product) {
+            (product.product_variants || []).forEach(function (variant) {
+              if (String(variant.id) === String(variantId)) {
+                variant.stock_quantity = newStock;
+              }
+            });
+          });
 
           renderStats();
-
           renderLowStockAlert();
-
           renderInventory();
 
-
-          setTimeout(
-            function () {
-
-              setStockMessage(
-                variantId,
-                'Stock updated successfully.',
-                'success'
-              );
-
-            },
-            0
-          );
-
+          setTimeout(function () {
+            setStockMessage(
+              variantId,
+              'Stock updated successfully.',
+              'success'
+            );
+          }, 0);
 
           showMessage(
             item.product_name +
@@ -1976,289 +681,89 @@
             '.',
             'success'
           );
+        } catch (error) {
+          console.error('Inventory stock update error:', error);
 
-        }
-
-        catch (error) {
-
-          console.error(
-            'Inventory stock update error:',
-            error
-          );
-
-
-          delete updatingVariants[
-            String(
-              variantId
-            )
-          ];
-
-
-          input.disabled =
-            false;
-
-          button.disabled =
-            false;
-
-          button.textContent =
-            'Update';
-
-          input.value =
-            item.stock_quantity;
-
+          input.disabled = false;
+          button.disabled = false;
+          button.textContent = 'Update';
+          input.value = item.stock_quantity;
 
           setStockMessage(
             variantId,
-            error &&
-            error.message
+            error && error.message
               ? error.message
               : 'Unable to update stock.',
             'error'
           );
-
         }
-
       }
-
-
-      /* ================================================
-         BUTTON EVENTS
-      ================================================= */
 
       function attachStockEvents() {
+        document.querySelectorAll('.stock-save-button').forEach(function (button) {
+          button.addEventListener('click', function () {
+            updateStock(button.dataset.variantId);
+          });
+        });
 
-        document
-          .querySelectorAll(
-            '.stock-save-button'
-          )
-          .forEach(
-            function (button) {
+        document.querySelectorAll('.stock-input').forEach(function (input) {
+          input.addEventListener('keydown', function (event) {
+            if (event.key !== 'Enter') return;
+            event.preventDefault();
 
-              button.addEventListener(
-                'click',
-                function () {
+            var rowButton = input
+              .closest('td')
+              .querySelector('.stock-save-button');
 
-                  var variantId =
-                    button.dataset.variantId;
-
-
-                  if (!variantId) {
-                    return;
-                  }
-
-
-                  updateStock(
-                    variantId
-                  );
-
-                }
-              );
-
+            if (rowButton) {
+              updateStock(rowButton.dataset.variantId);
             }
-          );
-
-
-        /*
-         * Press Enter inside stock field
-         * to save quickly.
-         */
-
-        document
-          .querySelectorAll(
-            '.stock-input'
-          )
-          .forEach(
-            function (input) {
-
-              input.addEventListener(
-                'keydown',
-                function (event) {
-
-                  if (
-                    event.key !==
-                    'Enter'
-                  ) {
-                    return;
-                  }
-
-
-                  event.preventDefault();
-
-
-                  var variantId =
-                    input.dataset.variantId;
-
-
-                  if (!variantId) {
-                    return;
-                  }
-
-
-                  updateStock(
-                    variantId
-                  );
-
-                }
-              );
-
-            }
-          );
-
+          });
+        });
       }
 
-
-      /* ================================================
-         INITIALISE
-      ================================================= */
-
       async function initialisePage() {
-
-        loading.hidden =
-          false;
-
-        content.hidden =
-          true;
-
-        hideMessage();
-
+        loading.hidden = false;
+        content.hidden = true;
 
         try {
+          var auth = await window.BTSeller.requireSeller();
+          if (!auth) return;
 
-          /*
-           * Protect seller page.
-           */
-
-          var auth =
-            await window.BTSeller
-              .requireSeller();
-
-
-          if (!auth) {
-            return;
-          }
-
-
-          currentUser =
-            auth.user;
-
-
-          /*
-           * Load seller products + variants.
-           */
+          currentUser = auth.user;
 
           await loadProducts();
-
-
-          /*
-           * Convert nested variants into
-           * inventory rows.
-           */
-
           buildInventory();
-
-
-          /*
-           * Render dashboard.
-           */
-
           renderStats();
-
           renderLowStockAlert();
-
           renderInventory();
 
-
-          loading.hidden =
-            true;
-
-          content.hidden =
-            false;
-
-        }
-
-        catch (error) {
-
-          console.error(
-            'Inventory page error:',
-            error
-          );
-
-
-          loading.hidden =
-            true;
-
+          loading.hidden = true;
+          content.hidden = false;
+        } catch (error) {
+          console.error('Inventory page error:', error);
+          loading.hidden = true;
 
           showMessage(
-            error &&
-            error.message
+            error && error.message
               ? error.message
               : 'Unable to load inventory.',
             'error'
           );
-
         }
-
       }
 
+      searchInput.addEventListener('input', renderInventory);
+      stockFilter.addEventListener('change', renderInventory);
 
-      /* ================================================
-         FILTER EVENTS
-      ================================================= */
-
-      searchInput.addEventListener(
-        'input',
-        renderInventory
-      );
-
-
-      stockFilter.addEventListener(
-        'change',
-        renderInventory
-      );
-
-
-      productStatusFilter.addEventListener(
-        'change',
-        renderInventory
-      );
-
-
-      /* ================================================
-         START
-      ================================================= */
-
-      if (
-        document.readyState ===
-        'loading'
-      ) {
-
-        document.addEventListener(
-          'DOMContentLoaded',
-          function () {
-
-            setTimeout(
-              initialisePage,
-              0
-            );
-
-          }
-        );
-
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+          setTimeout(initialisePage, 0);
+        });
+      } else {
+        setTimeout(initialisePage, 0);
       }
-
-      else {
-
-        setTimeout(
-          initialisePage,
-          0
-        );
-
-      }
-
     })();
-
   </script>
-
 </body>
-
 </html>
