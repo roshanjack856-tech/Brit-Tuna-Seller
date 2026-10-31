@@ -233,6 +233,10 @@
               Add Product
             </a>
 
+            <a href="inventory.html">
+              Inventory
+            </a>
+
             <a href="orders.html">
               Orders
             </a>
@@ -525,15 +529,27 @@
 
           <div class="form-field full">
 
-            <label for="edit-image">
-              Image URL
+            <label>
+              Product Images *
             </label>
 
-            <input
-              type="url"
-              id="edit-image"
-              maxlength="1000"
-            >
+            <p class="muted" style="margin: 0 0 10px;">
+              Your saved product images are shown below. The first image is the main product image.
+            </p>
+
+            <div
+              id="edit-image-gallery"
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+                gap: 10px;
+                margin-bottom: 10px;
+              "
+            ></div>
+
+            <p class="muted" style="margin: 0;">
+              Image upload/replacement continues to use the same Product Images system used by Add Product.
+            </p>
 
           </div>
 
@@ -861,9 +877,9 @@
         );
 
 
-      var editImage =
+      var editImageGallery =
         document.getElementById(
-          'edit-image'
+          'edit-image-gallery'
         );
 
 
@@ -1325,6 +1341,13 @@
                 is_active,
                 cod_enabled,
                 created_at,
+                product_images (
+                  id,
+                  product_id,
+                  image_url,
+                  sort_order,
+                  is_primary
+                ),
                 product_variants (
                   id,
                   product_id,
@@ -1375,15 +1398,73 @@
         product
       ) {
 
-        if (
-          product.image_url
-        ) {
+        var images =
+          Array.isArray(
+            product.product_images
+          )
+            ? product.product_images.slice()
+            : [];
+
+
+        images.sort(
+          function (a, b) {
+
+            if (
+              a.is_primary &&
+              !b.is_primary
+            ) {
+              return -1;
+            }
+
+            if (
+              !a.is_primary &&
+              b.is_primary
+            ) {
+              return 1;
+            }
+
+            return (
+              Number(
+                a.sort_order || 0
+              ) -
+              Number(
+                b.sort_order || 0
+              )
+            );
+
+          }
+        );
+
+
+        var selectedImage =
+          images.find(
+            function (image) {
+
+              return (
+                image &&
+                image.image_url
+              );
+
+            }
+          );
+
+
+        var imageUrl =
+          selectedImage &&
+          selectedImage.image_url
+
+            ? selectedImage.image_url
+
+            : product.image_url;
+
+
+        if (imageUrl) {
 
           return `
 
             <img
               src="${escapeHtml(
-                product.image_url
+                imageUrl
               )}"
               alt="${escapeHtml(
                 product.name
@@ -2153,6 +2234,139 @@
       }
 
 
+      function renderEditImageGallery(
+        product
+      ) {
+
+        if (!editImageGallery) {
+          return;
+        }
+
+
+        var images =
+          Array.isArray(
+            product.product_images
+          )
+            ? product.product_images.slice()
+            : [];
+
+
+        images.sort(
+          function (a, b) {
+
+            if (
+              a.is_primary &&
+              !b.is_primary
+            ) {
+              return -1;
+            }
+
+            if (
+              !a.is_primary &&
+              b.is_primary
+            ) {
+              return 1;
+            }
+
+            return (
+              Number(
+                a.sort_order || 0
+              ) -
+              Number(
+                b.sort_order || 0
+              )
+            );
+
+          }
+        );
+
+
+        if (
+          images.length === 0 &&
+          product.image_url
+        ) {
+
+          images.push({
+            image_url:
+              product.image_url,
+            is_primary:
+              true
+          });
+
+        }
+
+
+        if (
+          images.length === 0
+        ) {
+
+          editImageGallery.innerHTML =
+            '<div class="notice notice-warning">No saved product images found.</div>';
+
+          return;
+
+        }
+
+
+        editImageGallery.innerHTML =
+          images
+            .map(
+              function (
+                image,
+                index
+              ) {
+
+                return `
+
+                  <div
+                    style="
+                      border: 1px solid #e4e0d7;
+                      border-radius: 10px;
+                      overflow: hidden;
+                      background: #faf9f5;
+                    "
+                  >
+
+                    <img
+                      src="${escapeHtml(
+                        image.image_url
+                      )}"
+                      alt="Product image ${index + 1}"
+                      style="
+                        width: 100%;
+                        aspect-ratio: 1 / 1;
+                        object-fit: cover;
+                        display: block;
+                      "
+                    >
+
+                    <div
+                      style="
+                        padding: 6px;
+                        font-size: 11px;
+                        text-align: center;
+                        font-weight: 700;
+                      "
+                    >
+                      ${
+                        index === 0
+                          ? 'Main Image'
+                          : 'Image ' +
+                            (index + 1)
+                      }
+                    </div>
+
+                  </div>
+
+                `;
+
+              }
+            )
+            .join('');
+
+      }
+
+
       /* ====================================================
          OPEN PRODUCT EDIT
       ===================================================== */
@@ -2186,8 +2400,9 @@
           product.description || '';
 
 
-        editImage.value =
-          product.image_url || '';
+        renderEditImageGallery(
+          product
+        );
 
 
         editCategory.value =
@@ -2309,7 +2524,12 @@
                     category.name,
 
                   new_image_url:
-                    editImage.value.trim()
+                    (
+                      findProduct(
+                        productId
+                      ).image_url ||
+                      ''
+                    )
 
                 }
               );
