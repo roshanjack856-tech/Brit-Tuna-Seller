@@ -114,6 +114,55 @@
       gap: 3px;
     }
 
+
+    /* =====================================================
+       PRODUCT IMAGE
+       ===================================================== */
+
+    .seller-product-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 260px;
+    }
+
+    .seller-product-image-wrap {
+      width: 72px;
+      height: 72px;
+      flex: 0 0 72px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f5f2e9;
+      border: 1px solid #e4dfd3;
+    }
+
+    .seller-product-image {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .seller-product-details {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .seller-product-no-image {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      text-align: center;
+      color: #69746d;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+
     .product-pack {
       display: inline-block;
       margin-top: 5px;
@@ -215,6 +264,16 @@
         min-width: 190px;
       }
 
+      .seller-product-cell {
+        min-width: 220px;
+      }
+
+      .seller-product-image-wrap {
+        width: 60px;
+        height: 60px;
+        flex-basis: 60px;
+      }
+
     }
 
   </style>
@@ -225,16 +284,12 @@
 <body>
 
 
-  <!-- ======================================================
-       HEADER
-       ====================================================== -->
+  <!-- HEADER -->
 
   <div id="site-header"></div>
 
 
-  <!-- ======================================================
-       MAIN
-       ====================================================== -->
+  <!-- MAIN -->
 
   <main class="seller-main">
 
@@ -262,9 +317,7 @@
       ></div>
 
 
-      <!-- ==================================================
-           PAGE CONTENT
-           ================================================== -->
+      <!-- PAGE CONTENT -->
 
       <div
         id="page-content"
@@ -595,6 +648,8 @@
 
       var updatingItems = {};
 
+      var productImageMap = {};
+
 
       /* ====================================================
          ELEMENTS
@@ -789,6 +844,364 @@
 
         messageBox.className =
           'notice';
+
+      }
+
+
+      /* ====================================================
+         PRODUCT IMAGE HELPERS
+         ==================================================== */
+
+      function getProductImage(
+        productId
+      ) {
+
+        return (
+          productImageMap[
+            String(
+              productId || ''
+            )
+          ] || ''
+        );
+
+      }
+
+
+      async function loadProductImages() {
+
+        productImageMap = {};
+
+
+        /*
+         * Get unique Product IDs from
+         * seller order items.
+         */
+
+        var productIds = [];
+
+
+        rawItems.forEach(
+          function (row) {
+
+            var productId =
+              Number(
+                row.product_id
+              );
+
+
+            if (
+              Number.isInteger(
+                productId
+              ) &&
+              productId > 0 &&
+              !productIds.includes(
+                productId
+              )
+            ) {
+
+              productIds.push(
+                productId
+              );
+
+            }
+
+          }
+        );
+
+
+        if (
+          productIds.length === 0
+        ) {
+
+          return;
+
+        }
+
+
+        /*
+         * FIRST FALLBACK
+         *
+         * Read legacy image_url from products.
+         */
+
+        var productResult =
+          await window.supabaseClient
+            .from('products')
+            .select(
+              'id, image_url'
+            )
+            .in(
+              'id',
+              productIds
+            );
+
+
+        if (
+          productResult.error
+        ) {
+
+          console.warn(
+            'Seller Orders: unable to load products.image_url.',
+            productResult.error
+          );
+
+        }
+
+        else {
+
+          (
+            productResult.data ||
+            []
+          ).forEach(
+            function (product) {
+
+              if (
+                product.image_url
+              ) {
+
+                productImageMap[
+                  String(
+                    product.id
+                  )
+                ] =
+                  product.image_url;
+
+              }
+
+            }
+          );
+
+        }
+
+
+        /*
+         * MAIN PRODUCT IMAGE SOURCE
+         *
+         * Priority:
+         *
+         * 1. Primary image
+         * 2. Lowest sort_order image
+         * 3. products.image_url fallback
+         */
+
+        var imageResult =
+          await window.supabaseClient
+            .from('product_images')
+            .select(
+              'id, product_id, image_url, sort_order, is_primary'
+            )
+            .in(
+              'product_id',
+              productIds
+            )
+            .order(
+              'sort_order',
+              {
+                ascending: true
+              }
+            );
+
+
+        if (
+          imageResult.error
+        ) {
+
+          console.warn(
+            'Seller Orders: unable to load product_images.',
+            imageResult.error
+          );
+
+          return;
+
+        }
+
+
+        var groupedImages = {};
+
+
+        (
+          imageResult.data ||
+          []
+        ).forEach(
+          function (image) {
+
+            var productId =
+              String(
+                image.product_id
+              );
+
+
+            if (
+              !groupedImages[
+                productId
+              ]
+            ) {
+
+              groupedImages[
+                productId
+              ] = [];
+
+            }
+
+
+            groupedImages[
+              productId
+            ].push(
+              image
+            );
+
+          }
+        );
+
+
+        Object.keys(
+          groupedImages
+        ).forEach(
+          function (productId) {
+
+            var images =
+              groupedImages[
+                productId
+              ].slice();
+
+
+            /*
+             * Sort primary image first.
+             */
+
+            images.sort(
+              function (a, b) {
+
+                if (
+                  a.is_primary &&
+                  !b.is_primary
+                ) {
+
+                  return -1;
+
+                }
+
+
+                if (
+                  !a.is_primary &&
+                  b.is_primary
+                ) {
+
+                  return 1;
+
+                }
+
+
+                return (
+                  Number(
+                    a.sort_order || 0
+                  )
+                  -
+                  Number(
+                    b.sort_order || 0
+                  )
+                );
+
+              }
+            );
+
+
+            var selectedImage =
+              images.find(
+                function (image) {
+
+                  return Boolean(
+                    image.image_url
+                  );
+
+                }
+              );
+
+
+            if (
+              selectedImage
+            ) {
+
+              productImageMap[
+                productId
+              ] =
+                selectedImage.image_url;
+
+            }
+
+          }
+        );
+
+      }
+
+
+      function productImageHtml(
+        item
+      ) {
+
+        var imageUrl =
+          getProductImage(
+            item.product_id
+          );
+
+
+        /*
+         * No image available.
+         */
+
+        if (
+          !imageUrl
+        ) {
+
+          return `
+
+            <div class="seller-product-image-wrap">
+
+              <div class="seller-product-no-image">
+                No Image
+              </div>
+
+            </div>
+
+          `;
+
+        }
+
+
+        /*
+         * Product image.
+         */
+
+        return `
+
+          <div class="seller-product-image-wrap">
+
+            <img
+              class="seller-product-image"
+              src="${escapeHtml(
+                imageUrl
+              )}"
+              alt="${escapeHtml(
+                item.product_name ||
+                'Product'
+              )}"
+              loading="lazy"
+              onerror="
+                this.style.display='none';
+                this.nextElementSibling.style.display='flex';
+              "
+            >
+
+            <div
+              class="seller-product-no-image"
+              style="display:none;"
+            >
+              No Image
+            </div>
+
+          </div>
+
+        `;
 
       }
 
@@ -1074,7 +1487,9 @@
               'get_my_seller_orders'
             );
 
-        if (result.error) {
+        if (
+          result.error
+        ) {
           throw result.error;
         }
 
@@ -1100,7 +1515,9 @@
                 row.order_id
               );
 
-            if (!map[key]) {
+            if (
+              !map[key]
+            ) {
 
               map[key] = {
 
@@ -1152,14 +1569,12 @@
               product_id:
                 row.product_id,
 
-              /* NEW */
               variant_id:
                 row.variant_id || null,
 
               product_name:
                 row.product_name,
 
-              /* NEW */
               pack_size:
                 row.pack_size || null,
 
@@ -1285,8 +1700,6 @@
                 /*
                  * Seller Sales currently includes
                  * paid orders only.
-                 *
-                 * This is not payout calculation.
                  */
 
                 if (
@@ -1351,10 +1764,6 @@
             item.fulfillment_status
           );
 
-
-        /*
-         * Delivered / Cancelled = final
-         */
 
         if (
           isFinalFulfillmentStatus(
@@ -1499,15 +1908,6 @@
           '</small>';
 
 
-        /*
-         * Pack size snapshot.
-         *
-         * Example:
-         * 500g
-         * 1kg
-         * 5kg
-         */
-
         if (
           item.pack_size
         ) {
@@ -1525,10 +1925,6 @@
 
         }
 
-
-        /*
-         * Variant ID
-         */
 
         if (
           item.variant_id
@@ -1628,15 +2024,27 @@
 
                   <td>
 
-                    <strong>
-                      ${escapeHtml(
-                        item.product_name
-                      )}
-                    </strong>
+                    <div class="seller-product-cell">
 
-                    ${productMetaHtml(
-                      item
-                    )}
+                      ${productImageHtml(
+                        item
+                      )}
+
+                      <div class="seller-product-details">
+
+                        <strong>
+                          ${escapeHtml(
+                            item.product_name
+                          )}
+                        </strong>
+
+                        ${productMetaHtml(
+                          item
+                        )}
+
+                      </div>
+
+                    </div>
 
                   </td>
 
@@ -1797,8 +2205,6 @@
           >
 
 
-            <!-- ORDER HEADER -->
-
             <div class="seller-order-header">
 
               <div>
@@ -1844,8 +2250,6 @@
 
             </div>
 
-
-            <!-- CUSTOMER INFO -->
 
             <div class="seller-order-info-grid">
 
@@ -1901,8 +2305,6 @@
             </div>
 
 
-            <!-- ADDRESS -->
-
             <div class="seller-order-address">
 
               <div class="muted">
@@ -1917,8 +2319,6 @@
 
             </div>
 
-
-            <!-- ITEMS -->
 
             <div class="table-scroll">
 
@@ -1966,8 +2366,6 @@
             </div>
 
 
-            <!-- SELLER TOTAL -->
-
             <div class="seller-order-total">
 
               <div class="seller-order-total-inner">
@@ -1990,8 +2388,6 @@
 
             </div>
 
-
-            <!-- OVERALL STATUS NOTE -->
 
             <div class="overall-order-note">
 
@@ -2084,7 +2480,9 @@
           );
 
 
-        if (!element) {
+        if (
+          !element
+        ) {
           return;
         }
 
@@ -2096,7 +2494,9 @@
           'fulfillment-message';
 
 
-        if (type) {
+        if (
+          type
+        ) {
 
           element.classList.add(
             type
@@ -2121,14 +2521,12 @@
           );
 
 
-        if (!item) {
+        if (
+          !item
+        ) {
           return;
         }
 
-
-        /*
-         * Delivered and Cancelled are final.
-         */
 
         if (
           isFinalFulfillmentStatus(
@@ -2178,10 +2576,6 @@
             .toLowerCase();
 
 
-        /*
-         * SAME STATUS
-         */
-
         if (
           newStatus ===
           item.fulfillment_status
@@ -2197,10 +2591,6 @@
 
         }
 
-
-        /*
-         * CLIENT VALIDATION
-         */
 
         if (
           !isAllowedTransition(
@@ -2223,10 +2613,6 @@
         }
 
 
-        /*
-         * CONFIRM CHANGE
-         */
-
         var confirmed =
           window.confirm(
             'Change "' +
@@ -2239,7 +2625,9 @@
           );
 
 
-        if (!confirmed) {
+        if (
+          !confirmed
+        ) {
 
           select.value =
             item.fulfillment_status;
@@ -2248,10 +2636,6 @@
 
         }
 
-
-        /*
-         * LOCK UI
-         */
 
         updatingItems[
           String(
@@ -2280,10 +2664,6 @@
         try {
 
 
-          /*
-           * SECURE SUPABASE RPC
-           */
-
           var result =
             await window.supabaseClient
               .rpc(
@@ -2309,17 +2689,9 @@
           }
 
 
-          /*
-           * UPDATE LOCAL ITEM
-           */
-
           item.fulfillment_status =
             newStatus;
 
-
-          /*
-           * UPDATE RAW DATA
-           */
 
           rawItems.forEach(
             function (row) {
@@ -2349,23 +2721,10 @@
           ];
 
 
-          /*
-           * REFRESH STATS
-           */
-
           renderStats();
-
-
-          /*
-           * REFRESH ORDER UI
-           */
 
           renderOrders();
 
-
-          /*
-           * SUCCESS MESSAGE
-           */
 
           setTimeout(
             function () {
@@ -2455,7 +2814,9 @@
                   button.dataset.itemId;
 
 
-                if (!itemId) {
+                if (
+                  !itemId
+                ) {
                   return;
                 }
 
@@ -2664,7 +3025,9 @@
               .requireSeller();
 
 
-          if (!auth) {
+          if (
+            !auth
+          ) {
             return;
           }
 
@@ -2678,6 +3041,14 @@
            */
 
           await loadSellerOrders();
+
+
+          /*
+           * NEW:
+           * Load product photos before rendering.
+           */
+
+          await loadProductImages();
 
 
           /*
